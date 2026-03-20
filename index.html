@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Lifecycle Campaign Copilot</title>
+  <style>
+    :root{
+      --bg:#f7f9fb; --card:#ffffff; --muted:#6b7280; --accent:#2563eb; --radius:10px;
+      --gap:24px; --maxw:1100px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    html,body{height:100%;margin:0;background:var(--bg);color:#0f172a}
+    .wrap{max-width:var(--maxw);margin:40px auto;padding:24px;display:grid;grid-template-columns:1fr 1fr;gap:var(--gap)}
+    .card{background:var(--card);border-radius:var(--radius);box-shadow:0 4px 20px rgba(16,24,40,0.04);padding:24px}
+    h1{font-size:20px;margin:0 0 12px 0}
+    .lead{color:var(--muted);font-size:13px;margin-bottom:18px}
+
+    /* Inputs column */
+    form{display:flex;flex-direction:column;gap:12px}
+    label{font-size:12px;color:var(--muted);display:block;margin-bottom:6px}
+    input[type=text], textarea, select{
+      width:100%;padding:10px 12px;border:1px solid #e6eef8;border-radius:8px;font-size:14px;background:#fcfeff;outline:none;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,0.6)
+    }
+    textarea{min-height:120px;resize:vertical}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+    .actions{display:flex;gap:10px;align-items:center;margin-top:8px}
+    button.cta{background:var(--accent);color:#fff;padding:10px 16px;border-radius:9px;border:none;font-weight:600;cursor:pointer}
+    button.cta:hover{filter:brightness(.98)}
+    button.ghost{background:transparent;border:1px solid #e6eef8;padding:8px 12px;border-radius:8px;color:var(--muted);cursor:pointer}
+
+    /* Outputs */
+    .outputs{display:flex;flex-direction:column;gap:14px}
+    .section-title{display:flex;justify-content:space-between;align-items:center}
+    .section-title h3{margin:0;font-size:13px}
+    .output-block{background:#fbfdff;border:1px solid #eef6ff;padding:14px;border-radius:8px;min-height:70px}
+    .muted{color:var(--muted);font-size:13px}
+
+    /* Responsive */
+    @media (max-width:900px){.wrap{grid-template-columns:1fr;padding:16px} .row{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Lifecycle Campaign Copilot</h1>
+      <div class="lead">Enter campaign details on the left. Click Generate to create strategy, an email draft, and an executive summary.</div>
+
+      <form id="copilot-form" onsubmit="return false;">
+        <div>
+          <label for="audience">Audience</label>
+          <input id="audience" name="audience" type="text" placeholder="e.g. mid-market product managers">
+        </div>
+
+        <div class="row">
+          <div>
+            <label for="lifecycle">Lifecycle Stage</label>
+            <input id="lifecycle" name="lifecycle" type="text" placeholder="e.g. Activation, Retention">
+          </div>
+          <div>
+            <label for="goal">Campaign Goal</label>
+            <input id="goal" name="goal" type="text" placeholder="e.g. increase trial conversions by 15%">
+          </div>
+        </div>
+
+        <div>
+          <label for="product">Product / Use Case</label>
+          <input id="product" name="product" type="text" placeholder="e.g. AI-powered analytics dashboard">
+        </div>
+
+        <div class="row">
+          <div>
+            <label for="program">Program Type</label>
+            <select id="program" name="program">
+              <option>Nurture</option>
+              <option>Partner</option>
+              <option>Acceleration</option>
+            </select>
+          </div>
+          <div>
+            <label for="signals">Behavioral Signals</label>
+            <input id="signals" name="signals" type="text" placeholder="e.g. repeated dashboard visits, feature usage spikes">
+          </div>
+        </div>
+
+        <div>
+          <label for="notes">Behavioral Signals (details)</label>
+          <textarea id="notes" name="notes" placeholder="Add anything specific you know about timing, actions, or segments"></textarea>
+        </div>
+
+        <div class="actions">
+          <button class="cta" id="generate">Generate Campaign</button>
+          <button class="ghost" id="clear">Clear</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="card">
+      <h1>Outputs</h1>
+      <div class="lead muted">Generated content appears here. Copy and adapt for your campaign.</div>
+
+      <div class="outputs">
+        <div>
+          <div class="section-title"><h3>Messaging Strategy</h3><div class="muted" id="strategy-meta"></div></div>
+          <div class="output-block" id="strategy">Use the form and click Generate to create a strategy.</div>
+        </div>
+
+        <div>
+          <div class="section-title"><h3>Email Draft</h3><div class="muted" id="email-meta"></div></div>
+          <div class="output-block" id="email">Short lifecycle email will appear here.</div>
+        </div>
+
+        <div>
+          <div class="section-title"><h3>Executive Summary</h3><div class="muted" id="summary-meta"></div></div>
+          <div class="output-block" id="summary">A 2–3 sentence leadership-ready summary will appear here.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const el = id => document.getElementById(id);
+
+    function safe(v){return (v||"").toString().trim()}
+
+    function summarizeStrategy({audience,lifecycle,goal,product,program,signals,notes}){
+      const pos = audience ? `For ${audience}` : "For the target audience";
+      const stage = lifecycle ? `in the ${lifecycle} stage` : "at this lifecycle stage";
+      const aim = goal ? `${goal}` : "the campaign goal";
+      const use = product ? `${product}` : "the product or use case";
+      const angle = program ? `${program} program` : "program";
+      const behavior = (signals || notes) ? `${signals} ${notes}`.trim() : "observed behavior signals";
+
+      return `${pos} ${stage}, this campaign aims to ${aim} by positioning ${use} as the easiest way to achieve the outcome. Approach: run a ${angle} that leverages ${behavior} to drive action and reduce friction.`;
+    }
+
+    function generateEmail({audience,product,goal,signals}){
+      const to = audience ? `Hi ${audience.split(/,| and |\sand\s/)[0]}` : "Hi there";
+      const subject = product ? `${product} — quick idea to ${goal || 'improve outcomes'}` : `${goal || 'Quick update'}`;
+      const hook = signals ? `We noticed ${signals}.` : `We have an idea you might like.`;
+      const body = `${to},\n\n${hook} ${product ? `Our ${product} helps by making it easier to ${goal || 'achieve your outcomes'}.` : `This approach is designed to make adoption simple and measurable.`}\n\nWould you be open to a short trial/demo?\n\nThanks,\nThe Growth Team`;
+      return {subject,body};
+    }
+
+    function execGenerate(){
+      const data = {
+        audience: safe(el('audience').value),
+        lifecycle: safe(el('lifecycle').value),
+        goal: safe(el('goal').value),
+        product: safe(el('product').value),
+        program: safe(el('program').value),
+        signals: safe(el('signals').value),
+        notes: safe(el('notes').value)
+      };
+
+      const strategy = summarizeStrategy(data);
+      const email = generateEmail(data);
+      const summary = `This ${data.program || 'campaign'} targets ${data.audience || 'key users'} to ${data.goal || 'improve conversion'} by showcasing ${data.product || 'the product'}'s value through targeted ${data.program || 'engagement'}. It focuses on measurable lift and quick wins for leadership.`;
+
+      el('strategy').textContent = strategy;
+      el('strategy-meta').textContent = data.program ? data.program : '';
+
+      el('email').innerHTML = `<strong>Subject:</strong> ${email.subject}<br><br>${email.body.replace(/\n/g,'<br>')}`;
+      el('email-meta').textContent = data.lifecycle ? data.lifecycle : '';
+
+      el('summary').textContent = summary;
+      el('summary-meta').textContent = `${data.audience ? data.audience : ''}`;
+    }
+
+    document.getElementById('generate').addEventListener('click', execGenerate);
+    document.getElementById('clear').addEventListener('click', e=>{
+      e.preventDefault(); document.getElementById('copilot-form').reset();
+      el('strategy').textContent = 'Use the form and click Generate to create a strategy.';
+      el('email').textContent = 'Short lifecycle email will appear here.';
+      el('summary').textContent = 'A 2–3 sentence leadership-ready summary will appear here.';
+      el('strategy-meta').textContent=''; el('email-meta').textContent=''; el('summary-meta').textContent='';
+    });
+  </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lifecycle Campaign Copilot</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #2f3941;
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: #ffffff;
+            padding: 24px 48px;
+            border-bottom: 1px solid #e3e5e8;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2f3941;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 48px;
+        }
+
+        .column {
+            background-color: #ffffff;
+            padding: 32px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        .column h2 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #2f3941;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #2f3941;
+        }
+
+        input[type="text"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px 12px;
+            font-size: 14px;
+            border: 1px solid #d8dcde;
+            border-radius: 4px;
+            background-color: #ffffff;
+            transition: border-color 0.2s;
+            font-family: inherit;
+        }
+
+        input[type="text"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #1f73b7;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .button-container {
+            margin-top: 32px;
+        }
+
+        button {
+            background-color: #1f73b7;
+            color: #ffffff;
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: 500;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #155a8a;
+        }
+
+        button:active {
+            background-color: #0f4770;
+        }
+
+        .output-section {
+            margin-bottom: 32px;
+            padding-bottom: 32px;
+            border-bottom: 1px solid #e3e5e8;
+        }
+
+        .output-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .output-section h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #2f3941;
+        }
+
+        .output-content {
+            font-size: 14px;
+            color: #68737d;
+            line-height: 1.7;
+            white-space: pre-wrap;
+        }
+
+        .output-content.empty {
+            color: #a9b0b8;
+            font-style: italic;
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Lifecycle Campaign Copilot</h1>
+    </div>
+
+    <div class="container">
+        <!-- LEFT COLUMN: INPUTS -->
+        <div class="column">
+            <h2>Campaign Inputs</h2>
+
+            <div class="form-group">
+                <label for="audience">Audience</label>
+                <input type="text" id="audience" placeholder="e.g., Mid-market SaaS companies">
+            </div>
+
+            <div class="form-group">
+                <label for="lifecycle-stage">Lifecycle Stage</label>
+                <input type="text" id="lifecycle-stage" placeholder="e.g., Trial, Onboarding, Active">
+            </div>
+
+            <div class="form-group">
+                <label for="campaign-goal">Campaign Goal</label>
+                <input type="text" id="campaign-goal" placeholder="e.g., Increase product adoption">
+            </div>
+
+            <div class="form-group">
+                <label for="product">Product / Use Case</label>
+                <input type="text" id="product" placeholder="e.g., Analytics Dashboard">
+            </div>
+
+            <div class="form-group">
+                <label for="program-type">Program Type</label>
+                <select id="program-type">
+                    <option value="">Select a program type</option>
+                    <option value="Nurture">Nurture</option>
+                    <option value="Partner">Partner</option>
+                    <option value="Acceleration">Acceleration</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="behavioral-signals">Behavioral Signals</label>
+                <textarea id="behavioral-signals" placeholder="e.g., Logged in 3+ times, viewed pricing page, completed tutorial"></textarea>
+            </div>
+
+            <div class="button-container">
+                <button onclick="generateCampaign()">Generate Campaign</button>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN: OUTPUTS -->
+        <div class="column">
+            <h2>Generated Campaign</h2>
+
+            <div class="output-section">
+                <h3>Messaging Strategy</h3>
+                <div id="messaging-strategy" class="output-content empty">
+                    Click "Generate Campaign" to create your strategy
+                </div>
+            </div>
+
+            <div class="output-section">
+                <h3>Email Draft</h3>
+                <div id="email-draft" class="output-content empty">
+                    Click "Generate Campaign" to create your email
+                </div>
+            </div>
+
+            <div class="output-section">
+                <h3>Executive Summary</h3>
+                <div id="executive-summary" class="output-content empty">
+                    Click "Generate Campaign" to create your summary
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generateCampaign() {
+            // Get input values
+            const audience = document.getElementById('audience').value || 'target audience';
+            const lifecycleStage = document.getElementById('lifecycle-stage').value || 'current stage';
+            const campaignGoal = document.getElementById('campaign-goal').value || 'campaign objective';
+            const product = document.getElementById('product').value || 'product';
+            const programType = document.getElementById('program-type').value || 'standard';
+            const behavioralSignals = document.getElementById('behavioral-signals').value || 'engaged users';
+
+            // Generate Messaging Strategy
+            const messagingStrategy = generateMessagingStrategy(audience, lifecycleStage, campaignGoal, product, programType);
+            document.getElementById('messaging-strategy').innerHTML = messagingStrategy;
+            document.getElementById('messaging-strategy').classList.remove('empty');
+
+            // Generate Email Draft
+            const emailDraft = generateEmailDraft(audience, lifecycleStage, campaignGoal, product, behavioralSignals);
+            document.getElementById('email-draft').innerHTML = emailDraft;
+            document.getElementById('email-draft').classList.remove('empty');
+
+            // Generate Executive Summary
+            const executiveSummary = generateExecutiveSummary(audience, lifecycleStage, campaignGoal, programType);
+            document.getElementById('executive-summary').innerHTML = executiveSummary;
+            document.getElementById('executive-summary').classList.remove('empty');
+        }
+
+        function generateMessagingStrategy(audience, lifecycleStage, campaignGoal, product, programType) {
+            const strategies = {
+                'Nurture': 'educate and build trust through value-driven content',
+                'Partner': 'highlight integration benefits and collaborative success',
+                'Acceleration': 'create urgency and demonstrate immediate ROI'
+            };
+
+            const strategyType = strategies[programType] || 'deliver targeted value';
+
+            return `<strong>Positioning:</strong> Position ${product} as the essential solution for ${audience} at the ${lifecycleStage} stage.
+
+<strong>Angle:</strong> Lead with the ${campaignGoal.toLowerCase()}, emphasizing how ${product} directly addresses their current needs. Use a ${programType} approach to ${strategyType}.
+
+<strong>Key Message:</strong> "Your success at this stage depends on the right tools—${product} is built specifically for ${audience} like you."`;
+        }
+
+        function generateEmailDraft(audience, lifecycleStage, campaignGoal, product, behavioralSignals) {
+            const signalText = behavioralSignals !== 'engaged users' ? ` We noticed ${behavioralSignals.toLowerCase()}.` : '';
+
+            return `<strong>Subject:</strong> Ready to achieve ${campaignGoal.toLowerCase()}?
+
+Hi [First Name],
+
+We wanted to reach out because you're at a critical point in your journey.${signalText}
+
+For ${audience} at the ${lifecycleStage} stage, ${product} can be a game-changer. Here's why:
+
+• Designed specifically for your needs
+• Proven to help teams achieve ${campaignGoal.toLowerCase()}
+• Easy to implement and see results quickly
+
+Ready to take the next step? [CTA: Explore ${product}]
+
+Best,
+[Your Team]`;
+        }
+
+        function generateExecutiveSummary(audience, lifecycleStage, campaignGoal, programType) {
+            return `This ${programType} campaign targets ${audience} in the ${lifecycleStage} stage with the goal of ${campaignGoal.toLowerCase()}. The strategy focuses on delivering personalized, stage-appropriate messaging that drives engagement and conversion. Expected outcome: increased product adoption and customer satisfaction through timely, relevant outreach.`;
+        }
+    </script>
+</body>
+</html>
