@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nurture 101 - Understanding Pre-MQL Nurture</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            background-color: #F5F5F2;
+            color: #11110D;
+            line-height: 1.6;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #2D4C33 0%, #1f3625 100%);
+            color: white;
+            padding: 80px 48px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .hero .tagline {
+            font-size: 24px;
+            opacity: 0.95;
+            margin-bottom: 12px;
+        }
+
+        .hero .subtitle {
+            font-size: 16px;
+            opacity: 0.85;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 32px;
+        }
+
+        .section {
+            margin-bottom: 80px;
+        }
+
+        .section h2 {
+            font-size: 36px;
+            color: #2D4C33;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .section .intro {
+            font-size: 18px;
+            color: #6b7280;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 48px;
+        }
+
+        .goal-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            margin: 48px 0;
+        }
+
+        .goal-card {
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: transform 0.2s;
+        }
+
+        .goal-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .goal-card .icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .goal-card h3 {
+            font-size: 20px;
+            color: #2D4C33;
+            margin-bottom: 12px;
+        }
+
+        .goal-card p {
+            font-size: 15px;
+            color: #6b7280;
+        }
+
+        .metric-highlight {
+            background: #D1F470;
+            border-radius: 16px;
+            padding: 48px;
+            text-align: center;
+            margin: 48px 0;
+        }
+
+        .metric-highlight h3 {
+            font-size: 28px;
+            color: #2D4C33;
+            margin-bottom: 16px;
+        }
+
+        .metric-highlight .big-stat {
+            font-size: 64px;
+            font-weight: 700;
+            color: #2D4C33;
+            margin: 24px 0;
+        }
+
+        .metric-highlight p {
+            font-size: 18px;
+            color: #11110D;
+        }
+
+        .interactive-section {
+            background: white;
+            border-radius: 16px;
+            padding: 48px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .interactive-section h3 {
+            font-size: 24px;
+            color: #2D4C33;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .campaign-selector {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .campaign-option {
+            background: #F5F5F2;
+            border: 3px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 24px 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .campaign-option:hover {
+            border-color: #A1D78F;
+        }
+
+        .campaign-option.selected {
+            background: #D1F470;
+            border-color: #2D4C33;
+        }
+
+        .campaign-option .emoji {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .campaign-option .label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #11110D;
+        }
+
+        .flow-diagram {
+            background: #F5F5F2;
+            border-radius: 12px;
+            padding: 32px;
+            margin: 32px 0;
+            display: none;
+        }
+
+        .flow-diagram.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: center;
+            margin: 24px 0;
+        }
+
+        .flow-step .number {
+            background: #2D4C33;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+
+        .flow-step .content {
+            flex: 1;
+        }
+
+        .flow-step .content h4 {
+            font-size: 18px;
+            color: #2D4C33;
+            margin-bottom: 6px;
+        }
+
+        .flow-step .content p {
+            font-size: 15px;
+            color: #6b7280;
+        }
+
+        .flow-arrow {
+            text-align: center;
+            font-size: 32px;
+            color: #A1D78F;
+            margin: 16px 0;
+        }
+
+        .comparison-table {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 32px 0;
+        }
+
+        .comparison-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .comparison-table th {
+            background: #2D4C33;
+            color: white;
+            padding: 16px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            padding: 16px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table .good {
+            color: #2D4C33;
+            font-weight: 600;
+        }
+
+        .comparison-table .bad {
+            color: #9ca3af;
+        }
+
+        .persona-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin: 32px 0;
+        }
+
+        .persona-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .persona-card .title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2D4C33;
+            margin-bottom: 12px;
+        }
+
+        .persona-card .description {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .cta-section {
+            background: #2D4C33;
+            color: white;
+            border-radius: 16px;
+            padding: 48px;
+            text-align: center;
+            margin: 48px 0;
+        }
+
+        .cta-section h3 {
+            font-size: 28px;
+            margin-bottom: 16px;
+        }
+
+        .cta-section p {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 24px;
+        }
+
+        .cta-section .buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+        }
+
+        .cta-section button {
+            background: #D1F470;
+            color: #11110D;
+            padding: 12px 32px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .cta-section button:hover {
+            background: #A1D78F;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero .tagline {
+                font-size: 18px;
+            }
+
+            .goal-cards,
+            .campaign-selector,
+            .persona-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 40px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>Nurture 101</h1>
+        <div class="tagline">Smarter nurture: less noise, more reach</div>
+        <div class="subtitle">Understanding how Pre-MQL nurture keeps leads warm and drives meaningful engagement</div>
+    </div>
+
+    <div class="container">
+        <!-- What is Nurture Section -->
+        <div class="section">
+            <h2>What is Pre-MQL Nurture?</h2>
+            <p class="intro">
+                Pre-MQL nurture is an <strong>always-on program</strong> that keeps leads warm between your campaigns.
+                It runs year-round, delivering relevant content to help leads move through their buyer journey—without overwhelming them.
+            </p>
+
+            <div class="goal-cards">
+                <div class="goal-card">
+                    <div class="icon">💬</div>
+                    <h3>Support the Buyer Journey</h3>
+                    <p>Deliver relevant content that helps leads understand your value at their own pace</p>
+                </div>
+                <div class="goal-card">
+                    <div class="icon">👍</div>
+                    <h3>Increase Engaged Web Sessions</h3>
+                    <p>Drive quality website visits that signal genuine interest and intent</p>
+                </div>
+                <div class="goal-card">
+                    <div class="icon">❤️</div>
+                    <h3>Shorten Time to MQL</h3>
+                    <p>Keep nurture running alongside campaigns to accelerate the journey</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Metric Section -->
+        <div class="section">
+            <h2>What Does Success Look Like?</h2>
+            <p class="intro">
+                Here's the truth: <strong>Nurture success is NOT about MQLs</strong>.
+                It's about creating engaged web sessions that signal genuine interest.
+            </p>
+
+            <div class="metric-highlight">
+                <h3>Primary Success Signal</h3>
+                <div class="big-stat">👁️ Engaged Web Sessions</div>
+                <p>
+                    An engaged web session means a lead visited your site and took meaningful actions—like viewing multiple pages,
+                    exploring products, or reading resources. This shows <strong>real intent</strong>, not just a random click.
+                </p>
+            </div>
+
+            <div class="comparison-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>What It Tells Us</th>
+                            <th>How Nurture Drives It</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="good">✅ Engaged Web Sessions</td>
+                            <td>Real interest and intent. Lead is exploring and learning.</td>
+                            <td>Nurture emails drive qualified traffic to relevant content</td>
+                        </tr>
+                        <tr>
+                            <td class="good">✅ Web Sessions to Trial</td>
+                            <td>Lead is ready to experience the product hands-on</td>
+                            <td>Quality nurture content builds confidence to try</td>
+                        </tr>
+                        <tr>
+                            <td class="bad">📊 Opens & Clicks</td>
+                            <td>Directional signal, but doesn't affect lead score</td>
+                            <td>Useful for optimization, not the goal</td>
+                        </tr>
+                        <tr>
+                            <td class="good">✅ MQLs & Pipeline</td>
+                            <td>Supporting outcomes—nurture contributes but isn't the primary driver</td>
+                            <td>Nurture keeps leads warm so campaigns can convert</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Interactive Section -->
+        <div class="section">
+            <h2>How Does Your Campaign Work With Nurture?</h2>
+            <p class="intro">Select your campaign type to see how nurture supports it</p>
+
+            <div class="interactive-section">
+                <h3>Choose Your Campaign Type</h3>
+
+                <div class="campaign-selector">
+                    <div class="campaign-option" onclick="showFlow('product-launch')">
+                        <div class="emoji">🚀</div>
+                        <div class="label">Product Launch</div>
+                    </div>
+                    <div class="campaign-option" onclick="showFlow('webinar')">
+                        <div class="emoji">🎤</div>
+                        <div class="label">Webinar</div>
+                    </div>
+                    <div class="campaign-option" onclick="showFlow('content')">
+                        <div class="emoji">📄</div>
+                        <div class="label">Content Campaign</div>
+                    </div>
+                    <div class="campaign-option" onclick="showFlow('event')">
+                        <div class="emoji">🎪</div>
+                        <div class="label">Event</div>
+                    </div>
+                </div>
+
+                <!-- Product Launch Flow -->
+                <div class="flow-diagram" id="flow-product-launch">
+                    <h4 style="font-size: 20px; color: #2D4C33; margin-bottom: 24px;">🚀 Product Launch + Nurture</h4>
+
+                    <div class="flow-step">
+                        <div class="number">1</div>
+                        <div class="content">
+                            <h4>Before Launch</h4>
+                            <p>Nurture keeps leads warm with educational content. They're learning about your existing solutions.</p>
+                        </div>
+                    </div>
+
+                    <div class="flow-arrow">↓</div>
+
+                    <div class="flow-step">
+                        <div class="number">2</div>
+                        <div class="content">
+                            <h4>Launch Campaign Hits</h4>
+                            <p>Your product launch emails go out. Leads who were nurtured are more likely to engage because they already know you.</p>
+                        </div>
+                    </div>
+
+                    <div class="flow-arrow">↓</div>
+
+                    <div class="flow-step">
+                        <div class="number">3</div>
+                        <div class="content">
+                            <h4>Nurture Continues Alongside</h4>
+                            <p>While your launch runs, nurture keeps other leads engaged with complementary content. No one gets forgotten.</p>
+                        </div>
+                    </div>
+
+                    <div class="flow-arrow">↓</div>
+
+                    <div class="flow-step">
+                        <div class="number">4</div>
+                        <div class="content">
+                            <h4>After Launch</h4>
+                            <p>Nurture picks up leads who didn't convert immediately and keeps them engaged for future opportunities.</p>
+                        </div>
+                    </div>
+
+                    <div style="background: #D1F470; padding: 20px; border-radius: 8px; margin-top: 24px;">
+                        <strong>💡 The Result:</strong> Leads stay engaged between campaigns. They visit your site, explore content, and show genuine interest—all tracked as engaged web sessions.
+                    </div>
+                </div>
+
+                <!-- Webinar Flow -->
+                <div class="flow-diagram" id="flow-webinar">
+                    <h4 style="font-size: 20px; color: #2D4C33; margin-bottom: 24px;">🎤 Webinar + Nurture</h4>
+
+                    <div class="flow-step">
+                        <div class="number">1</div>
+                        <div class="content">
+                            <h4>Pre-Webinar</h4>
+                            <p>Nurture warms up your audience with relevant topics. When your webinar invite arrives, they're more likely to register.</p>
+                        </div>
+                    </div>
+
+                    <div class="flow-arrow">↓</div>
+
+                    <div class="flow-step">
+                        <div class="number">2</div>
+                        <div class="content">
+                            <h4>Registration Period</h4>
+                            <p>Your webinar promotion runs. Nurtured leads have higher registration rates because trust is already built.</p>
+                        </div>
+                    </div>
+
+                    <div class="flow-arrow">↓</div>
+
+                    <div class="flow-step">
+                        <div class="number">3</div>
+                        <div class="content">
+                            <h4>Post-Webinar</h4>
+                            <p>Nurture sends related content to non-attendees and no-shows, keeping them engaged for the next opportunity.</p>
+                        </div>
+                    </div>
+
+                    <div style="background: #D1F470; padding: 20px; border-radius: 8px; margin-top: 24px;">
+                        <strong>💡 The Result:</strong> Higher registration rates, more engaged attendees, and continued engagement after the event ends.
+                    </div>
+                </div>
+
+                <!-- Content Campaign Flow -->
+                <div class="flow-diagram" id="flow-content">
+                    <h4 style="font-size: 20px; color: #2D4C33; margin-bottom: 24px;">📄 Content Campaign + Nurture</h4>
+
+                    <div class="flow-step">
+                        <div class="number">1</div>
+                        <div class="content">
+                            <h4>Your Content Campaign</h4>
+                            <p>You promote a specific asset—whitepaper, guide, case study. Focused and time-bound.</p>
+                        </div>
+                    </div>
+
+                    <div class="flow-arrow">↓</div>
+
+                    <div class="flow-step">
+                        <div class="number">2</div>
+                        <div class="content">
+                            <h4>Nurture Amplifies</h4>
+                            <p>Leads who missed your campaign get exposed to related topics in nurture. They visit your site to explore more.</p>
+                        </div>
+                    </div>
+
+                    <div class="flow-arrow">↓</div>
+
+                    <div class="flow-step">
+                        <div class="number">3</div>
+                        <div class="content">
+                            <h4>Continuous Engagement</h4>
+                            <p>Nurture keeps serving valuable content, driving engaged web sessions and building intent over time.</p>
+                        </div>
+                    </div>
+
+                    <div style="background: #D1F470; padding: 20px; border-radius: 8px; margin-top: 24px;">
+                        <strong>💡 The Result:</strong> Your content gets more mileage. Leads discover it through nurture even after your campaign ends.
+                    </div>
+                </div>
+
+                <!-- Event Flow -->
+                <div class="flow-diagram" id="flow-event">
+                    <h4 style="font-size: 20px; color: #2D4C33; margin-bottom: 24px;">🎪 Event + Nurture</h4>
+
+                    <div class="flow-step">
+                        <div class="number">1</div>
+                        <div class="content">
+                            <h4>Pre-Event Promotion</h4>
+                            <p>Your event campaign drives registrations. Nurture builds awareness and credibility in parallel.</p>
+                        </div>
+                    </div>
+
+                    <div class="flow-arrow">↓</div>
+
+                    <div class="flow-step">
+                        <div class="number">2</div>
+                        <div class="content">
+                            <h4>During Event</h4>
+                            <p>Nurture pauses or reduces frequency for registered attendees. Non-registrants continue receiving value.</p>
+                        </div>
+                    </div>
+
+                    <div class="flow-arrow">↓</div>
+
+                    <div class="flow-step">
+                        <div class="number">3</div>
+                        <div class="content">
+                            <h4>Post-Event Follow-Up</h4>
+                            <p>Nurture re-engages no-shows and non-attendees with on-demand content and next steps.</p>
+                        </div>
+                    </div>
+
+                    <div style="background: #D1F470; padding: 20px; border-radius: 8px; margin-top: 24px;">
+                        <strong>💡 The Result:</strong> Event momentum continues beyond the live date. Leads stay engaged whether they attended or not.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Who Gets Nurtured Section -->
+        <div class="section">
+            <h2>Who Gets Nurtured?</h2>
+            <p class="intro">Pre-MQL nurture runs across key personas and segments</p>
+
+            <div class="persona-grid">
+                <div class="persona-card">
+                    <div class="title">CX Persona</div>
+                    <div class="description">Customer experience leaders focused on support and engagement solutions</div>
+                </div>
+                <div class="persona-card">
+                    <div class="title">SMB & ES</div>
+                    <div class="description">Small-to-medium business and employee service teams</div>
+                </div>
+                <div class="persona-card">
+                    <div class="title">CCaaS</div>
+                    <div class="description">Contact center leaders looking for cloud communication platforms</div>
+                </div>
+                <div class="persona-card">
+                    <div class="title">HR</div>
+                    <div class="description">Human resources teams exploring employee service solutions</div>
+                </div>
+                <div class="persona-card">
+                    <div class="title">IT</div>
+                    <div class="description">IT leaders managing service desk and support operations</div>
+                </div>
+                <div class="persona-card">
+                    <div class="title">Welcome Email</div>
+                    <div class="description">New leads getting introduced to the value we provide</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Principles Section -->
+        <div class="section">
+            <h2>Key Principles</h2>
+            <div class="goal-cards">
+                <div class="goal-card">
+                    <h3>Always-On</h3>
+                    <p>Nurture runs 24/7/365. It never stops keeping leads warm, even when you're not running campaigns.</p>
+                </div>
+                <div class="goal-card">
+                    <h3>Less Noise, More Reach</h3>
+                    <p>Send less email per person, but reach more unique people. Quality over quantity.</p>
+                </div>
+                <div class="goal-card">
+                    <h3>Behavior-Driven</h3>
+                    <p>Content adapts based on what leads do, not just who they are. Actions drive the journey.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="cta-section">
+            <h3>Want to Learn More?</h3>
+            <p>Explore our tools and resources to plan your campaigns with nurture in mind</p>
+            <div class="buttons">
+                <button onclick="window.location.href='index.html'">Campaign Copilot</button>
+                <button onclick="window.location.href='mbr-generator.html'">MBR Generator</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showFlow(type) {
+            // Hide all flows
+            document.querySelectorAll('.flow-diagram').forEach(flow => {
+                flow.classList.remove('active');
+            });
+
+            // Remove selected from all options
+            document.querySelectorAll('.campaign-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+
+            // Show selected flow
+            document.getElementById(`flow-${type}`).classList.add('active');
+
+            // Highlight selected option
+            event.currentTarget.classList.add('selected');
+        }
+    </script>
+</body>
+</html>
