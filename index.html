@@ -527,6 +527,36 @@
 
                 <h3 style="margin: 32px 0 16px; color: #2D4C33; font-size: 18px;">3. Strategy & Messaging</h3>
 
+                <div style="background: #f0f9ff; border-left: 4px solid #3b82f6; border-radius: 8px; padding: 16px; margin-bottom: 24px;">
+                    <h4 style="color: #1e40af; font-size: 14px; margin-bottom: 8px;">📄 Marketing Source Document (Optional)</h4>
+                    <p style="color: #1e40af; font-size: 13px; margin-bottom: 12px;">Add your MSD, product brief, or positioning doc to help shape messaging</p>
+
+                    <div class="form-group">
+                        <label for="msdLink" style="font-size: 13px;">
+                            Link to MSD
+                            <span class="hint">Google Doc, Confluence, etc.</span>
+                        </label>
+                        <input type="text" id="msdLink" placeholder="https://docs.google.com/...">
+                    </div>
+
+                    <div class="form-group" style="margin-top: 12px;">
+                        <label for="msdContent" style="font-size: 13px;">
+                            Or Paste Key Content from MSD
+                            <span class="hint">Copy/paste relevant messaging, positioning, or key points</span>
+                        </label>
+                        <textarea id="msdContent" class="small" placeholder="Paste key messaging points, value props, or positioning statements from your MSD here..."></textarea>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 12px;">
+                        <label for="msdFile" style="font-size: 13px;">
+                            Or Upload MSD Reference
+                            <span class="hint">PDF, DOCX, etc. (stores filename for reference)</span>
+                        </label>
+                        <input type="file" id="msdFile" accept=".pdf,.doc,.docx" style="padding: 8px; font-size: 13px;" onchange="handleMSDUpload(this)">
+                        <div id="msdFileName" style="margin-top: 8px; font-size: 12px; color: #059669;"></div>
+                    </div>
+                </div>
+
                 <div class="form-group full">
                     <label for="valueProps">
                         Key Value Propositions
@@ -775,6 +805,14 @@
 
     <script>
         let planGenerated = false;
+        let msdFileName = '';
+
+        function handleMSDUpload(input) {
+            if (input.files && input.files[0]) {
+                msdFileName = input.files[0].name;
+                document.getElementById('msdFileName').innerHTML = `✅ Uploaded: <strong>${msdFileName}</strong>`;
+            }
+        }
 
         function showSection(sectionId) {
             document.querySelectorAll('.section-content').forEach(s => s.classList.remove('active'));
@@ -814,7 +852,10 @@
                 messaging: document.getElementById('messagingHierarchy').value || 'Messaging TBD',
                 tone: document.getElementById('tone').value || 'Professional',
                 cta: document.getElementById('ctaStyle').value || 'Moderate',
-                alignment: document.getElementById('strategyAlignment').value || 'Strategic alignment TBD'
+                alignment: document.getElementById('strategyAlignment').value || 'Strategic alignment TBD',
+                msdLink: document.getElementById('msdLink').value || '',
+                msdContent: document.getElementById('msdContent').value || '',
+                msdFile: msdFileName
             };
 
             // Generate Exec Plan
@@ -842,6 +883,8 @@
             document.getElementById('slide5').value = `EXPECTED RESULTS\n\n• Primary Goal: ${data.goal}\n• Success Metrics:\n  - Email engagement\n  - Website traffic\n  - Conversions\n  - Pipeline influence\n• Timeline to Results: [X weeks/months]\n• Investment: [Budget/Resources]\n• Next Steps: Approve → Build → Test → Launch`;
 
             // Generate AI Prompts
+            const msdSection = data.msdContent ? `\n\nMarketing Source Document Context:\n${data.msdContent}\n\nUse the above MSD content to inform your messaging and ensure alignment with approved positioning.` : data.msdLink ? `\n\nReference MSD for approved messaging: ${data.msdLink}` : data.msdFile ? `\n\nReference uploaded MSD: ${data.msdFile}` : '';
+
             const emailPrompt = `You are a lifecycle marketing expert. Write a ${data.type.toLowerCase()} email campaign.
 
 Target Audience: ${data.persona} at ${data.stage} stage
@@ -849,7 +892,7 @@ Audience Temperature: ${data.temp}
 Campaign Goal: ${data.goal}
 Key Messages: ${data.valueProps}
 Tone: ${data.tone}
-Channels: ${data.channels}
+Channels: ${data.channels}${msdSection}
 
 Requirements:
 - Write 3-5 emails depending on audience temperature
@@ -857,6 +900,7 @@ Requirements:
 - Email length: 200-300 words each
 - Include subject lines for each email
 - Personalize for ${data.stage} stage
+${data.msdContent ? '- Align messaging with the MSD context provided above' : ''}
 
 Format each email with:
 1. Subject line
@@ -869,14 +913,14 @@ Context:
 - Target: ${data.persona} (${data.temp} audience at ${data.stage} stage)
 - Goal: ${data.goal}
 - Tone: ${data.tone}
-- Key Value: ${data.valueProps}
+- Key Value: ${data.valueProps}${msdSection}
 
 Create a mix of:
 - 5 benefit-driven subject lines
 - 5 curiosity-driven subject lines
 - 5 urgency/scarcity subject lines (if appropriate for ${data.temp} audience)
 
-Keep them under 60 characters.`;
+Keep them under 60 characters.${data.msdContent ? '\nEnsure messaging aligns with the MSD context provided.' : ''}`;
 
             const contentPrompt = `Create campaign content for: ${data.name}
 
@@ -885,7 +929,7 @@ Campaign Details:
 - Goal: ${data.goal}
 - Audience: ${data.persona} (${data.stage}, ${data.temp})
 - Key Messages: ${data.valueProps}
-- Tone: ${data.tone}
+- Tone: ${data.tone}${msdSection}
 
 Please create:
 1. Campaign landing page copy (hero, benefits, social proof, CTA)
@@ -893,7 +937,7 @@ Please create:
 3. 5 social media posts (LinkedIn tone)
 4. In-product message copy (50 words max)
 
-Make all content ${data.tone.toLowerCase()} in tone and appropriate for ${data.temp.toLowerCase()} audience.`;
+Make all content ${data.tone.toLowerCase()} in tone and appropriate for ${data.temp.toLowerCase()} audience.${data.msdContent ? '\n\nIMPORTANT: Base all messaging on the MSD context provided above to ensure brand and product positioning alignment.' : ''}`;
 
             document.getElementById('emailPrompt').textContent = emailPrompt;
             document.getElementById('subjectPrompt').textContent = subjectPrompt;
