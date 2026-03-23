@@ -40,7 +40,7 @@
         .hero .subtitle {
             font-size: 16px;
             opacity: 0.85;
-            max-width: 600px;
+            max-width: 700px;
             margin: 0 auto;
         }
 
@@ -61,6 +61,12 @@
             text-align: center;
         }
 
+        .section h3 {
+            font-size: 24px;
+            color: #2D4C33;
+            margin: 32px 0 16px;
+        }
+
         .section .intro {
             font-size: 18px;
             color: #6b7280;
@@ -69,14 +75,14 @@
             margin: 0 auto 48px;
         }
 
-        .goal-cards {
+        .pillars {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 32px;
             margin: 48px 0;
         }
 
-        .goal-card {
+        .pillar-card {
             background: white;
             border-radius: 12px;
             padding: 32px;
@@ -85,27 +91,60 @@
             transition: transform 0.2s;
         }
 
-        .goal-card:hover {
+        .pillar-card:hover {
             transform: translateY(-4px);
         }
 
-        .goal-card .icon {
+        .pillar-card .icon {
             font-size: 48px;
             margin-bottom: 16px;
         }
 
-        .goal-card h3 {
+        .pillar-card h3 {
             font-size: 20px;
             color: #2D4C33;
             margin-bottom: 12px;
         }
 
-        .goal-card p {
+        .pillar-card p {
             font-size: 15px;
             color: #6b7280;
+            line-height: 1.5;
         }
 
-        .metric-highlight {
+        .info-box {
+            background: white;
+            border-left: 4px solid #2D4C33;
+            border-radius: 8px;
+            padding: 24px 32px;
+            margin: 32px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .info-box h4 {
+            font-size: 18px;
+            color: #2D4C33;
+            margin-bottom: 12px;
+        }
+
+        .info-box p {
+            font-size: 15px;
+            color: #11110D;
+            line-height: 1.6;
+        }
+
+        .info-box ul {
+            margin-top: 12px;
+            margin-left: 20px;
+        }
+
+        .info-box li {
+            font-size: 15px;
+            color: #11110D;
+            margin-bottom: 8px;
+        }
+
+        .highlight-box {
             background: #D1F470;
             border-radius: 16px;
             padding: 48px;
@@ -113,22 +152,63 @@
             margin: 48px 0;
         }
 
-        .metric-highlight h3 {
+        .highlight-box h3 {
             font-size: 28px;
             color: #2D4C33;
             margin-bottom: 16px;
         }
 
-        .metric-highlight .big-stat {
+        .highlight-box .big-stat {
             font-size: 64px;
             font-weight: 700;
             color: #2D4C33;
             margin: 24px 0;
         }
 
-        .metric-highlight p {
+        .highlight-box p {
             font-size: 18px;
             color: #11110D;
+        }
+
+        .comparison-table {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 32px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .comparison-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .comparison-table th {
+            background: #2D4C33;
+            color: white;
+            padding: 16px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .comparison-table td {
+            padding: 16px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 15px;
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table .good {
+            color: #2D4C33;
+            font-weight: 600;
+        }
+
+        .comparison-table .bad {
+            color: #9ca3af;
         }
 
         .interactive-section {
@@ -136,6 +216,7 @@
             border-radius: 16px;
             padding: 48px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin: 48px 0;
         }
 
         .interactive-section h3 {
@@ -143,6 +224,49 @@
             color: #2D4C33;
             margin-bottom: 24px;
             text-align: center;
+        }
+
+        .journey-selector {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .journey-option {
+            background: #F5F5F2;
+            border: 3px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 32px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .journey-option:hover {
+            border-color: #A1D78F;
+        }
+
+        .journey-option.selected {
+            background: #D1F470;
+            border-color: #2D4C33;
+        }
+
+        .journey-option .emoji {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        .journey-option .label {
+            font-size: 18px;
+            font-weight: 600;
+            color: #11110D;
+            margin-bottom: 8px;
+        }
+
+        .journey-option .description {
+            font-size: 14px;
+            color: #6b7280;
         }
 
         .campaign-selector {
@@ -202,14 +326,14 @@
 
         .flow-step {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             margin: 24px 0;
         }
 
         .flow-step .number {
             background: #2D4C33;
             color: white;
-            width: 40px;
+            min-width: 40px;
             height: 40px;
             border-radius: 50%;
             display: flex;
@@ -242,42 +366,15 @@
             margin: 16px 0;
         }
 
-        .comparison-table {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            margin: 32px 0;
+        .result-box {
+            background: #D1F470;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 24px;
         }
 
-        .comparison-table table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .comparison-table th {
-            background: #2D4C33;
-            color: white;
-            padding: 16px;
-            text-align: left;
-            font-weight: 600;
-        }
-
-        .comparison-table td {
-            padding: 16px;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .comparison-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .comparison-table .good {
+        .result-box strong {
             color: #2D4C33;
-            font-weight: 600;
-        }
-
-        .comparison-table .bad {
-            color: #9ca3af;
         }
 
         .persona-grid {
@@ -307,6 +404,37 @@
             color: #6b7280;
         }
 
+        .two-column {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+            margin: 32px 0;
+        }
+
+        .column-card {
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .column-card h4 {
+            font-size: 20px;
+            color: #2D4C33;
+            margin-bottom: 16px;
+        }
+
+        .column-card ul {
+            margin-left: 20px;
+        }
+
+        .column-card li {
+            font-size: 15px;
+            color: #11110D;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
         .cta-section {
             background: #2D4C33;
             color: white;
@@ -331,6 +459,7 @@
             display: flex;
             gap: 16px;
             justify-content: center;
+            flex-wrap: wrap;
         }
 
         .cta-section button {
@@ -350,6 +479,49 @@
             transform: translateY(-2px);
         }
 
+        .behavior-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin: 32px 0;
+        }
+
+        .behavior-card {
+            background: white;
+            border-radius: 12px;
+            padding: 28px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .behavior-card h4 {
+            font-size: 18px;
+            color: #2D4C33;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .behavior-card .icon {
+            font-size: 24px;
+        }
+
+        .behavior-card p {
+            font-size: 15px;
+            color: #6b7280;
+            margin-bottom: 12px;
+        }
+
+        .behavior-card ul {
+            margin-left: 20px;
+        }
+
+        .behavior-card li {
+            font-size: 14px;
+            color: #11110D;
+            margin-bottom: 6px;
+        }
+
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 32px;
@@ -359,67 +531,155 @@
                 font-size: 18px;
             }
 
-            .goal-cards,
+            .pillars,
             .campaign-selector,
-            .persona-grid {
+            .persona-grid,
+            .two-column,
+            .behavior-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .journey-selector {
                 grid-template-columns: 1fr;
             }
 
             .container {
                 padding: 40px 16px;
             }
+
+            .cta-section .buttons {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
     <div class="hero">
-        <h1>Pre-MQL Nurture for Prospects</h1>
-        <div class="tagline">The journey of our prospects</div>
-        <div class="subtitle">Understanding how the Pre-MQL nurture keeps leads warm and drives meaningful engagement</div>
+        <h1>Pre-MQL Nurture 101</h1>
+        <div class="tagline">The Why, How, and Who of Our Nurture Program</div>
+        <div class="subtitle">A comprehensive guide to understanding how Pre-MQL nurture keeps leads engaged, supports your campaigns, and drives meaningful business outcomes</div>
     </div>
 
     <div class="container">
-        <!-- What is Nurture Section -->
+        <!-- THE BASICS -->
         <div class="section">
-            <h2>What is Pre-MQL Nurture?</h2>
+            <h2>The Basics: What is Nurture?</h2>
             <p class="intro">
-                Pre-MQL nurture is an <strong>always-on program</strong> that keeps leads warm between your campaigns.
-                It runs year-round, delivering relevant content to help leads move through their buyer journey—without overwhelming them.
+                Before we dive into our specific program, let's establish the fundamentals of what nurture is and why it matters.
             </p>
 
-            <div class="goal-cards">
-                <div class="goal-card">
-                    <div class="icon">💬</div>
-                    <h3>Support the Buyer Journey</h3>
-                    <p>Deliver relevant content that helps leads understand your value at their own pace</p>
+            <div class="info-box">
+                <h4>What is a Nurture Program?</h4>
+                <p>
+                    A nurture program is an <strong>always-on, automated email series</strong> designed to maintain relationships with leads
+                    who aren't yet ready to buy. Think of it as the connective tissue between your big campaigns—it keeps leads warm,
+                    engaged, and progressing through their buyer journey when you're not actively promoting something.
+                </p>
+            </div>
+
+            <div class="info-box">
+                <h4>Why Do We Have Nurture Programs?</h4>
+                <p>Most leads aren't ready to buy when they first hear from you. In fact:</p>
+                <ul>
+                    <li><strong>Only 3-5% of your market is actively buying</strong> at any given time</li>
+                    <li><strong>The average B2B sales cycle is 6-18 months</strong>, depending on complexity</li>
+                    <li><strong>Buyers consume 10+ pieces of content</strong> before making a decision</li>
+                </ul>
+                <p style="margin-top: 12px;">
+                    Without nurture, leads go cold during the inevitable gaps between your campaigns. Nurture bridges these gaps,
+                    keeping your brand top-of-mind and helping leads progress toward readiness.
+                </p>
+            </div>
+
+            <div class="two-column">
+                <div class="column-card">
+                    <h4>What Nurture IS</h4>
+                    <ul>
+                        <li>An always-on, year-round program</li>
+                        <li>Behavior-driven content delivery</li>
+                        <li>A supporting player to your campaigns</li>
+                        <li>Focused on engagement, not conversion</li>
+                        <li>About quality touchpoints over time</li>
+                    </ul>
                 </div>
-                <div class="goal-card">
-                    <div class="icon">👍</div>
-                    <h3>Increase Engaged Web Sessions</h3>
-                    <p>Drive quality website visits that signal genuine interest and intent</p>
-                </div>
-                <div class="goal-card">
-                    <div class="icon">❤️</div>
-                    <h3>Shorten Time to MQL</h3>
-                    <p>Keep nurture running alongside campaigns to accelerate the journey</p>
+                <div class="column-card">
+                    <h4>What Nurture is NOT</h4>
+                    <ul>
+                        <li>A campaign replacement</li>
+                        <li>A direct lead-gen machine</li>
+                        <li>A one-size-fits-all blast</li>
+                        <li>Measured primarily by MQLs</li>
+                        <li>Designed to push immediate action</li>
+                    </ul>
                 </div>
             </div>
         </div>
 
-        <!-- Success Metric Section -->
+        <!-- THE WHY -->
         <div class="section">
-            <h2>What Does Success Look Like?</h2>
+            <h2>The Why: Purpose of Pre-MQL Nurture</h2>
             <p class="intro">
-                Here's the truth: <strong>Nurture success is NOT about MQLs</strong>.
-                It's about creating engaged web sessions that signal genuine interest.
+                Our Pre-MQL nurture exists to solve a specific problem: <strong>leads go cold between campaigns</strong>.
+                Here's why this program matters.
             </p>
 
-            <div class="metric-highlight">
-                <h3>Primary Success Signal</h3>
+            <div class="pillars">
+                <div class="pillar-card">
+                    <div class="icon">🔥</div>
+                    <h3>Keep Leads Warm</h3>
+                    <p>Fill the gaps between your campaigns with valuable content. No lead gets forgotten or ignored during quiet periods.</p>
+                </div>
+                <div class="pillar-card">
+                    <div class="icon">💬</div>
+                    <h3>Support the Buyer Journey</h3>
+                    <p>Deliver the right content at the right time based on behavior and interests, helping leads self-educate and progress.</p>
+                </div>
+                <div class="pillar-card">
+                    <div class="icon">🎯</div>
+                    <h3>Amplify Campaign Impact</h3>
+                    <p>Nurtured leads respond better to campaigns because they already know and trust your brand.</p>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h4>The Problem We're Solving</h4>
+                <p>
+                    Without nurture, leads experience a "feast or famine" communication pattern. They get hit with your campaigns,
+                    then hear nothing for weeks or months. This creates disengagement, lost momentum, and colder leads.
+                    Pre-MQL nurture provides consistent, valuable touchpoints that keep leads engaged year-round.
+                </p>
+            </div>
+        </div>
+
+        <!-- THE GOALS & SUCCESS -->
+        <div class="section">
+            <h2>The Goals: What Success Looks Like</h2>
+            <p class="intro">
+                Nurture success is NOT about MQLs. It's about creating sustained engagement that signals genuine interest.
+            </p>
+
+            <div class="highlight-box">
+                <h3>Primary Success Metric</h3>
                 <div class="big-stat">👁️ Engaged Web Sessions</div>
                 <p>
-                    An engaged web session means a lead visited your site and took meaningful actions—like viewing multiple pages,
-                    exploring products, or reading resources. This shows <strong>real intent</strong>, not just a random click.
+                    This is our North Star. An engaged web session means a lead visited your site and took meaningful actions—viewing
+                    multiple pages, exploring products, or reading resources. This shows <strong>real intent</strong>, not just a random click.
+                </p>
+            </div>
+
+            <div class="info-box">
+                <h4>Why We Measure Engaged Sessions, Not MQLs</h4>
+                <p>Here's the critical distinction:</p>
+                <ul>
+                    <li><strong>Nurture is not a conversion program</strong>—it's an engagement program</li>
+                    <li><strong>MQLs are primarily driven by campaigns</strong> (webinars, events, high-intent content)</li>
+                    <li><strong>Nurture's job is to keep leads engaged</strong> so they're warmer when campaigns do hit</li>
+                    <li><strong>Engaged web sessions are leading indicators</strong> of future conversion</li>
+                    <li><strong>You can't directly attribute MQLs to nurture</strong> because multiple touches influence conversion</li>
+                </ul>
+                <p style="margin-top: 12px;">
+                    Think of it this way: Nurture is like tending a garden. You're watering, fertilizing, and maintaining the soil.
+                    The harvest (MQLs) comes from campaigns, but the garden only produces because of the nurture work.
                 </p>
             </div>
 
@@ -435,33 +695,370 @@
                     <tbody>
                         <tr>
                             <td class="good">✅ Engaged Web Sessions</td>
-                            <td>Real interest and intent. Lead is exploring and learning.</td>
-                            <td>Nurture emails drive qualified traffic to relevant content</td>
+                            <td>Real interest and intent. Lead is actively exploring and learning.</td>
+                            <td>Nurture emails drive qualified traffic to relevant content and pages</td>
                         </tr>
                         <tr>
                             <td class="good">✅ Web Sessions to Trial</td>
                             <td>Lead is ready to experience the product hands-on</td>
-                            <td>Quality nurture content builds confidence to try</td>
+                            <td>Quality nurture content builds confidence and trust to try</td>
                         </tr>
                         <tr>
-                            <td class="bad">📊 Opens & Clicks</td>
-                            <td>Directional signal, but doesn't affect lead score</td>
-                            <td>Useful for optimization, not the goal</td>
+                            <td class="good">✅ Click-to-Open Rate</td>
+                            <td>Content relevance—people who open find value and take action</td>
+                            <td>Higher CTR means better content fit and personalization</td>
+                        </tr>
+                        <tr>
+                            <td class="bad">📊 Opens & Clicks (Absolute)</td>
+                            <td>Directional signal for optimization, but doesn't affect lead score</td>
+                            <td>Useful for A/B testing, not the primary goal</td>
                         </tr>
                         <tr>
                             <td class="good">✅ MQLs & Pipeline</td>
                             <td>Supporting outcomes—nurture contributes but isn't the primary driver</td>
-                            <td>Nurture keeps leads warm so campaigns can convert</td>
+                            <td>Nurture keeps leads warm so campaigns can convert them more effectively</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
+
+            <div class="two-column">
+                <div class="column-card">
+                    <h4>Program Goals</h4>
+                    <ul>
+                        <li>Increase engaged web sessions by 20% YoY</li>
+                        <li>Maintain or improve click-to-open rate above 15%</li>
+                        <li>Reduce time-to-MQL for nurtured leads</li>
+                        <li>Support campaign performance with warmer audiences</li>
+                    </ul>
+                </div>
+                <div class="column-card">
+                    <h4>Realistic Expectations</h4>
+                    <ul>
+                        <li>Open rates: 15-25% (industry standard for nurture)</li>
+                        <li>Click rates: 2-4% (quality clicks, not volume)</li>
+                        <li>Engaged sessions: 5-10% of email recipients</li>
+                        <li>Most leads won't convert immediately—and that's OK</li>
+                    </ul>
+                </div>
+            </div>
         </div>
 
-        <!-- Interactive Section -->
+        <!-- THE WHO -->
         <div class="section">
-            <h2>How Does Your Campaign Work With Nurture?</h2>
-            <p class="intro">Select your campaign type to see how nurture supports it</p>
+            <h2>The Who: Who Gets Nurtured?</h2>
+            <p class="intro">
+                Pre-MQL nurture runs across key personas and segments, tailored to their specific interests and roles.
+            </p>
+
+            <div class="persona-grid">
+                <div class="persona-card">
+                    <div class="title">CX Persona</div>
+                    <div class="description">Customer experience leaders focused on support and engagement solutions</div>
+                </div>
+                <div class="persona-card">
+                    <div class="title">SMB & ES</div>
+                    <div class="description">Small-to-medium business and employee service teams</div>
+                </div>
+                <div class="persona-card">
+                    <div class="title">CCaaS</div>
+                    <div class="description">Contact center leaders looking for cloud communication platforms</div>
+                </div>
+                <div class="persona-card">
+                    <div class="title">HR</div>
+                    <div class="description">Human resources teams exploring employee service solutions</div>
+                </div>
+                <div class="persona-card">
+                    <div class="title">IT</div>
+                    <div class="description">IT leaders managing service desk and support operations</div>
+                </div>
+                <div class="persona-card">
+                    <div class="title">Welcome Email</div>
+                    <div class="description">New leads getting introduced to the value we provide</div>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h4>Segmentation Criteria</h4>
+                <p>Leads enter nurture streams based on:</p>
+                <ul>
+                    <li><strong>Lead source</strong>: How they came to us (content syndication, web form, event, etc.)</li>
+                    <li><strong>Declared interests</strong>: What they told us they care about</li>
+                    <li><strong>Behavioral signals</strong>: Pages visited, content consumed, past engagement</li>
+                    <li><strong>Lead temperature</strong>: Cold (content syndi) vs. warm (trial, demo request)</li>
+                    <li><strong>Company fit</strong>: ICP match, company size, industry</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- BEHAVIORS WE TRACK -->
+        <div class="section">
+            <h2>Behaviors We're Looking For</h2>
+            <p class="intro">
+                Success in nurture is driven by two key behaviors that signal genuine interest and engagement.
+            </p>
+
+            <div class="behavior-grid">
+                <div class="behavior-card">
+                    <h4><span class="icon">📧</span> Email Engagement</h4>
+                    <p>When leads open and click nurture emails, it signals initial interest. We track:</p>
+                    <ul>
+                        <li>Opens (directional, not scored)</li>
+                        <li>Clicks on content links</li>
+                        <li>Multiple clicks in one email</li>
+                        <li>Engagement patterns over time</li>
+                    </ul>
+                </div>
+
+                <div class="behavior-card">
+                    <h4><span class="icon">🌐</span> Website Content Consumption</h4>
+                    <p>This is where the real magic happens. We're looking for:</p>
+                    <ul>
+                        <li><strong>Engaged web sessions</strong>: 2+ pages, 1+ minute on site</li>
+                        <li>Viewing product/solution pages</li>
+                        <li>Reading blog posts, resources, case studies</li>
+                        <li>Exploring pricing or trial pages</li>
+                        <li>Repeat visits over time</li>
+                    </ul>
+                </div>
+
+                <div class="behavior-card">
+                    <h4><span class="icon">🔍</span> Progressive Engagement</h4>
+                    <p>We're watching for signals that indicate warming interest:</p>
+                    <ul>
+                        <li>Increasing email engagement over time</li>
+                        <li>Moving from generic to specific content</li>
+                        <li>Direct website visits (not just email clicks)</li>
+                        <li>Interacting with multiple content types</li>
+                    </ul>
+                </div>
+
+                <div class="behavior-card">
+                    <h4><span class="icon">⚡</span> High-Intent Actions</h4>
+                    <p>These behaviors signal someone is getting closer to conversion:</p>
+                    <ul>
+                        <li>Downloading multiple assets</li>
+                        <li>Attending webinars or events</li>
+                        <li>Starting a free trial</li>
+                        <li>Requesting a demo</li>
+                        <li>Engaging with sales content</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h3>The Engagement Flywheel</h3>
+                <p>
+                    Nurture creates a virtuous cycle: <strong>Email → Click → Website Visit → Engaged Session → Higher Lead Score →
+                    More Relevant Content → Repeat</strong>. Each behavior informs the next, creating a personalized journey.
+                </p>
+            </div>
+        </div>
+
+        <!-- WHAT TO EXPECT -->
+        <div class="section">
+            <h2>What to Expect: Lead Journey</h2>
+            <p class="intro">
+                When a lead enters Pre-MQL nurture, here's what happens and what you can expect.
+            </p>
+
+            <div class="info-box">
+                <h4>Entry & Onboarding</h4>
+                <p>
+                    <strong>Week 1:</strong> New leads receive a welcome email introducing your brand and value proposition.
+                    This sets expectations and establishes the relationship.
+                </p>
+            </div>
+
+            <div class="info-box">
+                <h4>Ongoing Cadence</h4>
+                <p>
+                    <strong>Weeks 2-30:</strong> Nurture programs run anywhere from <strong>7-30 weeks long</strong>, depending on persona and engagement.
+                    Leads receive persona-specific emails approximately <strong>every 1-2 weeks</strong>.
+                    The content adapts based on their behavior—what they click, what they read, what they ignore.
+                </p>
+                <ul>
+                    <li><strong>High velocity nurture</strong>: Weekly emails for warm leads</li>
+                    <li><strong>Standard nurture</strong>: Bi-weekly emails for most leads</li>
+                    <li><strong>Reduced frequency</strong>: Monthly for cold or disengaged leads</li>
+                </ul>
+            </div>
+
+            <div class="info-box">
+                <h4>Content Progression: Aware → Inform → Engage</h4>
+                <p>Content evolves as leads engage, following our three-stage framework:</p>
+                <ul>
+                    <li><strong>Aware (Early stage):</strong> Educational, problem-focused content (blogs, guides, industry insights). Goal: Build awareness and credibility.</li>
+                    <li><strong>Inform (Mid stage):</strong> Solution-focused content (case studies, webinars, how-to guides). Goal: Educate on solutions and approaches.</li>
+                    <li><strong>Engage (Late stage):</strong> Product-focused content (demos, trials, pricing, customer stories). Goal: Drive consideration and action.</li>
+                </ul>
+            </div>
+
+            <div class="info-box">
+                <h4>Integration with Campaigns</h4>
+                <p>
+                    Nurture doesn't run in isolation. When you launch a campaign, nurture either:
+                </p>
+                <ul>
+                    <li><strong>Pauses</strong> for leads receiving your campaign (no double-tapping)</li>
+                    <li><strong>Continues alongside</strong> for leads not in your campaign audience</li>
+                    <li><strong>Resumes afterward</strong> for leads who didn't convert</li>
+                </ul>
+            </div>
+
+            <div class="info-box">
+                <h4>Exit Conditions</h4>
+                <p>Leads exit nurture when they:</p>
+                <ul>
+                    <li>Reach MQL status (passed to sales)</li>
+                    <li>Start a trial (enter product-led nurture)</li>
+                    <li>Request a demo (enter sales-led journey)</li>
+                    <li>Become completely disengaged (moved to re-engagement campaign)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- INTERACTIVE: LEAD JOURNEY TYPES -->
+        <div class="section">
+            <h2>Lead Journey Types: Cold vs. Warm</h2>
+            <p class="intro">Not all leads enter nurture the same way. Select a journey type to see what their experience looks like.</p>
+
+            <div class="interactive-section">
+                <h3>Choose a Lead Journey</h3>
+
+                <div class="journey-selector">
+                    <div class="journey-option" onclick="showJourney('cold')">
+                        <div class="emoji">🧊</div>
+                        <div class="label">Cold Lead Journey</div>
+                        <div class="description">From content syndication or third-party sources. Never heard of you before.</div>
+                    </div>
+                    <div class="journey-option" onclick="showJourney('warm')">
+                        <div class="emoji">🔥</div>
+                        <div class="label">Warm Lead Journey</div>
+                        <div class="description">Downloaded content, attended webinar, or showed clear intent. Ready for velocity.</div>
+                    </div>
+                </div>
+
+                <!-- Cold Lead Journey -->
+                <div class="flow-diagram" id="journey-cold">
+                    <h4 style="font-size: 20px; color: #2D4C33; margin-bottom: 24px;">🧊 Cold Lead Journey (Content Syndication)</h4>
+
+                    <div class="flow-step">
+                        <div class="number">1</div>
+                        <div class="content">
+                            <h4>Entry Point: Low Intent</h4>
+                            <p>Lead downloaded a whitepaper through a content syndication partner. They may not even remember your brand name. Zero prior engagement.</p>
+                        </div>
+                    </div>
+
+                    <div class="flow-arrow">↓</div>
+
+                    <div class="flow-step">
+                        <div class="number">2</div>
+                        <div class="content">
+                            <h4>Welcome & Brand Introduction (Week 1)</h4>
+                            <p>Welcome email introduces your brand, explains what you do, and sets expectations. Goal: Build awareness and familiarity.</p>
+                        </div>
+                    </div>
+
+                    <div class="flow-arrow">↓</div>
+
+                    <div class="flow-step">
+                        <div class="number">3</div>
+                        <div class="content">
+                            <h4>Aware Stage: Educational Content (Weeks 2-12)</h4>
+                            <p>Slower cadence (every 2 weeks). Content focuses on pain points, industry trends, best practices. No product pitches yet. Building trust and credibility.</p>
+                        </div>
+                    </div>
+
+                    <div class="flow-arrow">↓</div>
+
+                    <div class="flow-step">
+                        <div class="number">4</div>
+                        <div class="content">
+                            <h4>Watching for Warming Signals</h4>
+                            <p>If they start clicking emails and visiting the website, they move to a warmer nurture track. If not, they stay on slow cadence indefinitely.</p>
+                        </div>
+                    </div>
+
+                    <div class="flow-arrow">↓</div>
+
+                    <div class="flow-step">
+                        <div class="number">5</div>
+                        <div class="content">
+                            <h4>Campaign Exposure</h4>
+                            <p>When campaigns run, cold leads are included (if they fit targeting). Campaigns give them a reason to engage. Nurture resumes after campaign ends.</p>
+                        </div>
+                    </div>
+
+                    <div class="result-box">
+                        <strong>💡 Realistic Outcome:</strong> Cold leads take 7-30 weeks (2-7+ months) to warm up, if ever. Many will never engage meaningfully—and that's expected. The goal is to identify and accelerate the small percentage who DO show interest.
+                    </div>
+                </div>
+
+                <!-- Warm Lead Journey -->
+                <div class="flow-diagram" id="journey-warm">
+                    <h4 style="font-size: 20px; color: #2D4C33; margin-bottom: 24px;">🔥 Warm Lead Journey (High Velocity)</h4>
+
+                    <div class="flow-step">
+                        <div class="number">1</div>
+                        <div class="content">
+                            <h4>Entry Point: Clear Intent</h4>
+                            <p>Lead attended a webinar, downloaded a solution guide directly from your site, or engaged with sales content. They're actively researching and you're on their shortlist.</p>
+                        </div>
+                    </div>
+
+                    <div class="flow-arrow">↓</div>
+
+                    <div class="flow-step">
+                        <div class="number">2</div>
+                        <div class="content">
+                            <h4>High Velocity Nurture Activated</h4>
+                            <p><strong>How we determine this:</strong> Lead score above threshold, multiple engaged sessions, or high-intent action (demo request, trial start). System automatically moves them to velocity track.</p>
+                        </div>
+                    </div>
+
+                    <div class="flow-arrow">↓</div>
+
+                    <div class="flow-step">
+                        <div class="number">3</div>
+                        <div class="content">
+                            <h4>Inform Stage: Accelerated Cadence (Weeks 1-4)</h4>
+                            <p>Weekly emails with solution-focused content. Case studies, ROI calculators, comparison guides, customer stories. Strike while the iron is hot.</p>
+                        </div>
+                    </div>
+
+                    <div class="flow-arrow">↓</div>
+
+                    <div class="flow-step">
+                        <div class="number">4</div>
+                        <div class="content">
+                            <h4>Engage Stage: Sales-Ready Content</h4>
+                            <p>Content shifts to product-focused: "why us" and "how to get started." Emails include CTAs for demos, trials, and direct sales engagement. BDR team is notified of high engagement.</p>
+                        </div>
+                    </div>
+
+                    <div class="flow-arrow">↓</div>
+
+                    <div class="flow-step">
+                        <div class="number">5</div>
+                        <div class="content">
+                            <h4>Conversion or Cooldown</h4>
+                            <p>Lead either converts to MQL/trial (exits nurture) or cools off. If they cool, they drop back to standard nurture cadence. No one falls through the cracks.</p>
+                        </div>
+                    </div>
+
+                    <div class="result-box">
+                        <strong>💡 Realistic Outcome:</strong> Warm leads convert to MQL or trial within 4-8 weeks. If they don't convert, it's a signal they weren't as ready as we thought—nurture catches them and keeps them engaged for future opportunities.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- INTERACTIVE: CAMPAIGN INTEGRATION -->
+        <div class="section">
+            <h2>How Your Campaign Works With Nurture</h2>
+            <p class="intro">Select your campaign type to see how nurture supports and amplifies your work.</p>
 
             <div class="interactive-section">
                 <h3>Choose Your Campaign Type</h3>
@@ -493,7 +1090,7 @@
                         <div class="number">1</div>
                         <div class="content">
                             <h4>Before Launch</h4>
-                            <p>Nurture keeps leads warm with educational content. They're learning about your existing solutions.</p>
+                            <p>Nurture keeps leads warm with educational content. They're learning about your existing solutions and building trust.</p>
                         </div>
                     </div>
 
@@ -503,7 +1100,7 @@
                         <div class="number">2</div>
                         <div class="content">
                             <h4>Launch Campaign Hits</h4>
-                            <p>Your product launch emails go out. Leads who were nurtured are more likely to engage because they already know you.</p>
+                            <p>Your product launch emails go out. Leads who were nurtured are more likely to engage because they already know and trust you.</p>
                         </div>
                     </div>
 
@@ -512,8 +1109,8 @@
                     <div class="flow-step">
                         <div class="number">3</div>
                         <div class="content">
-                            <h4>Nurture Continues Alongside</h4>
-                            <p>While your launch runs, nurture keeps other leads engaged with complementary content. No one gets forgotten.</p>
+                            <h4>Nurture Pauses for Campaign Audience</h4>
+                            <p>Leads receiving your campaign don't get nurture emails (no double-tapping). Nurture continues for leads outside your campaign audience.</p>
                         </div>
                     </div>
 
@@ -522,13 +1119,13 @@
                     <div class="flow-step">
                         <div class="number">4</div>
                         <div class="content">
-                            <h4>After Launch</h4>
-                            <p>Nurture picks up leads who didn't convert immediately and keeps them engaged for future opportunities.</p>
+                            <h4>After Launch: Nurture Resumes</h4>
+                            <p>Campaign ends. Nurture picks up leads who didn't convert and keeps them engaged with complementary content for future opportunities.</p>
                         </div>
                     </div>
 
-                    <div style="background: #D1F470; padding: 20px; border-radius: 8px; margin-top: 24px;">
-                        <strong>💡 The Result:</strong> Leads stay engaged between campaigns. They visit your site, explore content, and show genuine interest—all tracked as engaged web sessions.
+                    <div class="result-box">
+                        <strong>💡 The Result:</strong> Nurtured leads have 2-3x higher engagement rates on your launch campaign. Post-campaign, leads don't go cold—nurture keeps them warm for the next opportunity.
                     </div>
                 </div>
 
@@ -539,8 +1136,8 @@
                     <div class="flow-step">
                         <div class="number">1</div>
                         <div class="content">
-                            <h4>Pre-Webinar</h4>
-                            <p>Nurture warms up your audience with relevant topics. When your webinar invite arrives, they're more likely to register.</p>
+                            <h4>Pre-Webinar Warmup</h4>
+                            <p>Nurture warms up your audience with relevant topics weeks before. When your webinar invite arrives, they're primed and receptive.</p>
                         </div>
                     </div>
 
@@ -550,7 +1147,7 @@
                         <div class="number">2</div>
                         <div class="content">
                             <h4>Registration Period</h4>
-                            <p>Your webinar promotion runs. Nurtured leads have higher registration rates because trust is already built.</p>
+                            <p>Your webinar promotion runs. Nurtured leads have higher registration rates because trust is already built. Nurture pauses for registrants.</p>
                         </div>
                     </div>
 
@@ -559,13 +1156,13 @@
                     <div class="flow-step">
                         <div class="number">3</div>
                         <div class="content">
-                            <h4>Post-Webinar</h4>
-                            <p>Nurture sends related content to non-attendees and no-shows, keeping them engaged for the next opportunity.</p>
+                            <h4>Post-Webinar Follow-Up</h4>
+                            <p>Nurture sends related content to non-attendees and no-shows. Attendees enter a specific post-webinar journey. Everyone gets appropriate follow-up.</p>
                         </div>
                     </div>
 
-                    <div style="background: #D1F470; padding: 20px; border-radius: 8px; margin-top: 24px;">
-                        <strong>💡 The Result:</strong> Higher registration rates, more engaged attendees, and continued engagement after the event ends.
+                    <div class="result-box">
+                        <strong>💡 The Result:</strong> Higher registration rates, better show rates, and continued engagement after the event ends. No lead gets forgotten.
                     </div>
                 </div>
 
@@ -577,7 +1174,7 @@
                         <div class="number">1</div>
                         <div class="content">
                             <h4>Your Content Campaign</h4>
-                            <p>You promote a specific asset—whitepaper, guide, case study. Focused and time-bound.</p>
+                            <p>You promote a specific asset—whitepaper, guide, case study. Focused and time-bound with a specific audience.</p>
                         </div>
                     </div>
 
@@ -586,8 +1183,8 @@
                     <div class="flow-step">
                         <div class="number">2</div>
                         <div class="content">
-                            <h4>Nurture Amplifies</h4>
-                            <p>Leads who missed your campaign get exposed to related topics in nurture. They visit your site to explore more.</p>
+                            <h4>Nurture Amplifies & Extends</h4>
+                            <p>Leads who missed your campaign get exposed to related topics in nurture. Your content gets more mileage and reaches more people over time.</p>
                         </div>
                     </div>
 
@@ -597,12 +1194,12 @@
                         <div class="number">3</div>
                         <div class="content">
                             <h4>Continuous Engagement</h4>
-                            <p>Nurture keeps serving valuable content, driving engaged web sessions and building intent over time.</p>
+                            <p>Nurture keeps serving valuable content, driving engaged web sessions and building intent over time. Your asset continues working long after the campaign ends.</p>
                         </div>
                     </div>
 
-                    <div style="background: #D1F470; padding: 20px; border-radius: 8px; margin-top: 24px;">
-                        <strong>💡 The Result:</strong> Your content gets more mileage. Leads discover it through nurture even after your campaign ends.
+                    <div class="result-box">
+                        <strong>💡 The Result:</strong> Your content gets discovered by more leads over a longer period. Nurture extends campaign ROI by 3-6 months.
                     </div>
                 </div>
 
@@ -614,7 +1211,7 @@
                         <div class="number">1</div>
                         <div class="content">
                             <h4>Pre-Event Promotion</h4>
-                            <p>Your event campaign drives registrations. Nurture builds awareness and credibility in parallel.</p>
+                            <p>Your event campaign drives registrations. Nurture builds awareness and credibility in parallel for leads not yet targeted by your campaign.</p>
                         </div>
                     </div>
 
@@ -624,7 +1221,7 @@
                         <div class="number">2</div>
                         <div class="content">
                             <h4>During Event</h4>
-                            <p>Nurture pauses or reduces frequency for registered attendees. Non-registrants continue receiving value.</p>
+                            <p>Nurture pauses for registered attendees (avoiding inbox overload). Non-registrants continue receiving value and stay engaged.</p>
                         </div>
                     </div>
 
@@ -634,73 +1231,67 @@
                         <div class="number">3</div>
                         <div class="content">
                             <h4>Post-Event Follow-Up</h4>
-                            <p>Nurture re-engages no-shows and non-attendees with on-demand content and next steps.</p>
+                            <p>Nurture re-engages no-shows and non-attendees with on-demand content, session recordings, and next steps. Event momentum continues.</p>
                         </div>
                     </div>
 
-                    <div style="background: #D1F470; padding: 20px; border-radius: 8px; margin-top: 24px;">
-                        <strong>💡 The Result:</strong> Event momentum continues beyond the live date. Leads stay engaged whether they attended or not.
+                    <div class="result-box">
+                        <strong>💡 The Result:</strong> Event impact extends beyond the live date. Leads stay engaged whether they attended or not, and you maximize your event investment.
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Who Gets Nurtured Section -->
+        <!-- BEST PRACTICES -->
         <div class="section">
-            <h2>Who Gets Nurtured?</h2>
-            <p class="intro">Pre-MQL nurture runs across key personas and segments</p>
+            <h2>Best Practices & Realistic Expectations</h2>
+            <p class="intro">
+                Set yourself up for success by understanding what works—and what doesn't—in nurture programs.
+            </p>
 
-            <div class="persona-grid">
-                <div class="persona-card">
-                    <div class="title">CX Persona</div>
-                    <div class="description">Customer experience leaders focused on support and engagement solutions</div>
+            <div class="two-column">
+                <div class="column-card">
+                    <h4>✅ Best Practices</h4>
+                    <ul>
+                        <li><strong>Quality over quantity:</strong> Send less email per person, reach more unique people</li>
+                        <li><strong>Behavior-driven content:</strong> Let actions (not assumptions) determine what they see next</li>
+                        <li><strong>Always-on mindset:</strong> Nurture never stops, even during campaign season</li>
+                        <li><strong>Measure engagement, not just opens:</strong> Focus on engaged sessions and meaningful actions</li>
+                        <li><strong>Give it time:</strong> Nurture is a long game. 6-12 months to see full impact</li>
+                        <li><strong>Integrate with campaigns:</strong> Coordinate timing to avoid inbox fatigue</li>
+                    </ul>
                 </div>
-                <div class="persona-card">
-                    <div class="title">SMB & ES</div>
-                    <div class="description">Small-to-medium business and employee service teams</div>
-                </div>
-                <div class="persona-card">
-                    <div class="title">CCaaS</div>
-                    <div class="description">Contact center leaders looking for cloud communication platforms</div>
-                </div>
-                <div class="persona-card">
-                    <div class="title">HR</div>
-                    <div class="description">Human resources teams exploring employee service solutions</div>
-                </div>
-                <div class="persona-card">
-                    <div class="title">IT</div>
-                    <div class="description">IT leaders managing service desk and support operations</div>
-                </div>
-                <div class="persona-card">
-                    <div class="title">Welcome Email</div>
-                    <div class="description">New leads getting introduced to the value we provide</div>
+                <div class="column-card">
+                    <h4>❌ Common Pitfalls to Avoid</h4>
+                    <ul>
+                        <li><strong>Expecting immediate MQLs:</strong> Nurture is not a conversion engine</li>
+                        <li><strong>Overloading with emails:</strong> More is not better. Respect attention</li>
+                        <li><strong>One-size-fits-all content:</strong> Personalization matters. Segment meaningfully</li>
+                        <li><strong>Ignoring disengagement:</strong> If they're not opening, reduce frequency or pause</li>
+                        <li><strong>Treating it like a campaign:</strong> Nurture is ongoing, not time-bound</li>
+                        <li><strong>Not giving it time:</strong> Shutting down nurture after 2 months is too early</li>
+                    </ul>
                 </div>
             </div>
-        </div>
 
-        <!-- Key Principles Section -->
-        <div class="section">
-            <h2>Key Principles</h2>
-            <div class="goal-cards">
-                <div class="goal-card">
-                    <h3>Always-On</h3>
-                    <p>Nurture runs 24/7/365. It never stops keeping leads warm, even when you're not running campaigns.</p>
-                </div>
-                <div class="goal-card">
-                    <h3>Less Noise, More Reach</h3>
-                    <p>Send less email per person, but reach more unique people. Quality over quantity.</p>
-                </div>
-                <div class="goal-card">
-                    <h3>Behavior-Driven</h3>
-                    <p>Content adapts based on what leads do, not just who they are. Actions drive the journey.</p>
-                </div>
+            <div class="info-box">
+                <h4>Setting Realistic Expectations for Stakeholders</h4>
+                <p>When explaining nurture to leadership or campaign owners, be clear about timelines and outcomes:</p>
+                <ul>
+                    <li><strong>Short-term (0-3 months):</strong> Expect baseline engagement. Opens, clicks, some web sessions. Don't expect MQL spikes.</li>
+                    <li><strong>Mid-term (3-6 months):</strong> Engaged sessions increase. You'll see leads warming up and responding better to campaigns.</li>
+                    <li><strong>Long-term (6-12+ months):</strong> Pipeline impact becomes visible. Nurtured leads convert faster and at higher rates when they do engage with campaigns.</li>
+                </ul>
+                <p style="margin-top: 12px;">
+                    <strong>The bottom line:</strong> Nurture is infrastructure, not a silver bullet. It makes everything else work better over time.
+                </p>
             </div>
         </div>
 
         <!-- CTA Section -->
         <div class="cta-section">
-            <h3>Want to Learn More?</h3>
-            <p>Explore the full program details and see real examples of nurture emails</p>
+            <h3>Ready to Dive Deeper?</h3>
+            <p>Explore the full program details, see real email examples, and learn how to optimize your campaigns with nurture.</p>
             <div class="buttons">
                 <button onclick="window.open('https://docs.google.com/presentation/d/1qcPN5TaUrq4YoNMp3jXVP_zsqdE2Vopisc2tU-EPJpo/edit?slide=id.g35119043bdc_0_3131#slide=id.g35119043bdc_0_3131', '_blank')">📊 View Walking Deck</button>
                 <button onclick="window.open('https://docs.google.com/presentation/d/1qcPN5TaUrq4YoNMp3jXVP_zsqdE2Vopisc2tU-EPJpo/edit?slide=id.g3c757d7697a_0_367#slide=id.g3c757d7697a_0_367', '_blank')">📧 See Example Emails</button>
@@ -709,18 +1300,36 @@
     </div>
 
     <script>
-        function showFlow(type) {
-            // Hide all flows
-            document.querySelectorAll('.flow-diagram').forEach(flow => {
+        function showJourney(type) {
+            // Hide all journey flows
+            document.querySelectorAll('[id^="journey-"]').forEach(flow => {
                 flow.classList.remove('active');
             });
 
-            // Remove selected from all options
+            // Remove selected from all journey options
+            document.querySelectorAll('.journey-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+
+            // Show selected journey flow
+            document.getElementById(`journey-${type}`).classList.add('active');
+
+            // Highlight selected option
+            event.currentTarget.classList.add('selected');
+        }
+
+        function showFlow(type) {
+            // Hide all campaign flows
+            document.querySelectorAll('[id^="flow-"]').forEach(flow => {
+                flow.classList.remove('active');
+            });
+
+            // Remove selected from all campaign options
             document.querySelectorAll('.campaign-option').forEach(option => {
                 option.classList.remove('selected');
             });
 
-            // Show selected flow
+            // Show selected campaign flow
             document.getElementById(`flow-${type}`).classList.add('active');
 
             // Highlight selected option
