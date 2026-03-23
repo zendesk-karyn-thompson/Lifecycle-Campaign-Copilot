@@ -43,39 +43,62 @@
             opacity: 0.85;
         }
 
+        .instructions {
+            background: #FFFFFF;
+            padding: 16px 48px;
+            text-align: center;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 14px;
+            color: #4b5563;
+        }
+
         .container {
             display: grid;
-            grid-template-columns: 380px 1fr;
-            gap: 32px;
+            grid-template-columns: 400px 1fr;
+            gap: 40px;
             max-width: 1600px;
             margin: 0 auto;
-            padding: 32px;
+            padding: 40px;
         }
 
         .column {
             background-color: #ffffff;
-            padding: 28px;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            padding: 32px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
         }
 
         .column h2 {
-            font-size: 17px;
+            font-size: 18px;
             font-weight: 600;
-            margin-bottom: 20px;
+            margin-bottom: 8px;
             color: #11110D;
         }
 
+        .column .subtitle {
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 24px;
+        }
+
         .form-group {
-            margin-bottom: 18px;
+            margin-bottom: 20px;
         }
 
         label {
             display: block;
-            font-size: 13px;
-            font-weight: 500;
-            margin-bottom: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
             color: #11110D;
+        }
+
+        label .hint {
+            font-weight: 400;
+            color: #6b7280;
+            font-size: 12px;
+            display: block;
+            margin-top: 2px;
         }
 
         label .optional {
@@ -144,59 +167,102 @@
 
         .output-card {
             background: #ffffff;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 20px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 28px;
+            transition: border-color 0.2s;
+        }
+
+        .output-card:hover {
+            border-color: #A1D78F;
         }
 
         .output-card h3 {
-            font-size: 15px;
+            font-size: 17px;
             font-weight: 600;
-            margin-bottom: 12px;
-            color: #11110D;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .output-card h3::before {
-            content: "▸";
-            color: #A1D78F;
-            font-size: 14px;
+            margin-bottom: 16px;
+            color: #2D4C33;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #D1F470;
         }
 
         .output-content {
-            font-size: 13px;
+            font-size: 14px;
             color: #11110D;
-            line-height: 1.7;
-            white-space: pre-wrap;
+            line-height: 1.8;
         }
 
         .output-content.empty {
             color: #9ca3af;
             font-style: italic;
+            text-align: center;
+            padding: 40px 20px;
         }
 
-        .output-content strong {
+        .output-section {
+            margin-bottom: 16px;
+        }
+
+        .output-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-label {
+            font-weight: 700;
             color: #2D4C33;
-            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .section-value {
+            margin-bottom: 16px;
+            line-height: 1.7;
         }
 
         .output-content ul {
-            margin: 8px 0;
-            padding-left: 20px;
+            margin: 12px 0;
+            padding-left: 0;
+            list-style: none;
         }
 
         .output-content li {
-            margin: 4px 0;
+            margin: 8px 0;
+            padding-left: 24px;
+            position: relative;
+        }
+
+        .output-content li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #A1D78F;
+            font-weight: bold;
         }
 
         .callout {
             background: #FEEB7E;
-            border-left: 3px solid #2D4C33;
-            padding: 12px;
-            margin: 12px 0;
-            border-radius: 4px;
+            border-left: 4px solid #2D4C33;
+            padding: 16px 20px;
+            margin: 16px 0;
+            border-radius: 8px;
+            font-size: 13px;
+        }
+
+        .callout-title {
+            font-weight: 700;
+            color: #11110D;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .callout-title::before {
+            content: "⚠";
+            font-size: 16px;
         }
 
         .callout.risk {
@@ -207,6 +273,24 @@
         .callout.info {
             background: #D1F470;
             border-left-color: #2D4C33;
+        }
+
+        .callout.info .callout-title::before {
+            content: "💡";
+        }
+
+        .recommendation-box {
+            background: #F5F5F2;
+            border: 2px solid #D1F470;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+
+        .recommendation-box strong {
+            color: #2D4C33;
+            display: block;
+            margin-bottom: 8px;
         }
 
         @media (max-width: 1200px) {
@@ -223,53 +307,82 @@
         <div class="tagline">Transform inputs → strategy → plan-on-a-page → exec narrative</div>
     </div>
 
+    <div class="instructions">
+        Fill in your campaign details below and click "Generate Plan" to create a comprehensive, executive-ready campaign strategy in seconds.
+    </div>
+
     <div class="container">
         <!-- LEFT: INPUTS -->
         <div class="column">
             <h2>Campaign Inputs</h2>
+            <div class="subtitle">Fill out the fields below to generate your plan</div>
 
             <div class="form-group">
-                <label for="audience">Audience</label>
+                <label for="audience">
+                    Audience
+                    <span class="hint">Who are you targeting?</span>
+                </label>
                 <input type="text" id="audience" placeholder="e.g., Mid-market SaaS product teams">
             </div>
 
             <div class="form-group">
-                <label for="lifecycle">Lifecycle Stage</label>
+                <label for="lifecycle">
+                    Lifecycle Stage
+                    <span class="hint">Where are they in their journey?</span>
+                </label>
                 <input type="text" id="lifecycle" placeholder="e.g., Trial, Onboarding, Active, At-Risk">
             </div>
 
             <div class="form-group">
-                <label for="goal">Campaign Goal</label>
+                <label for="goal">
+                    Campaign Goal
+                    <span class="hint">What do you want to achieve?</span>
+                </label>
                 <input type="text" id="goal" placeholder="e.g., Increase feature adoption by 20%">
             </div>
 
             <div class="form-group">
-                <label for="product">Product / Use Case</label>
-                <input type="text" id="product" placeholder="e.g., Analytics Dashboard, Reporting Suite">
+                <label for="product">
+                    Product / Use Case
+                    <span class="hint">What product or feature is this about?</span>
+                </label>
+                <input type="text" id="product" placeholder="e.g., Analytics Dashboard">
             </div>
 
             <div class="form-group">
-                <label for="program">Program Type</label>
+                <label for="program">
+                    Program Type
+                    <span class="hint">What approach will you take?</span>
+                </label>
                 <select id="program">
-                    <option value="Nurture">Nurture</option>
-                    <option value="Partner">Partner</option>
-                    <option value="Acceleration">Acceleration</option>
+                    <option value="Nurture">Nurture - Educational, trust-building</option>
+                    <option value="Partner">Partner - Collaborative, ecosystem-focused</option>
+                    <option value="Acceleration">Acceleration - Direct, action-oriented</option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label for="signals">Behavioral + Intent Signals</label>
+                <label for="signals">
+                    Behavioral + Intent Signals
+                    <span class="hint">What actions have they taken?</span>
+                </label>
                 <textarea id="signals" placeholder="e.g., Logged in 5+ times, viewed pricing, completed onboarding"></textarea>
             </div>
 
             <div class="form-group">
-                <label for="notes">Optional Notes / Context <span class="optional">(optional)</span></label>
+                <label for="notes">
+                    Optional Notes / Context <span class="optional">(optional)</span>
+                    <span class="hint">Any timing or constraints?</span>
+                </label>
                 <textarea id="notes" placeholder="Additional context, timing considerations, constraints..."></textarea>
             </div>
 
             <div class="form-group">
-                <label for="request">Campaign Definition / Request Type <span class="optional">(optional)</span></label>
-                <input type="text" id="request" placeholder="e.g., Quarterly nurture, Product launch, Re-engagement">
+                <label for="request">
+                    Campaign Type <span class="optional">(optional)</span>
+                    <span class="hint">What kind of campaign is this?</span>
+                </label>
+                <input type="text" id="request" placeholder="e.g., Quarterly nurture, Product launch">
             </div>
 
             <div class="button-container">
@@ -332,25 +445,38 @@
 
         function generateOverview(data) {
             const standardization = data.request
-                ? `This plan standardizes the "${data.request}" request into a repeatable, behavior-aware framework.`
-                : `This plan applies a standardized Plan-on-a-Page structure to accelerate campaign development.`;
+                ? `This plan transforms your "${data.request}" into a standardized, behavior-aware campaign framework.`
+                : `This plan follows a proven Plan-on-a-Page structure that accelerates campaign development.`;
 
             return `
                 <div class="output-card">
-                    <h3>Strategy / Program Overview</h3>
+                    <h3>📋 Strategy Overview</h3>
                     <div class="output-content">
-<strong>Objective:</strong> ${data.goal}
+                        <div class="output-section">
+                            <span class="section-label">Campaign Objective</span>
+                            <div class="section-value">${data.goal}</div>
+                        </div>
 
-<strong>What This Program Achieves:</strong>
-This ${data.program} campaign targets ${data.audience} in the ${data.lifecycle} stage, positioning ${data.product} as the essential solution to ${data.goal.toLowerCase()}. The program combines lifecycle-aware messaging with behavioral triggers to drive measurable action.
+                        <div class="output-section">
+                            <span class="section-label">What This Campaign Will Do</span>
+                            <div class="section-value">
+                                Target ${data.audience} at the ${data.lifecycle} stage with a ${data.program.toLowerCase()} approach.
+                                Position ${data.product} as the key solution to help them ${data.goal.toLowerCase()}.
+                            </div>
+                        </div>
 
-<strong>Why It Matters Now:</strong>
-${data.signals !== 'observed behavioral signals'
-    ? `Recent signals indicate readiness: ${data.signals}. This timing creates an opportunity to accelerate ${data.lifecycle.toLowerCase()} momentum.`
-    : `Users at the ${data.lifecycle} stage represent a critical conversion opportunity.`}
+                        <div class="output-section">
+                            <span class="section-label">Why Launch Now</span>
+                            <div class="section-value">
+                                ${data.signals !== 'observed behavioral signals'
+                                    ? `Your audience is showing readiness signals: ${data.signals}. This is the right time to engage.`
+                                    : `The ${data.lifecycle} stage is a critical moment for engagement and conversion.`}
+                            </div>
+                        </div>
 
-<strong>Standardization Note:</strong>
-${standardization}
+                        <div class="recommendation-box">
+                            ${standardization}
+                        </div>
                     </div>
                 </div>
             `;
@@ -358,39 +484,48 @@ ${standardization}
 
         function generateAudienceSection(data, engagement) {
             const painPoints = {
-                'Trial': 'Evaluating fit, uncertain about value, comparing alternatives',
-                'Onboarding': 'Learning curve, time to value, configuration complexity',
-                'Active': 'Maximizing ROI, expanding usage, proving ongoing value',
-                'At-Risk': 'Declining engagement, unresolved issues, considering alternatives'
+                'Trial': 'They\'re evaluating fit, uncertain about value, and comparing alternatives.',
+                'Onboarding': 'They\'re facing a learning curve, need faster time-to-value, and configuration help.',
+                'Active': 'They want to maximize ROI, expand usage, and prove ongoing value.',
+                'At-Risk': 'They have declining engagement, unresolved issues, and are considering alternatives.'
             };
 
             const motivations = {
-                'high': 'actively seeking solutions, ready to commit, demonstrating intent',
-                'medium': 'exploring options, needs validation, seeking guidance',
-                'low': 'awareness-building needed, trust-building required, re-engagement necessary'
+                'high': 'They\'re actively seeking solutions and ready to take action.',
+                'medium': 'They\'re exploring options and need validation before committing.',
+                'low': 'They need awareness and trust-building before engaging.'
             };
 
-            const pain = painPoints[data.lifecycle] || 'navigating complexity, proving value, achieving outcomes';
+            const pain = painPoints[data.lifecycle] || 'They\'re navigating complexity and seeking clear value.';
             const motivation = motivations[engagement];
 
             return `
                 <div class="output-card">
-                    <h3>Audience</h3>
+                    <h3>👥 Target Audience</h3>
                     <div class="output-content">
-<strong>Who:</strong> ${data.audience}
+                        <div class="output-section">
+                            <span class="section-label">Who You're Targeting</span>
+                            <div class="section-value">${data.audience} at the ${data.lifecycle} stage</div>
+                        </div>
 
-<strong>Lifecycle Context:</strong> ${data.lifecycle} stage
+                        <div class="output-section">
+                            <span class="section-label">Their Behaviors Right Now</span>
+                            <div class="section-value">
+                                ${data.signals !== 'observed behavioral signals'
+                                    ? data.signals
+                                    : `Showing ${engagement}-level engagement with your product`}
+                            </div>
+                        </div>
 
-<strong>Behavioral Profile:</strong>
-${data.signals !== 'observed behavioral signals'
-    ? data.signals
-    : `Users showing ${engagement}-level engagement signals`}
+                        <div class="output-section">
+                            <span class="section-label">Their Biggest Challenges</span>
+                            <div class="section-value">${pain}</div>
+                        </div>
 
-<strong>Pain Points:</strong>
-${pain}
-
-<strong>Motivations:</strong>
-Currently ${motivation}
+                        <div class="output-section">
+                            <span class="section-label">What Motivates Them</span>
+                            <div class="section-value">${motivation}</div>
+                        </div>
                     </div>
                 </div>
             `;
@@ -400,46 +535,59 @@ Currently ${motivation}
             const strategies = {
                 'Nurture': {
                     angle: 'Educational and value-building',
-                    value: `Position ${data.product} as a trusted resource that helps ${data.audience} succeed`,
+                    value: `Help ${data.audience} succeed by teaching them how ${data.product} solves their problems`,
                     tone: 'Helpful, informative, patient',
-                    cta: 'Soft - "Learn more", "Explore", "See how"'
+                    cta: 'Soft CTAs like "Learn more", "Explore", "See how it works"'
                 },
                 'Partner': {
                     angle: 'Collaborative and ecosystem-focused',
-                    value: `Show how ${data.product} integrates seamlessly and creates shared value`,
+                    value: `Show how ${data.product} integrates seamlessly with their existing tools`,
                     tone: 'Collaborative, solution-oriented, strategic',
-                    cta: 'Moderate - "Connect", "Explore together", "See integration"'
+                    cta: 'Moderate CTAs like "Connect with us", "Explore together", "See the integration"'
                 },
                 'Acceleration': {
-                    angle: 'Direct and action-oriented',
-                    value: `Demonstrate immediate ROI and create urgency around ${data.product}`,
+                    angle: 'Direct and results-focused',
+                    value: `Demonstrate the immediate ROI and urgency of using ${data.product} now`,
                     tone: 'Confident, results-driven, urgent',
-                    cta: 'Strong - "Start now", "Upgrade today", "Get started"'
+                    cta: 'Strong CTAs like "Start now", "Upgrade today", "Get started"'
                 }
             };
 
             const strategy = strategies[data.program];
 
+            const personalization = engagement === 'high'
+                ? 'HIGH - Reference specific behaviors, actions taken, and personalize by account'
+                : engagement === 'medium'
+                ? 'MEDIUM - Acknowledge their stage and show relevant use cases'
+                : 'LOW - Focus on broad value and general awareness messaging';
+
             return `
                 <div class="output-card">
-                    <h3>Content Strategy</h3>
+                    <h3>💬 Messaging Strategy</h3>
                     <div class="output-content">
-<strong>Messaging Angle:</strong>
-${strategy.angle}
+                        <div class="output-section">
+                            <span class="section-label">Messaging Approach</span>
+                            <div class="section-value">${strategy.angle}</div>
+                        </div>
 
-<strong>Value Proposition:</strong>
-${strategy.value}
+                        <div class="output-section">
+                            <span class="section-label">Your Value Proposition</span>
+                            <div class="section-value">${strategy.value}</div>
+                        </div>
 
-<strong>Tone Recommendation:</strong>
-${strategy.tone}
+                        <div class="output-section">
+                            <span class="section-label">Recommended Tone</span>
+                            <div class="section-value">${strategy.tone}</div>
+                        </div>
 
-<strong>CTA Approach:</strong>
-${strategy.cta}
+                        <div class="output-section">
+                            <span class="section-label">Call-to-Action Style</span>
+                            <div class="section-value">${strategy.cta}</div>
+                        </div>
 
-<strong>Personalization Level:</strong>
-${engagement === 'high' ? 'High - reference specific behaviors and actions' :
-  engagement === 'medium' ? 'Medium - acknowledge stage and general context' :
-  'Low - focus on broad value and awareness'}
+                        <div class="recommendation-box">
+                            <strong>Personalization Level: ${personalization}</strong>
+                        </div>
                     </div>
                 </div>
             `;
@@ -449,38 +597,41 @@ ${engagement === 'high' ? 'High - reference specific behaviors and actions' :
             const focusAreas = [];
 
             if (data.lifecycle.toLowerCase().includes('trial') || data.lifecycle.toLowerCase().includes('onboard')) {
-                focusAreas.push('Time to Value');
-                focusAreas.push('User Activation');
+                focusAreas.push('Time to Value', 'User Activation');
             }
             if (data.goal.toLowerCase().includes('adoption') || data.goal.toLowerCase().includes('usage')) {
-                focusAreas.push('Product Adoption');
-                focusAreas.push('Feature Discovery');
+                focusAreas.push('Product Adoption', 'Feature Discovery');
             }
             if (data.program === 'Acceleration') {
-                focusAreas.push('Revenue Acceleration');
-                focusAreas.push('Conversion Optimization');
+                focusAreas.push('Revenue Acceleration', 'Conversion Optimization');
             }
             if (data.lifecycle.toLowerCase().includes('risk') || data.goal.toLowerCase().includes('retention')) {
-                focusAreas.push('Customer Retention');
-                focusAreas.push('Health Score Improvement');
+                focusAreas.push('Customer Retention', 'Churn Prevention');
             }
 
             if (focusAreas.length === 0) {
                 focusAreas.push('Customer Engagement', 'Lifecycle Progression', 'Value Realization');
             }
 
+            const uniqueAreas = [...new Set(focusAreas)].slice(0, 3);
+
             return `
                 <div class="output-card">
-                    <h3>Focus Area Alignment</h3>
+                    <h3>🎯 Business Focus Areas</h3>
                     <div class="output-content">
-This campaign maps to the following strategic focus areas:
+                        <div class="output-section">
+                            <span class="section-label">This Campaign Drives</span>
+                            <div class="section-value">
+                                <ul>
+${uniqueAreas.map(area => `                                    <li>${area}</li>`).join('\n')}
+                                </ul>
+                            </div>
+                        </div>
 
-<ul>
-${focusAreas.slice(0, 3).map(area => `<li><strong>${area}</strong></li>`).join('\n')}
-</ul>
-
-<strong>Strategic Rationale:</strong>
-By targeting ${data.audience} at the ${data.lifecycle} stage with a ${data.program} approach, this campaign directly supports organizational priorities around ${focusAreas[0].toLowerCase()} and ${focusAreas[1]?.toLowerCase() || 'customer success'}.
+                        <div class="recommendation-box">
+                            <strong>Why This Matters:</strong><br>
+                            By targeting ${data.audience} at the ${data.lifecycle} stage, you're directly supporting your org's priorities around ${uniqueAreas[0].toLowerCase()} and ${uniqueAreas[1]?.toLowerCase() || 'customer success'}.
+                        </div>
                     </div>
                 </div>
             `;
@@ -521,31 +672,37 @@ ${data.program === 'Acceleration' ? '<li>Sales outreach - Coordinated follow-up 
         function generateMetrics(data) {
             const primaryKPIs = {
                 'Trial': 'Trial-to-Paid Conversion Rate',
-                'Onboarding': 'Time to First Value / Activation Rate',
-                'Active': 'Feature Adoption Rate / Engagement Score',
-                'At-Risk': 'Retention Rate / Win-back Rate'
+                'Onboarding': 'Activation Rate (time to first value)',
+                'Active': 'Feature Adoption Rate',
+                'At-Risk': 'Retention / Win-back Rate'
             };
 
             const primary = primaryKPIs[data.lifecycle] || 'Campaign Conversion Rate';
+            const target = data.program === 'Acceleration' ? '15-25%' : '10-18%';
 
             return `
                 <div class="output-card">
-                    <h3>Success Metrics</h3>
+                    <h3>📊 Success Metrics</h3>
                     <div class="output-content">
-<strong>Primary KPI:</strong>
-${primary}
+                        <div class="output-section">
+                            <span class="section-label">Primary KPI (Your North Star)</span>
+                            <div class="section-value">${primary}</div>
+                        </div>
 
-<strong>Secondary Metrics:</strong>
-<ul>
-<li>Email engagement rates (open, click, reply)</li>
-<li>${data.program === 'Acceleration' ? 'Pipeline velocity and deal size' : 'Content engagement and time spent'}</li>
-<li>${data.lifecycle.toLowerCase().includes('trial') ? 'Product usage depth' : 'Feature adoption rate'}</li>
-</ul>
+                        <div class="output-section">
+                            <span class="section-label">Track These Secondary Metrics</span>
+                            <div class="section-value">
+                                <ul>
+                                    <li>Email engagement (open, click, reply rates)</li>
+                                    <li>${data.program === 'Acceleration' ? 'Pipeline velocity and deal progression' : 'Content engagement and time spent'}</li>
+                                    <li>${data.lifecycle.toLowerCase().includes('trial') ? 'Product usage depth and frequency' : 'Feature discovery and adoption'}</li>
+                                </ul>
+                            </div>
+                        </div>
 
-<strong>Success Criteria:</strong>
-${data.program === 'Acceleration'
-    ? `15-25% lift in ${primary.toLowerCase()}`
-    : `10-18% improvement in ${primary.toLowerCase()}`}
+                        <div class="recommendation-box">
+                            <strong>Target: ${target} improvement in ${primary}</strong>
+                        </div>
                     </div>
                 </div>
             `;
@@ -558,16 +715,16 @@ ${data.program === 'Acceleration'
             if (!data.signals || data.signals === 'observed behavioral signals') {
                 callouts.push({
                     type: 'risk',
-                    title: 'Behavioral Data Gap',
-                    content: 'Limited behavioral signal data may reduce targeting precision. Consider enriching with product usage data.'
+                    title: 'Add More Behavioral Data',
+                    content: 'You haven\'t specified behavioral signals. Add product usage data, engagement patterns, or intent signals for better targeting.'
                 });
             }
 
             if (data.program === 'Acceleration' && data.lifecycle.toLowerCase().includes('trial')) {
                 callouts.push({
                     type: 'info',
-                    title: 'Timing Sensitivity',
-                    content: 'Trial stage + Acceleration requires careful timing. Recommend aligning campaign to trial end-date proximity.'
+                    title: 'Watch Your Timing',
+                    content: 'Trial + Acceleration = time-sensitive. Launch this campaign close to trial end dates for maximum impact.'
                 });
             }
 
@@ -575,26 +732,32 @@ ${data.program === 'Acceleration'
             if (data.audience === 'target audience') {
                 callouts.push({
                     type: 'risk',
-                    title: 'Audience Definition Needed',
-                    content: 'Generic audience definition. Refine with specific segments, titles, or company characteristics for better results.'
+                    title: 'Define Your Audience More Specifically',
+                    content: 'Generic audience = weaker results. Add specific segments, job titles, company size, or industry for better performance.'
                 });
             }
 
             // Recommended follow-ups
+            const nextSteps = [
+                `Test messaging with actual ${data.audience.split(',')[0] || 'customers'} before launch`,
+                `Set up tracking for ${data.program === 'Acceleration' ? 'conversion and pipeline metrics' : 'engagement and activation events'}`,
+                data.program === 'Acceleration' ? 'Coordinate with sales on timing and follow-up' : 'Monitor email performance and iterate'
+            ];
+
             callouts.push({
                 type: 'info',
-                title: 'Recommended Next Steps',
-                content: `• Validate messaging with ${data.audience.split(',')[0] || 'target personas'}\n• Set up tracking for ${data.program === 'Acceleration' ? 'conversion events' : 'engagement milestones'}\n• Brief sales team (if applicable) on campaign timing and messaging`
+                title: 'Do This Before You Launch',
+                content: nextSteps.map(s => `• ${s}`).join('\n')
             });
 
             return `
                 <div class="output-card">
-                    <h3>Strategic Callouts</h3>
+                    <h3>⚡ Action Items & Risks</h3>
                     <div class="output-content">
 ${callouts.map(c => `
 <div class="callout ${c.type}">
-<strong>${c.title}</strong><br>
-${c.content}
+<div class="callout-title">${c.title}</div>
+${c.content.split('\n').map(line => line.trim()).filter(line => line).join('<br>')}
 </div>
 `).join('')}
                     </div>
@@ -606,24 +769,24 @@ ${c.content}
             const recommendations = {
                 'Nurture': {
                     type: 'Educational nurture series',
-                    count: '5-7 emails',
-                    length: 'Medium-length (200-300 words)',
-                    sequence: 'Email 1: Value intro → Email 2-3: Use cases → Email 4-5: Social proof → Email 6-7: Soft CTA',
-                    cta: 'Soft CTAs - "Learn more", "Explore resources"'
+                    count: '5-7 emails over 3-4 weeks',
+                    length: '200-300 words per email',
+                    sequence: 'Email 1: Introduce value → Email 2-3: Share use cases → Email 4-5: Show social proof → Email 6-7: Soft CTA',
+                    cta: 'Soft CTAs: "Learn more", "Explore resources", "See examples"'
                 },
                 'Partner': {
                     type: 'Partnership-focused sequence',
-                    count: '3-4 emails',
-                    length: 'Medium-length (250-350 words)',
-                    sequence: 'Email 1: Mutual value intro → Email 2: Integration benefits → Email 3: Success stories → Email 4: Collaboration CTA',
-                    cta: 'Moderate CTAs - "See how it works", "Connect with us"'
+                    count: '3-4 emails over 2-3 weeks',
+                    length: '250-350 words per email',
+                    sequence: 'Email 1: Highlight mutual value → Email 2: Show integration benefits → Email 3: Share success stories → Email 4: Invite collaboration',
+                    cta: 'Moderate CTAs: "See how it works", "Connect with us", "Explore together"'
                 },
                 'Acceleration': {
                     type: 'Conversion-focused sequence',
-                    count: '2-3 emails',
-                    length: 'Short-to-medium (150-250 words)',
-                    sequence: 'Email 1: Direct value + urgency → Email 2: Proof + barrier removal → Email 3: Strong CTA + scarcity',
-                    cta: 'Strong CTAs - "Start now", "Upgrade today", "Book demo"'
+                    count: '2-3 emails over 1-2 weeks',
+                    length: '150-250 words per email',
+                    sequence: 'Email 1: Show value + urgency → Email 2: Prove it + remove barriers → Email 3: Strong CTA + deadline',
+                    cta: 'Strong CTAs: "Start now", "Upgrade today", "Book your demo"'
                 }
             };
 
@@ -632,99 +795,155 @@ ${c.content}
             // Adjust based on engagement
             let engagementNote = '';
             if (engagement === 'low') {
-                engagementNote = '📌 Low engagement detected: Add re-engagement content, extend sequence by 1-2 emails, use softer CTAs';
+                engagementNote = 'info|||Adjust for Low Engagement|||Add 1-2 more emails focused on re-engagement. Use softer CTAs and educational content.';
             } else if (engagement === 'high') {
-                engagementNote = '⚡ High intent detected: Shorten sequence, strengthen CTAs, consider sales outreach coordination';
+                engagementNote = 'info|||Adjust for High Intent|||Shorten the sequence. Use stronger CTAs. Consider coordinating with sales for follow-up.';
             }
+
+            const subjectGuidance = data.program === 'Acceleration'
+                ? '"Achieve [goal] in [timeframe]" or "Don\'t miss out on [benefit]"'
+                : data.program === 'Nurture'
+                ? '"How [audience] are solving [problem]" or "[Number] ways to [achieve goal]"'
+                : '"Better together: [Product] + [Integration]" or "See how [Partner] uses [Product]"';
 
             return `
                 <div class="output-card">
-                    <h3>Email Recommendation Framework</h3>
+                    <h3>📧 Email Campaign Plan</h3>
                     <div class="output-content">
-<strong>Recommended Type:</strong> ${rec.type}
+                        <div class="output-section">
+                            <span class="section-label">Campaign Type</span>
+                            <div class="section-value">${rec.type}</div>
+                        </div>
 
-<strong>Email Count:</strong> ${rec.count}
+                        <div class="output-section">
+                            <span class="section-label">Number of Emails & Timeline</span>
+                            <div class="section-value">${rec.count}</div>
+                        </div>
 
-<strong>Approximate Length:</strong> ${rec.length}
+                        <div class="output-section">
+                            <span class="section-label">Email Length</span>
+                            <div class="section-value">${rec.length}</div>
+                        </div>
 
-<strong>Sequence Progression:</strong>
-${rec.sequence}
+                        <div class="output-section">
+                            <span class="section-label">Sequence Flow</span>
+                            <div class="section-value">${rec.sequence}</div>
+                        </div>
 
-<strong>CTA Strength:</strong>
-${rec.cta}
+                        <div class="output-section">
+                            <span class="section-label">Call-to-Action Style</span>
+                            <div class="section-value">${rec.cta}</div>
+                        </div>
 
-${engagementNote ? `\n<div class="callout">${engagementNote}</div>` : ''}
+                        <div class="recommendation-box">
+                            <strong>Subject Line Examples:</strong><br>
+                            ${subjectGuidance}
+                        </div>
 
-<strong>Subject Line Guidance:</strong>
-${data.program === 'Acceleration'
-    ? 'Direct, benefit-focused. Example: "Achieve [goal] in [timeframe]"'
-    : data.program === 'Nurture'
-    ? 'Curiosity-driven, educational. Example: "How [audience] are solving [problem]"'
-    : 'Collaborative, value-sharing. Example: "Better together: [Product] + [Integration]"'}
+                        ${engagementNote ? `<div class="callout ${engagementNote.split('|||')[0]}">
+<div class="callout-title">${engagementNote.split('|||')[1]}</div>
+${engagementNote.split('|||')[2]}
+</div>` : ''}
                     </div>
                 </div>
             `;
         }
 
         function generateExecutiveSummary(data) {
+            const impact = data.program === 'Acceleration'
+                ? '15-25% improvement in conversion through direct, ROI-focused messaging'
+                : data.program === 'Nurture'
+                ? '10-18% lift in engagement through educational, trust-building content'
+                : '12-20% increase in adoption through collaborative, partnership-focused messaging';
+
             return `
                 <div class="output-card">
-                    <h3>Executive Summary</h3>
+                    <h3>📝 Executive Summary</h3>
                     <div class="output-content">
-<strong>Campaign Objective:</strong>
-${data.goal} by targeting ${data.audience} in the ${data.lifecycle} stage with a ${data.program.toLowerCase()}-focused approach.
+                        <div class="output-section">
+                            <span class="section-label">What We're Doing</span>
+                            <div class="section-value">
+                                Launching a ${data.program.toLowerCase()} campaign to ${data.goal.toLowerCase()} for ${data.audience} at the ${data.lifecycle} stage.
+                            </div>
+                        </div>
 
-<strong>Audience & Timing:</strong>
-${data.signals !== 'observed behavioral signals'
-    ? `This campaign responds to observed signals (${data.signals.substring(0, 80)}${data.signals.length > 80 ? '...' : ''}) indicating ${data.lifecycle.toLowerCase()} readiness.`
-    : `This campaign targets users at a critical ${data.lifecycle.toLowerCase()} juncture where ${data.product} can drive measurable impact.`}
+                        <div class="output-section">
+                            <span class="section-label">Why Now</span>
+                            <div class="section-value">
+                                ${data.signals !== 'observed behavioral signals'
+                                    ? `Our audience is showing these signals: ${data.signals.substring(0, 100)}${data.signals.length > 100 ? '...' : ''}. This indicates they're ready for engagement.`
+                                    : `The ${data.lifecycle} stage is a critical decision point where ${data.product} can make the biggest impact.`}
+                            </div>
+                        </div>
 
-<strong>Expected Impact:</strong>
-${data.program === 'Acceleration'
-    ? `15-25% improvement in conversion metrics through direct, ROI-focused messaging and strong CTAs`
-    : data.program === 'Nurture'
-    ? `10-18% lift in engagement and progression through educational, value-building content`
-    : `12-20% increase in adoption through collaborative, integration-focused positioning`}.
+                        <div class="output-section">
+                            <span class="section-label">Expected Results</span>
+                            <div class="section-value">${impact}</div>
+                        </div>
                     </div>
                 </div>
             `;
         }
 
         function generateDeckOutline(data) {
+            const timeline = data.program === 'Acceleration' ? '2-3 weeks' : data.program === 'Nurture' ? '6-8 weeks' : '4-6 weeks';
+            const target = data.program === 'Acceleration' ? '15-25%' : '10-18%';
+            const kpi = data.lifecycle.toLowerCase().includes('trial') ? 'Trial-to-paid conversion' : data.lifecycle.toLowerCase().includes('onboard') ? 'Activation rate' : 'Engagement lift';
+
             return `
                 <div class="output-card">
-                    <h3>Executive Deck Outline</h3>
+                    <h3>📊 Executive Deck (5 Slides)</h3>
                     <div class="output-content">
-<strong>Slide 1: Opportunity / Problem</strong>
-• Title: "Why Now: ${data.lifecycle} Stage Opportunity"
-• ${data.audience} are at a critical decision point
-• Current gap: ${data.goal.toLowerCase()}
-• Size of opportunity / impact on business metrics
+                        <div class="output-section">
+                            <span class="section-label">Slide 1: The Opportunity</span>
+                            <div class="section-value">
+                                <strong>Title:</strong> "Why Now: ${data.lifecycle} Stage Opportunity"<br>
+                                • ${data.audience} are at a critical decision point<br>
+                                • The gap: ${data.goal}<br>
+                                • Size of the opportunity and business impact
+                            </div>
+                        </div>
 
-<strong>Slide 2: Audience / Signals</strong>
-• Title: "Who We're Targeting"
-• Audience definition: ${data.audience}
-• Behavioral signals: ${data.signals.substring(0, 100)}${data.signals.length > 100 ? '...' : ''}
-• Why they're ready for this message now
+                        <div class="output-section">
+                            <span class="section-label">Slide 2: Target Audience</span>
+                            <div class="section-value">
+                                <strong>Title:</strong> "Who We're Targeting & Why"<br>
+                                • Audience: ${data.audience}<br>
+                                • Signals: ${data.signals.substring(0, 80)}${data.signals.length > 80 ? '...' : ''}<br>
+                                • Why they're ready right now
+                            </div>
+                        </div>
 
-<strong>Slide 3: Strategy / Messaging</strong>
-• Title: "Campaign Strategy"
-• Program type: ${data.program}
-• Messaging approach: ${data.program === 'Acceleration' ? 'Direct, urgency-driven' : data.program === 'Nurture' ? 'Educational, value-building' : 'Collaborative, integration-focused'}
-• Key value proposition: ${data.product} as solution to ${data.goal.toLowerCase()}
+                        <div class="output-section">
+                            <span class="section-label">Slide 3: Campaign Strategy</span>
+                            <div class="section-value">
+                                <strong>Title:</strong> "Our Approach"<br>
+                                • Program: ${data.program} (${data.program === 'Acceleration' ? 'direct & urgent' : data.program === 'Nurture' ? 'educational' : 'collaborative'})<br>
+                                • Position ${data.product} as the solution to ${data.goal.toLowerCase()}<br>
+                                • Messaging tone and key value props
+                            </div>
+                        </div>
 
-<strong>Slide 4: Email Approach / Journey</strong>
-• Title: "Execution Plan"
-• Email sequence: ${data.program === 'Acceleration' ? '2-3 touch' : data.program === 'Nurture' ? '5-7 touch' : '3-4 touch'} progression
-• Channel mix: Email + in-product + ${data.program === 'Acceleration' ? 'sales coordination' : 'content'}
-• Personalization strategy
+                        <div class="output-section">
+                            <span class="section-label">Slide 4: Execution Plan</span>
+                            <div class="section-value">
+                                <strong>Title:</strong> "How We'll Run This"<br>
+                                • Email: ${data.program === 'Acceleration' ? '2-3 touch' : data.program === 'Nurture' ? '5-7 touch' : '3-4 touch'} sequence<br>
+                                • Channels: Email + in-product + ${data.program === 'Acceleration' ? 'sales coordination' : 'content'}<br>
+                                • Personalization and timing strategy
+                            </div>
+                        </div>
 
-<strong>Slide 5: Expected Impact / Next Steps</strong>
-• Title: "Success Metrics & Timeline"
-• Primary KPI: ${data.lifecycle === 'Trial' ? 'Trial-to-paid conversion' : data.lifecycle === 'Onboarding' ? 'Activation rate' : 'Engagement lift'}
-• Target: ${data.program === 'Acceleration' ? '15-25%' : '10-18%'} improvement
-• Timeline: ${data.program === 'Acceleration' ? '2-3 weeks' : data.program === 'Nurture' ? '6-8 weeks' : '4-6 weeks'}
-• Next steps: Campaign build, A/B testing plan, reporting cadence
+                        <div class="output-section">
+                            <span class="section-label">Slide 5: Expected Results</span>
+                            <div class="section-value">
+                                <strong>Title:</strong> "Success Metrics & Next Steps"<br>
+                                • Primary KPI: ${kpi}<br>
+                                • Target: ${target} improvement<br>
+                                • Timeline: ${timeline}<br>
+                                • Next: Build campaign, set up tracking, launch
+                            </div>
+                        </div>
                     </div>
                 </div>
             `;
