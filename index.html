@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Campaign Planning Hub</title>
+    <title>Standardized Campaign Planning Engine</title>
     <style>
         * {
             margin: 0;
@@ -62,17 +62,6 @@
             cursor: pointer;
             white-space: nowrap;
             transition: all 0.2s;
-            position: relative;
-        }
-
-        .tab.input-tab::before {
-            content: "📝";
-            margin-right: 6px;
-        }
-
-        .tab.output-tab::before {
-            content: "✨";
-            margin-right: 6px;
         }
 
         .tab:hover {
@@ -84,11 +73,6 @@
             color: #2D4C33;
             border-bottom-color: #D1F470;
             background: #f9fafb;
-        }
-
-        .tab:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
         }
 
         .container {
@@ -120,9 +104,6 @@
         }
 
         .card-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
             margin-bottom: 24px;
             padding-bottom: 16px;
             border-bottom: 2px solid #e5e7eb;
@@ -136,30 +117,40 @@
             gap: 10px;
         }
 
-        .badge {
-            font-size: 11px;
-            padding: 4px 10px;
-            border-radius: 12px;
+        .section-group {
+            background: #f9fafb;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .section-group h3 {
+            font-size: 16px;
+            color: #2D4C33;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .required-badge {
+            font-size: 10px;
+            padding: 3px 8px;
+            background: #ef4444;
+            color: white;
+            border-radius: 4px;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
-        .badge.input {
-            background: #DBEAFE;
-            color: #1e40af;
-        }
-
-        .badge.output {
-            background: #D1F470;
-            color: #2D4C33;
-        }
-
-        .helper-text {
-            font-size: 13px;
-            color: #9ca3af;
-            font-style: italic;
-            margin-bottom: 16px;
+        .optional-badge {
+            font-size: 10px;
+            padding: 3px 8px;
+            background: #9ca3af;
+            color: white;
+            border-radius: 4px;
+            font-weight: 600;
+            text-transform: uppercase;
         }
 
         .form-grid {
@@ -192,6 +183,11 @@
             margin-top: 2px;
         }
 
+        label .required {
+            color: #ef4444;
+            margin-left: 2px;
+        }
+
         input[type="text"],
         input[type="date"],
         input[type="number"],
@@ -210,6 +206,10 @@
         input:focus, select:focus, textarea:focus {
             outline: none;
             border-color: #A1D78F;
+        }
+
+        input.required:invalid, select.required:invalid, textarea.required:invalid {
+            border-color: #fca5a5;
         }
 
         textarea {
@@ -270,26 +270,6 @@
             margin-top: 24px;
         }
 
-        .generate-section {
-            text-align: center;
-            padding: 60px 32px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-        }
-
-        .generate-section h2 {
-            font-size: 24px;
-            color: #2D4C33;
-            margin-bottom: 16px;
-        }
-
-        .generate-section p {
-            color: #6b7280;
-            margin-bottom: 32px;
-            font-size: 15px;
-        }
-
         .output-box {
             background: #f9fafb;
             border: 2px solid #e5e7eb;
@@ -302,74 +282,122 @@
             font-size: 16px;
             color: #2D4C33;
             margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .edit-indicator {
-            font-size: 12px;
-            color: #9ca3af;
-            font-weight: normal;
         }
 
         .output-box textarea {
             background: white;
-            border: 1px solid #e5e7eb;
         }
 
-        .prompt-box {
+        .score-panel {
             background: white;
             border: 2px solid #D1F470;
-            border-radius: 8px;
-            padding: 20px;
-            margin: 16px 0;
-            position: relative;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
         }
 
-        .prompt-box .copy-btn {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            padding: 6px 12px;
-            font-size: 12px;
-            background: #2D4C33;
-            color: white;
-        }
-
-        .prompt-label {
-            font-weight: 600;
-            color: #2D4C33;
-            margin-bottom: 12px;
-            font-size: 14px;
-        }
-
-        .prompt-text {
-            font-family: 'Courier New', monospace;
-            font-size: 13px;
-            line-height: 1.6;
-            color: #11110D;
-            white-space: pre-wrap;
-            padding-right: 80px;
-        }
-
-        .timeline-item {
-            background: #f9fafb;
-            border-left: 4px solid #D1F470;
-            padding: 16px;
-            margin-bottom: 12px;
-            border-radius: 6px;
-            display: grid;
-            grid-template-columns: 150px 1fr 100px auto;
-            gap: 16px;
+        .score-header {
+            display: flex;
             align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
         }
 
-        .delete-btn {
-            padding: 6px 12px;
+        .score-header h3 {
+            font-size: 18px;
+            color: #2D4C33;
+        }
+
+        .overall-score {
+            font-size: 36px;
+            font-weight: 700;
+            color: #2D4C33;
+        }
+
+        .score-breakdown {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .score-item {
+            text-align: center;
+            padding: 12px;
+            background: #f9fafb;
+            border-radius: 8px;
+        }
+
+        .score-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2D4C33;
+        }
+
+        .score-label {
             font-size: 12px;
-            background: #ef4444;
-            color: white;
+            color: #6b7280;
+            margin-top: 4px;
+        }
+
+        .issues-list {
+            background: #fef2f2;
+            border-left: 4px solid #ef4444;
+            padding: 16px;
+            border-radius: 6px;
+        }
+
+        .issues-list h4 {
+            color: #991b1b;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .issues-list ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .issues-list li {
+            color: #991b1b;
+            font-size: 13px;
+            padding: 4px 0;
+        }
+
+        .issues-list li::before {
+            content: "⚠️ ";
+            margin-right: 6px;
+        }
+
+        .recommendation-panel {
+            background: #f0f9ff;
+            border: 2px solid #3b82f6;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .recommendation-panel h3 {
+            color: #1e40af;
+            font-size: 16px;
+            margin-bottom: 16px;
+        }
+
+        .recommendation-section {
+            margin-bottom: 16px;
+        }
+
+        .recommendation-section strong {
+            color: #1e40af;
+            display: block;
+            margin-bottom: 4px;
+            font-size: 13px;
+        }
+
+        .recommendation-section p {
+            color: #1e40af;
+            font-size: 13px;
+            line-height: 1.5;
         }
 
         .callout-box {
@@ -379,11 +407,16 @@
             margin: 16px 0;
         }
 
+        .msd-upload {
+            background: #f0f9ff;
+            border-left: 4px solid #3b82f6;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
         @media (max-width: 968px) {
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-            .timeline-item {
+            .form-grid, .score-breakdown {
                 grid-template-columns: 1fr;
             }
         }
@@ -391,641 +424,395 @@
 </head>
 <body>
     <div class="banner">
-        <h1>Campaign Planning Hub</h1>
-        <div class="subtitle">Fill in your campaign details → Generate your plan → Edit and export</div>
+        <h1>Standardized Campaign Planning Engine</h1>
+        <div class="subtitle">Consistent campaign planning framework across all marketing motions</div>
     </div>
 
     <div class="tabs-container">
         <div class="tabs">
-            <div class="tab input-tab active" onclick="showSection('inputs')">Campaign Inputs</div>
-            <div class="tab" onclick="showSection('generate')" id="generateTab">Generate Plan</div>
-            <div class="tab output-tab" onclick="showSection('execplan')" id="execplanTab" disabled>Exec Plan</div>
-            <div class="tab output-tab" onclick="showSection('slides')" id="slidesTab" disabled>Slides</div>
-            <div class="tab output-tab" onclick="showSection('prompts')" id="promptsTab" disabled>AI Prompts</div>
-            <div class="tab" onclick="showSection('timeline')">Timeline</div>
-            <div class="tab" onclick="showSection('email')">Email Brief</div>
+            <div class="tab active" onclick="showSection('inputs')">1. Campaign Definition</div>
+            <div class="tab" onclick="showSection('validation')">2. Validation & Scoring</div>
+            <div class="tab" onclick="showSection('recommendations')">3. System Recommendations</div>
+            <div class="tab" onclick="showSection('execplan')">4. Executive Plan</div>
+            <div class="tab" onclick="showSection('slides')">5. Slides</div>
+            <div class="tab" onclick="showSection('prompts')">6. AI Prompts</div>
         </div>
     </div>
 
     <div class="container">
-        <!-- INPUTS SECTION -->
+        <!-- SECTION 1: CAMPAIGN DEFINITION (INPUTS) -->
         <div class="section-content active" id="inputs">
             <div class="card">
                 <div class="card-header">
-                    <h2>Campaign Inputs</h2>
-                    <span class="badge input">Input</span>
-                </div>
-                <p class="helper-text">Fill out these details about your campaign</p>
-
-                <h3 style="margin-bottom: 16px; color: #2D4C33; font-size: 18px;">1. Campaign Objectives & Goals</h3>
-
-                <div class="form-group">
-                    <label for="campaignName">
-                        Campaign Name
-                        <span class="hint">Internal name for this campaign</span>
-                    </label>
-                    <input type="text" id="campaignName" placeholder="e.g., Q2 2026 Enterprise Product Launch">
+                    <h2>📋 Campaign Definition</h2>
                 </div>
 
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="campaignType">Campaign Type</label>
-                        <select id="campaignType">
-                            <option value="">Select type...</option>
-                            <option value="Product Launch">Product Launch</option>
-                            <option value="Feature Announcement">Feature Announcement</option>
-                            <option value="Nurture">Nurture Program</option>
-                            <option value="Event">Event / Webinar</option>
-                            <option value="Retention">Retention / Win-back</option>
-                            <option value="Upsell">Upsell / Cross-sell</option>
-                        </select>
-                    </div>
+                <!-- 1. OBJECTIVE -->
+                <div class="section-group">
+                    <h3>🎯 1. Objective <span class="required-badge">Required</span></h3>
 
                     <div class="form-group">
-                        <label for="campaignOwner">Campaign Owner</label>
-                        <input type="text" id="campaignOwner" placeholder="Your name">
-                    </div>
-                </div>
-
-                <div class="form-group full">
-                    <label for="primaryGoal">
-                        Primary Campaign Goal
-                        <span class="hint">What is the main objective? Be specific with metrics.</span>
-                    </label>
-                    <textarea id="primaryGoal" placeholder="e.g., Increase trial-to-paid conversion by 15% among enterprise accounts"></textarea>
-                </div>
-
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="campaignStart">Start Date</label>
-                        <input type="date" id="campaignStart">
-                    </div>
-                    <div class="form-group">
-                        <label for="campaignEnd">End Date</label>
-                        <input type="date" id="campaignEnd">
-                    </div>
-                </div>
-
-                <h3 style="margin: 32px 0 16px; color: #2D4C33; font-size: 18px;">2. Target Audience & Segmentation</h3>
-
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="persona">
-                            Primary Persona
-                            <span class="hint">Who are you targeting?</span>
+                        <label for="campaignName">
+                            Campaign Name <span class="required">*</span>
+                            <span class="hint">Clear, descriptive internal name</span>
                         </label>
-                        <input type="text" id="persona" placeholder="e.g., IT Decision Makers">
+                        <input type="text" id="campaignName" class="required" required placeholder="e.g., Q2 2026 Enterprise Expansion Campaign">
                     </div>
 
-                    <div class="form-group">
-                        <label for="audienceSize">Estimated Audience Size</label>
-                        <input type="number" id="audienceSize" placeholder="5000">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="campaignMotion">
+                                Campaign Motion <span class="required">*</span>
+                                <span class="hint">Primary strategic motion for this campaign</span>
+                            </label>
+                            <select id="campaignMotion" class="required" required onchange="handleMotionChange()">
+                                <option value="">Select campaign motion...</option>
+                                <option value="lifecycle">Lifecycle - Journey progression</option>
+                                <option value="demand_gen">Demand Gen - Pipeline creation</option>
+                                <option value="regional">Regional - Local market focus</option>
+                                <option value="global">Global - Coordinated worldwide</option>
+                                <option value="event">Event/Webinar - Registration & follow-up</option>
+                                <option value="product_launch">Product Launch - Go-to-market</option>
+                                <option value="expansion">Expansion - Upsell/Cross-sell</option>
+                                <option value="re_engagement">Re-engagement - Win-back</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="campaignType">
+                                Campaign Type <span class="optional-badge">Optional</span>
+                            </label>
+                            <input type="text" id="campaignType" placeholder="e.g., Multi-touch email campaign">
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="lifecycleStage">Lifecycle Stage</label>
-                        <select id="lifecycleStage">
-                            <option value="">Select stage...</option>
-                            <option value="Prospect">Prospect (Pre-MQL)</option>
-                            <option value="MQL">Marketing Qualified Lead</option>
-                            <option value="Trial">Trial User</option>
-                            <option value="Customer">Active Customer</option>
-                            <option value="At-Risk">At-Risk Customer</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="audienceTemp">Audience Temperature</label>
-                        <select id="audienceTemp">
-                            <option value="Cold">Cold - Low awareness</option>
-                            <option value="Warm" selected>Warm - Aware & interested</option>
-                            <option value="Hot">Hot - High intent</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group full">
-                    <label for="segmentation">
-                        Segmentation Criteria
-                        <span class="hint">Company size, industry, behavior, etc.</span>
-                    </label>
-                    <textarea id="segmentation" class="small" placeholder="e.g., Enterprise (500+ employees), Financial Services, active trials"></textarea>
-                </div>
-
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="geography">Geography</label>
-                        <input type="text" id="geography" placeholder="e.g., North America">
-                    </div>
-                    <div class="form-group">
-                        <label for="channels">Channels</label>
-                        <input type="text" id="channels" placeholder="e.g., Email, In-product, Sales">
-                    </div>
-                </div>
-
-                <h3 style="margin: 32px 0 16px; color: #2D4C33; font-size: 18px;">3. Strategy & Messaging</h3>
-
-                <div style="background: #f0f9ff; border-left: 4px solid #3b82f6; border-radius: 8px; padding: 16px; margin-bottom: 24px;">
-                    <h4 style="color: #1e40af; font-size: 14px; margin-bottom: 8px;">📄 Marketing Source Document (Optional)</h4>
-                    <p style="color: #1e40af; font-size: 13px; margin-bottom: 12px;">Add your MSD, product brief, or positioning doc to help shape messaging</p>
-
-                    <div class="form-group">
-                        <label for="msdLink" style="font-size: 13px;">
-                            Link to MSD
-                            <span class="hint">Google Doc, Confluence, etc.</span>
+                    <div class="form-group full">
+                        <label for="primaryGoal">
+                            Primary Goal <span class="required">*</span>
+                            <span class="hint">ONE specific, measurable objective</span>
                         </label>
-                        <input type="text" id="msdLink" placeholder="https://docs.google.com/...">
+                        <textarea id="primaryGoal" class="required small" required placeholder="e.g., Increase trial-to-paid conversion by 15% among enterprise accounts"></textarea>
                     </div>
 
-                    <div class="form-group" style="margin-top: 12px;">
-                        <label for="msdContent" style="font-size: 13px;">
-                            Or Paste Key Content from MSD
-                            <span class="hint">Copy/paste relevant messaging, positioning, or key points</span>
+                    <div class="form-group full">
+                        <label for="secondaryGoal">
+                            Secondary Goal <span class="optional-badge">Optional</span>
                         </label>
-                        <textarea id="msdContent" class="small" placeholder="Paste key messaging points, value props, or positioning statements from your MSD here..."></textarea>
+                        <textarea id="secondaryGoal" class="small" placeholder="e.g., Build awareness of new AI capabilities"></textarea>
                     </div>
 
-                    <div class="form-group" style="margin-top: 12px;">
-                        <label for="msdFile" style="font-size: 13px;">
-                            Or Upload MSD Reference
-                            <span class="hint">PDF, DOCX, etc. (stores filename for reference)</span>
-                        </label>
-                        <input type="file" id="msdFile" accept=".pdf,.doc,.docx" style="padding: 8px; font-size: 13px;" onchange="handleMSDUpload(this)">
-                        <div id="msdFileName" style="margin-top: 8px; font-size: 12px; color: #059669;"></div>
-                    </div>
-                </div>
-
-                <div class="form-group full">
-                    <label for="valueProps">
-                        Key Value Propositions
-                        <span class="hint">Main benefits you're communicating</span>
-                    </label>
-                    <textarea id="valueProps" placeholder="e.g., Save 10 hours/week, Reduce errors by 80%, Improve satisfaction"></textarea>
-                </div>
-
-                <div class="form-group full">
-                    <label for="messagingHierarchy">
-                        Messaging Hierarchy
-                        <span class="hint">Primary → Supporting → Proof</span>
-                    </label>
-                    <textarea id="messagingHierarchy" placeholder="1. Primary: [Main message]&#10;2. Supporting: [Key benefit 1]&#10;3. Supporting: [Key benefit 2]&#10;4. Proof: [Customer story]"></textarea>
-                </div>
-
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="tone">Tone & Voice</label>
-                        <select id="tone">
-                            <option value="Professional">Professional</option>
-                            <option value="Friendly">Friendly</option>
-                            <option value="Urgent">Urgent</option>
-                            <option value="Educational" selected>Educational</option>
-                        </select>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="startDate">Start Date</label>
+                            <input type="date" id="startDate">
+                        </div>
+                        <div class="form-group">
+                            <label for="endDate">End Date</label>
+                            <input type="date" id="endDate">
+                        </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="ctaStyle">CTA Style</label>
-                        <select id="ctaStyle">
-                            <option value="Soft">Soft (Learn more)</option>
-                            <option value="Moderate" selected>Moderate (Try it)</option>
-                            <option value="Strong">Strong (Buy now)</option>
-                        </select>
+                        <label for="targetRegion">
+                            Target Region <span class="optional-badge">Optional</span>
+                        </label>
+                        <input type="text" id="targetRegion" placeholder="e.g., North America, EMEA, APAC">
                     </div>
                 </div>
 
-                <div class="form-group full">
-                    <label for="strategyAlignment">
-                        Marketing Strategy Alignment
-                        <span class="hint">How does this align with 2026 priorities?</span>
-                    </label>
-                    <textarea id="strategyAlignment" class="small" placeholder="e.g., Supports Q2 product launch, aligns with enterprise growth"></textarea>
+                <!-- 2. AUDIENCE -->
+                <div class="section-group">
+                    <h3>👥 2. Audience <span class="required-badge">Required</span></h3>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="audiencePersona">
+                                Persona <span class="required">*</span>
+                                <span class="hint">Who specifically are you targeting?</span>
+                            </label>
+                            <input type="text" id="audiencePersona" class="required" required placeholder="e.g., VP of Engineering">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="audienceSize">
+                                Audience Size <span class="optional-badge">Optional</span>
+                            </label>
+                            <input type="number" id="audienceSize" placeholder="5000">
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="lifecycleStage">
+                                Lifecycle Stage <span class="required">*</span>
+                            </label>
+                            <select id="lifecycleStage" class="required" required>
+                                <option value="">Select stage...</option>
+                                <option value="Awareness">Awareness</option>
+                                <option value="Consideration">Consideration</option>
+                                <option value="Conversion">Conversion</option>
+                                <option value="Adoption">Adoption</option>
+                                <option value="Retention">Retention</option>
+                                <option value="Re-engagement">Re-engagement</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="audienceTemp">
+                                Audience Temperature <span class="required">*</span>
+                            </label>
+                            <select id="audienceTemp" class="required" required>
+                                <option value="Cold">Cold - Low awareness</option>
+                                <option value="Warm" selected>Warm - Aware & interested</option>
+                                <option value="Hot">Hot - High intent</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="audienceSegment">
+                            Audience Segment <span class="optional-badge">Optional</span>
+                            <span class="hint">Company size, industry, etc.</span>
+                        </label>
+                        <textarea id="audienceSegment" class="small" placeholder="e.g., Enterprise (500+ employees), Financial Services"></textarea>
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="segmentationNotes">
+                            Segmentation Notes <span class="optional-badge">Optional</span>
+                        </label>
+                        <textarea id="segmentationNotes" class="small" placeholder="Additional segmentation details..."></textarea>
+                    </div>
+                </div>
+
+                <!-- 3. STRATEGY & MESSAGING -->
+                <div class="section-group">
+                    <h3>💡 3. Strategy & Messaging <span class="required-badge">Required</span></h3>
+
+                    <div class="msd-upload">
+                        <h4 style="color: #1e40af; font-size: 14px; margin-bottom: 8px;">📄 Source Documents</h4>
+                        <div class="form-group">
+                            <label for="sourceDocuments" style="font-size: 13px;">
+                                Link to MSD or paste key content
+                            </label>
+                            <textarea id="sourceDocuments" class="small" placeholder="Paste link or key messaging from your MSD..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="valuePropositions">
+                            Value Propositions <span class="required">*</span>
+                            <span class="hint">Core benefits you're communicating</span>
+                        </label>
+                        <textarea id="valuePropositions" class="required" required placeholder="e.g., Save 10 hours/week, Reduce errors by 80%, Improve customer satisfaction"></textarea>
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="proofPoints">
+                            Proof Points <span class="optional-badge">Optional</span>
+                            <span class="hint">Customer stories, data, case studies</span>
+                        </label>
+                        <textarea id="proofPoints" class="small" placeholder="e.g., Acme Corp reduced costs by 40%, 95% customer satisfaction"></textarea>
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="messagingInput">
+                            Messaging Hierarchy <span class="optional-badge">Optional</span>
+                        </label>
+                        <textarea id="messagingInput" placeholder="Primary message → Supporting messages → Proof"></textarea>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="tone">
+                                Tone <span class="optional-badge">Optional</span>
+                            </label>
+                            <select id="tone">
+                                <option value="Professional">Professional</option>
+                                <option value="Friendly">Friendly</option>
+                                <option value="Urgent">Urgent</option>
+                                <option value="Educational" selected>Educational</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ctaStyle">
+                                CTA Style <span class="required">*</span>
+                            </label>
+                            <select id="ctaStyle" class="required" required>
+                                <option value="Soft">Soft (Learn more, Explore)</option>
+                                <option value="Moderate" selected>Moderate (Try it, See how)</option>
+                                <option value="Strong">Strong (Buy now, Start today)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="strategyAlignment">
+                            Strategy Alignment <span class="required">*</span>
+                            <span class="hint">How does this align with broader marketing priorities?</span>
+                        </label>
+                        <textarea id="strategyAlignment" class="required small" required placeholder="e.g., Supports Q2 product launch, aligns with enterprise growth strategy"></textarea>
+                    </div>
+                </div>
+
+                <!-- 4. EXECUTION -->
+                <div class="section-group">
+                    <h3>🚀 4. Execution <span class="optional-badge">Optional</span></h3>
+
+                    <div class="form-group full">
+                        <label for="channelsSelected">
+                            Channels Selected
+                        </label>
+                        <textarea id="channelsSelected" class="small" placeholder="e.g., Email, In-product messaging, LinkedIn, Webinar"></textarea>
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="dependencies">
+                            Dependencies
+                        </label>
+                        <textarea id="dependencies" class="small" placeholder="e.g., Requires sales alignment, product release by May 1"></textarea>
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="assumptions">
+                            Assumptions
+                        </label>
+                        <textarea id="assumptions" class="small" placeholder="e.g., Assume 20% email open rate, budget approved"></textarea>
+                    </div>
+                </div>
+
+                <!-- 5. MEASUREMENT -->
+                <div class="section-group">
+                    <h3>📊 5. Measurement <span class="optional-badge">Optional</span></h3>
+
+                    <div class="form-group full">
+                        <label for="successMetricInput">
+                            Success Metrics
+                            <span class="hint">Primary and secondary KPIs</span>
+                        </label>
+                        <textarea id="successMetricInput" placeholder="e.g., Primary: 15% increase in conversion rate&#10;Secondary: 500+ MQLs, 80% email engagement"></textarea>
+                    </div>
                 </div>
 
                 <div class="action-bar">
                     <div></div>
-                    <button class="btn-primary" onclick="showSection('generate')">Continue to Generate →</button>
+                    <button class="btn-generate" onclick="generatePlan()">✨ Generate Campaign Plan</button>
                 </div>
             </div>
         </div>
 
-        <!-- GENERATE SECTION -->
-        <div class="section-content" id="generate">
-            <div class="generate-section">
-                <h2>Ready to Generate Your Campaign Plan?</h2>
-                <p>Based on your inputs, we'll create your exec plan, slides, and AI prompts.</p>
-                <button class="btn-generate" onclick="generatePlan()">✨ Generate Campaign Plan</button>
-                <div style="margin-top: 24px;">
-                    <button class="btn-secondary" onclick="showSection('inputs')">← Back to Edit Inputs</button>
+        <!-- SECTION 2: VALIDATION & SCORING -->
+        <div class="section-content" id="validation">
+            <div class="card">
+                <div class="card-header">
+                    <h2>✅ Campaign Definition Score</h2>
+                </div>
+
+                <div class="score-panel" id="scorePanel">
+                    <div class="score-header">
+                        <h3>Overall Campaign Score</h3>
+                        <div class="overall-score" id="overallScore">--</div>
+                    </div>
+
+                    <div class="score-breakdown">
+                        <div class="score-item">
+                            <div class="score-value" id="clarityScore">--</div>
+                            <div class="score-label">Clarity</div>
+                        </div>
+                        <div class="score-item">
+                            <div class="score-value" id="strategyScore">--</div>
+                            <div class="score-label">Strategy</div>
+                        </div>
+                        <div class="score-item">
+                            <div class="score-value" id="messagingScore">--</div>
+                            <div class="score-label">Messaging</div>
+                        </div>
+                        <div class="score-item">
+                            <div class="score-value" id="channelScore">--</div>
+                            <div class="score-label">Channel Fit</div>
+                        </div>
+                        <div class="score-item">
+                            <div class="score-value" id="measurementScore">--</div>
+                            <div class="score-label">Measurement</div>
+                        </div>
+                    </div>
+
+                    <div id="issuesContainer"></div>
+                </div>
+
+                <div class="action-bar">
+                    <button class="btn-secondary" onclick="showSection('inputs')">← Edit Campaign</button>
+                    <button class="btn-primary" onclick="showSection('recommendations')">View Recommendations →</button>
                 </div>
             </div>
         </div>
 
-        <!-- EXEC PLAN OUTPUT -->
+        <!-- SECTION 3: SYSTEM RECOMMENDATIONS -->
+        <div class="section-content" id="recommendations">
+            <div class="card">
+                <div class="card-header">
+                    <h2>🤖 System Recommendations</h2>
+                </div>
+
+                <div class="recommendation-panel" id="recommendationsPanel"></div>
+
+                <div class="action-bar">
+                    <button class="btn-secondary" onclick="showSection('validation')">← View Score</button>
+                    <button class="btn-primary" onclick="showSection('execplan')">View Executive Plan →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 4: EXECUTIVE PLAN -->
         <div class="section-content" id="execplan">
             <div class="card">
                 <div class="card-header">
-                    <h2>Executive Plan on a Page</h2>
-                    <span class="badge output">Auto-Generated</span>
-                </div>
-                <p class="helper-text">Review and edit as needed</p>
-
-                <div class="output-box">
-                    <h3>Strategy / Program Overview <span class="edit-indicator">(editable)</span></h3>
-                    <textarea id="outputOverview" rows="4"></textarea>
+                    <h2>📄 Executive Plan</h2>
                 </div>
 
-                <div class="output-box">
-                    <h3>Target Audience <span class="edit-indicator">(editable)</span></h3>
-                    <textarea id="outputAudience" rows="3"></textarea>
-                </div>
-
-                <div class="output-box">
-                    <h3>2026 Focus Areas / Messaging Hierarchy <span class="edit-indicator">(editable)</span></h3>
-                    <textarea id="outputFocus" rows="5"></textarea>
-                </div>
-
-                <div class="output-box">
-                    <h3>Marketing Strategy Alignment <span class="edit-indicator">(editable)</span></h3>
-                    <textarea id="outputAlignment" rows="2"></textarea>
-                </div>
-
-                <div class="output-box">
-                    <h3>Success Metrics <span class="edit-indicator">(editable)</span></h3>
-                    <textarea id="outputMetrics" rows="4"></textarea>
-                </div>
-
-                <div class="output-box">
-                    <h3>Key Callouts & Risks <span class="edit-indicator">(editable)</span></h3>
-                    <textarea id="outputCallouts" rows="3"></textarea>
-                </div>
+                <div id="execPlanOutput"></div>
 
                 <div class="action-bar">
-                    <button class="btn-secondary" onclick="showSection('inputs')">← Edit Inputs</button>
-                    <button class="btn-primary" onclick="showSection('slides')">Next: Slides →</button>
+                    <button class="btn-secondary" onclick="showSection('recommendations')">← Recommendations</button>
+                    <button class="btn-primary" onclick="showSection('slides')">View Slides →</button>
                 </div>
             </div>
         </div>
 
-        <!-- SLIDES OUTPUT -->
+        <!-- SECTION 5: SLIDES -->
         <div class="section-content" id="slides">
             <div class="card">
                 <div class="card-header">
-                    <h2>Executive Slides (5-7 slides)</h2>
-                    <span class="badge output">Auto-Generated</span>
-                </div>
-                <p class="helper-text">Review and edit slide content as needed</p>
-
-                <div class="output-box">
-                    <h3>Slide 1: The Opportunity <span class="edit-indicator">(editable)</span></h3>
-                    <textarea id="slide1" rows="4"></textarea>
+                    <h2>🖼️ Executive Slides (7 slides)</h2>
                 </div>
 
-                <div class="output-box">
-                    <h3>Slide 2: Target Audience <span class="edit-indicator">(editable)</span></h3>
-                    <textarea id="slide2" rows="4"></textarea>
-                </div>
-
-                <div class="output-box">
-                    <h3>Slide 3: Strategy & Approach <span class="edit-indicator">(editable)</span></h3>
-                    <textarea id="slide3" rows="4"></textarea>
-                </div>
-
-                <div class="output-box">
-                    <h3>Slide 4: Execution Plan <span class="edit-indicator">(editable)</span></h3>
-                    <textarea id="slide4" rows="4"></textarea>
-                </div>
-
-                <div class="output-box">
-                    <h3>Slide 5: Expected Results <span class="edit-indicator">(editable)</span></h3>
-                    <textarea id="slide5" rows="4"></textarea>
-                </div>
+                <div id="slidesOutput"></div>
 
                 <div class="action-bar">
-                    <button class="btn-secondary" onclick="showSection('execplan')">← Back to Exec Plan</button>
-                    <button class="btn-primary" onclick="showSection('prompts')">Next: AI Prompts →</button>
+                    <button class="btn-secondary" onclick="showSection('execplan')">← Executive Plan</button>
+                    <button class="btn-primary" onclick="showSection('prompts')">View AI Prompts →</button>
                 </div>
             </div>
         </div>
 
-        <!-- AI PROMPTS OUTPUT -->
+        <!-- SECTION 6: AI PROMPTS -->
         <div class="section-content" id="prompts">
             <div class="card">
                 <div class="card-header">
-                    <h2>AI Prompts</h2>
-                    <span class="badge output">Auto-Generated</span>
-                </div>
-                <p class="helper-text">Copy these prompts into ChatGPT, Claude, or any AI tool</p>
-
-                <div class="prompt-box">
-                    <button class="copy-btn" onclick="copyPrompt('email')">Copy</button>
-                    <div class="prompt-label">📧 Email Sequence Generator</div>
-                    <div class="prompt-text" id="emailPrompt"></div>
+                    <h2>🤖 AI Prompts</h2>
                 </div>
 
-                <div class="prompt-box">
-                    <button class="copy-btn" onclick="copyPrompt('subject')">Copy</button>
-                    <div class="prompt-label">✉️ Subject Line Generator</div>
-                    <div class="prompt-text" id="subjectPrompt"></div>
-                </div>
-
-                <div class="prompt-box">
-                    <button class="copy-btn" onclick="copyPrompt('content')">Copy</button>
-                    <div class="prompt-label">📝 Campaign Content Generator</div>
-                    <div class="prompt-text" id="contentPrompt"></div>
-                </div>
-
-                <div class="callout-box">
-                    <strong>💡 How to Use:</strong> Copy any prompt above and paste into your favorite AI tool. The AI will generate campaign-ready content based on your inputs.
-                </div>
+                <div id="promptsOutput"></div>
 
                 <div class="action-bar">
-                    <button class="btn-secondary" onclick="showSection('slides')">← Back to Slides</button>
-                    <button class="btn-primary" onclick="showSection('timeline')">Continue to Timeline →</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- TIMELINE BUILDER -->
-        <div class="section-content" id="timeline">
-            <div class="card">
-                <div class="card-header">
-                    <h2>Timeline & Workback Schedule</h2>
-                </div>
-                <p class="helper-text">Build your tactical workback schedule</p>
-
-                <div id="timelineContainer">
-                    <div class="timeline-item">
-                        <input type="date">
-                        <input type="text" placeholder="Milestone (e.g., Brief finalized)">
-                        <select>
-                            <option>Planning</option>
-                            <option>Creative</option>
-                            <option>Build</option>
-                            <option>Review</option>
-                            <option>Launch</option>
-                        </select>
-                        <button class="delete-btn" onclick="removeTimelineItem(this)">Delete</button>
-                    </div>
-                </div>
-
-                <button class="btn-primary" style="margin-top: 16px;" onclick="addTimelineItem()">+ Add Item</button>
-
-                <div class="action-bar">
-                    <button class="btn-secondary" onclick="showSection('prompts')">← Back</button>
-                    <button class="btn-primary" onclick="showSection('email')">Continue →</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- EMAIL BRIEF -->
-        <div class="section-content" id="email">
-            <div class="card">
-                <div class="card-header">
-                    <h2>Email Brief</h2>
-                </div>
-
-                <div style="background: #FEEB7E; border-radius: 8px; padding: 24px; text-align: center;">
-                    <h3 style="color: #92400e;">📧 Email Brief Builder</h3>
-                    <p style="color: #78350f; margin-top: 8px;">Coming soon: Detailed email brief template with AI-powered copy generation</p>
-                </div>
-
-                <div class="form-group full" style="margin-top: 24px;">
-                    <label for="emailNotes">Email Campaign Notes</label>
-                    <textarea id="emailNotes" placeholder="Any notes about email execution..."></textarea>
-                </div>
-
-                <div class="action-bar">
-                    <button class="btn-secondary" onclick="showSection('timeline')">← Back</button>
+                    <button class="btn-secondary" onclick="showSection('slides')">← Slides</button>
                     <button class="btn-primary" onclick="resetTool()">Start New Campaign</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <script>
-        let planGenerated = false;
-        let msdFileName = '';
-
-        function handleMSDUpload(input) {
-            if (input.files && input.files[0]) {
-                msdFileName = input.files[0].name;
-                document.getElementById('msdFileName').innerHTML = `✅ Uploaded: <strong>${msdFileName}</strong>`;
-            }
-        }
-
-        function showSection(sectionId) {
-            document.querySelectorAll('.section-content').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-
-            document.getElementById(sectionId).classList.add('active');
-
-            const tabMap = {
-                'inputs': 0, 'generate': 1, 'execplan': 2,
-                'slides': 3, 'prompts': 4, 'timeline': 5, 'email': 6
-            };
-
-            const tabs = document.querySelectorAll('.tab');
-            if (tabMap[sectionId] !== undefined) {
-                tabs[tabMap[sectionId]].classList.add('active');
-            }
-
-            window.scrollTo(0, 0);
-        }
-
-        function generatePlan() {
-            const data = {
-                name: document.getElementById('campaignName').value || 'Campaign',
-                type: document.getElementById('campaignType').value || 'Campaign',
-                owner: document.getElementById('campaignOwner').value || 'Team',
-                goal: document.getElementById('primaryGoal').value || 'Achieve campaign objectives',
-                start: document.getElementById('campaignStart').value || 'TBD',
-                end: document.getElementById('campaignEnd').value || 'TBD',
-                persona: document.getElementById('persona').value || 'Target persona',
-                size: document.getElementById('audienceSize').value || 'TBD',
-                stage: document.getElementById('lifecycleStage').value || 'Various stages',
-                temp: document.getElementById('audienceTemp').value || 'Warm',
-                segmentation: document.getElementById('segmentation').value || 'To be defined',
-                geography: document.getElementById('geography').value || 'Global',
-                channels: document.getElementById('channels').value || 'Email, In-product',
-                valueProps: document.getElementById('valueProps').value || 'Key benefits TBD',
-                messaging: document.getElementById('messagingHierarchy').value || 'Messaging TBD',
-                tone: document.getElementById('tone').value || 'Professional',
-                cta: document.getElementById('ctaStyle').value || 'Moderate',
-                alignment: document.getElementById('strategyAlignment').value || 'Strategic alignment TBD',
-                msdLink: document.getElementById('msdLink').value || '',
-                msdContent: document.getElementById('msdContent').value || '',
-                msdFile: msdFileName
-            };
-
-            // Generate Exec Plan
-            document.getElementById('outputOverview').value = `${data.name} is a ${data.type.toLowerCase()} designed to ${data.goal.toLowerCase()}. Targeting ${data.persona} at the ${data.stage} stage, this campaign will deliver value through ${data.channels.toLowerCase()}. Timeline: ${data.start} to ${data.end}.`;
-
-            document.getElementById('outputAudience').value = `Primary Persona: ${data.persona}\nLifecycle Stage: ${data.stage}\nTemperature: ${data.temp}\nSize: ${data.size} contacts\nSegmentation: ${data.segmentation}\nGeography: ${data.geography}`;
-
-            document.getElementById('outputFocus').value = data.messaging || `Primary Message: ${data.goal}\n\nSupporting Messages:\n- ${data.valueProps}\n\nProof Points:\n- Customer success stories\n- ROI data and metrics\n- Industry benchmarks`;
-
-            document.getElementById('outputAlignment').value = data.alignment;
-
-            document.getElementById('outputMetrics').value = `Primary KPI: ${data.goal}\n\nSecondary Metrics:\n- Email engagement (open, click, reply rates)\n- Website engagement and time on site\n- Content downloads and consumption\n- Campaign influence on pipeline`;
-
-            document.getElementById('outputCallouts').value = `✅ Test messaging with target personas before launch\n⚠️ Coordinate with sales team for high-intent leads\n⚠️ ${data.temp === 'Cold' ? 'Cold audience requires more nurturing touches' : data.temp === 'Hot' ? 'Hot audience needs fast follow-up' : 'Warm audience is ready for balanced approach'}`;
-
-            // Generate Slides
-            document.getElementById('slide1').value = `THE OPPORTUNITY\n\n• Campaign: ${data.name}\n• Goal: ${data.goal}\n• Why Now: ${data.persona} at ${data.stage} stage showing ${data.temp.toLowerCase()} engagement\n• Market Context: [Add relevant market trends, competitive landscape, or business drivers]`;
-
-            document.getElementById('slide2').value = `TARGET AUDIENCE\n\n• Who: ${data.persona}\n• Size: ${data.size} contacts\n• Lifecycle Stage: ${data.stage}\n• Temperature: ${data.temp}\n• Segmentation: ${data.segmentation}\n• Their Challenge: [What problem are they facing?]\n• Why They Care: ${data.valueProps}`;
-
-            document.getElementById('slide3').value = `STRATEGY & APPROACH\n\n• Program Type: ${data.type}\n• Key Messages: ${data.valueProps}\n• Tone: ${data.tone}\n• Channels: ${data.channels}\n• CTA Approach: ${data.cta} CTAs\n• Differentiation: [How is this different from past campaigns?]`;
-
-            document.getElementById('slide4').value = `EXECUTION PLAN\n\n• Timeline: ${data.start} to ${data.end}\n• Channels: ${data.channels}\n• Email Sequence: [Number] emails over [timeframe]\n• Key Milestones:\n  - Brief complete: [Date]\n  - Content ready: [Date]\n  - Launch: ${data.start}\n  - Campaign end: ${data.end}`;
-
-            document.getElementById('slide5').value = `EXPECTED RESULTS\n\n• Primary Goal: ${data.goal}\n• Success Metrics:\n  - Email engagement\n  - Website traffic\n  - Conversions\n  - Pipeline influence\n• Timeline to Results: [X weeks/months]\n• Investment: [Budget/Resources]\n• Next Steps: Approve → Build → Test → Launch`;
-
-            // Generate AI Prompts
-            const msdSection = data.msdContent ? `\n\nMarketing Source Document Context:\n${data.msdContent}\n\nUse the above MSD content to inform your messaging and ensure alignment with approved positioning.` : data.msdLink ? `\n\nReference MSD for approved messaging: ${data.msdLink}` : data.msdFile ? `\n\nReference uploaded MSD: ${data.msdFile}` : '';
-
-            const emailPrompt = `You are a lifecycle marketing expert. Write a ${data.type.toLowerCase()} email campaign.
-
-Target Audience: ${data.persona} at ${data.stage} stage
-Audience Temperature: ${data.temp}
-Campaign Goal: ${data.goal}
-Key Messages: ${data.valueProps}
-Tone: ${data.tone}
-Channels: ${data.channels}${msdSection}
-
-Requirements:
-- Write 3-5 emails depending on audience temperature
-- ${data.temp === 'Hot' ? 'Use strong, direct CTAs - they are ready to act' : data.temp === 'Cold' ? 'Use educational, soft CTAs - focus on awareness' : 'Balance education with conversion CTAs'}
-- Email length: 200-300 words each
-- Include subject lines for each email
-- Personalize for ${data.stage} stage
-${data.msdContent ? '- Align messaging with the MSD context provided above' : ''}
-
-Format each email with:
-1. Subject line
-2. Email body
-3. Primary CTA`;
-
-            const subjectPrompt = `Generate 15 subject line options for a ${data.type.toLowerCase()} email campaign.
-
-Context:
-- Target: ${data.persona} (${data.temp} audience at ${data.stage} stage)
-- Goal: ${data.goal}
-- Tone: ${data.tone}
-- Key Value: ${data.valueProps}${msdSection}
-
-Create a mix of:
-- 5 benefit-driven subject lines
-- 5 curiosity-driven subject lines
-- 5 urgency/scarcity subject lines (if appropriate for ${data.temp} audience)
-
-Keep them under 60 characters.${data.msdContent ? '\nEnsure messaging aligns with the MSD context provided.' : ''}`;
-
-            const contentPrompt = `Create campaign content for: ${data.name}
-
-Campaign Details:
-- Type: ${data.type}
-- Goal: ${data.goal}
-- Audience: ${data.persona} (${data.stage}, ${data.temp})
-- Key Messages: ${data.valueProps}
-- Tone: ${data.tone}${msdSection}
-
-Please create:
-1. Campaign landing page copy (hero, benefits, social proof, CTA)
-2. 3 blog post titles related to ${data.valueProps}
-3. 5 social media posts (LinkedIn tone)
-4. In-product message copy (50 words max)
-
-Make all content ${data.tone.toLowerCase()} in tone and appropriate for ${data.temp.toLowerCase()} audience.${data.msdContent ? '\n\nIMPORTANT: Base all messaging on the MSD context provided above to ensure brand and product positioning alignment.' : ''}`;
-
-            document.getElementById('emailPrompt').textContent = emailPrompt;
-            document.getElementById('subjectPrompt').textContent = subjectPrompt;
-            document.getElementById('contentPrompt').textContent = contentPrompt;
-
-            // Enable output tabs
-            document.getElementById('execplanTab').disabled = false;
-            document.getElementById('slidesTab').disabled = false;
-            document.getElementById('promptsTab').disabled = false;
-
-            planGenerated = true;
-
-            // Navigate to exec plan
-            showSection('execplan');
-        }
-
-        function copyPrompt(type) {
-            const textElement = document.getElementById(type + 'Prompt');
-            const text = textElement.textContent;
-            navigator.clipboard.writeText(text).then(() => {
-                const btn = event.target;
-                const originalText = btn.textContent;
-                btn.textContent = 'Copied!';
-                setTimeout(() => btn.textContent = originalText, 2000);
-            });
-        }
-
-        function addTimelineItem() {
-            const container = document.getElementById('timelineContainer');
-            const item = document.createElement('div');
-            item.className = 'timeline-item';
-            item.innerHTML = `
-                <input type="date">
-                <input type="text" placeholder="Milestone">
-                <select>
-                    <option>Planning</option>
-                    <option>Creative</option>
-                    <option>Build</option>
-                    <option>Review</option>
-                    <option>Launch</option>
-                </select>
-                <button class="delete-btn" onclick="removeTimelineItem(this)">Delete</button>
-            `;
-            container.appendChild(item);
-        }
-
-        function removeTimelineItem(btn) {
-            btn.parentElement.remove();
-        }
-
-        function resetTool() {
-            if (confirm('Start a new campaign? This will clear all data.')) {
-                document.querySelectorAll('input, textarea, select').forEach(el => {
-                    if (el.type !== 'button') el.value = '';
-                });
-                document.getElementById('audienceTemp').value = 'Warm';
-                document.getElementById('tone').value = 'Educational';
-                document.getElementById('ctaStyle').value = 'Moderate';
-
-                document.getElementById('execplanTab').disabled = true;
-                document.getElementById('slidesTab').disabled = true;
-                document.getElementById('promptsTab').disabled = true;
-
-                planGenerated = false;
-                showSection('inputs');
-            }
-        }
-
-        // Auto-save
-        setInterval(() => {
-            const formData = {};
-            document.querySelectorAll('input, textarea, select').forEach(el => {
-                if (el.id) formData[el.id] = el.value;
-            });
-            localStorage.setItem('campaignData', JSON.stringify(formData));
-        }, 5000);
-
-        // Load on start
-        window.addEventListener('DOMContentLoaded', () => {
-            const saved = localStorage.getItem('campaignData');
-            if (saved) {
-                const data = JSON.parse(saved);
-                Object.keys(data).forEach(key => {
-                    const el = document.getElementById(key);
-                    if (el) el.value = data[key];
-                });
-            }
-        });
-    </script>
+    <script src="campaign-engine.js"></script>
 </body>
 </html>
