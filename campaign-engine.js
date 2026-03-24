@@ -432,289 +432,209 @@ function getCTARecommendation(temp, stage) {
 
 function generateExecutivePlan(data, recommendations) {
     const motionStrategy = getMotionStrategy(data.campaign_motion, data);
-    const kpis = getKPIRecommendations(data.campaign_motion, data.lifecycle_stage, data.primary_goal);
-    const messagingOrder = getMessagingOrder(data.lifecycle_stage);
 
     return `
         <div class="output-box">
-            <h3>1. Objective</h3>
-            <textarea rows="4" id="execObjective">${data.campaign_name || 'Campaign Name'}
+            <h3>Strategy / Program Overview <span style="font-size: 12px; color: #9ca3af; font-weight: normal;">(editable)</span></h3>
+            <textarea rows="4" id="outputOverview">${data.campaign_name} is a ${data.campaign_motion ? data.campaign_motion.replace('_', ' ') : 'campaign'} designed to ${data.primary_goal.toLowerCase()}.
 
-Primary Goal: ${data.primary_goal || 'Define primary goal'}
-${data.secondary_goal ? 'Secondary Goal: ' + data.secondary_goal : ''}
+Targeting ${data.audience_persona} at the ${data.lifecycle_stage} stage, this campaign will deliver value through ${data.channels_selected || 'defined channels'}.
 
-Campaign Motion: ${data.campaign_motion ? data.campaign_motion.replace('_', ' ').toUpperCase() : 'Not defined'}
-Timeline: ${data.start_date || 'TBD'} to ${data.end_date || 'TBD'}
-${data.target_region ? 'Region: ' + data.target_region : ''}</textarea>
+Strategic Approach: ${motionStrategy.approach}
+
+Timeline: ${data.start_date || 'TBD'} to ${data.end_date || 'TBD'}${data.target_region ? '. Region: ' + data.target_region : ''}</textarea>
         </div>
 
         <div class="output-box">
-            <h3>2. Audience</h3>
-            <textarea rows="5" id="execAudience">Primary Persona: ${data.audience_persona || 'Define persona'}
-Lifecycle Stage: ${data.lifecycle_stage || 'Not defined'}
-Temperature: ${data.audience_temperature || 'Not defined'}
+            <h3>Target Audience <span style="font-size: 12px; color: #9ca3af; font-weight: normal;">(editable)</span></h3>
+            <textarea rows="4" id="outputAudience">Primary Persona: ${data.audience_persona}
+Lifecycle Stage: ${data.lifecycle_stage}
+Temperature: ${data.audience_temperature}
 ${data.audience_size ? 'Size: ' + data.audience_size + ' contacts' : ''}
 
 Segment: ${data.audience_segment || 'Define segment criteria'}
-${data.segmentation_notes ? '\nAdditional Notes: ' + data.segmentation_notes : ''}</textarea>
+${data.segmentation_notes ? '\n' + data.segmentation_notes : ''}</textarea>
         </div>
 
         <div class="output-box">
-            <h3>3. Strategy</h3>
-            <textarea rows="6" id="execStrategy">Strategic Approach: ${motionStrategy.approach}
-
-Focus: ${motionStrategy.focus}
-
-Execution Emphasis: ${motionStrategy.execution_emphasis}
-
-Strategy Alignment: ${data.strategy_alignment || 'Define alignment with broader marketing priorities'}</textarea>
+            <h3>2026 Focus Areas / Messaging Hierarchy <span style="font-size: 12px; color: #9ca3af; font-weight: normal;">(editable)</span></h3>
+            <textarea rows="6" id="outputFocus">${data.messaging_input || 'Primary Message: ' + data.primary_goal + '\n\nSupporting Messages:\n- ' + data.value_propositions + '\n\nProof Points:\n- ' + (data.proof_points || 'Customer success stories\n- ROI data and metrics\n- Industry benchmarks')}</textarea>
         </div>
 
         <div class="output-box">
-            <h3>4. Messaging</h3>
-            <textarea rows="7" id="execMessaging">Messaging Hierarchy (${data.lifecycle_stage} stage):
-${messagingOrder.order.map((item, i) => `${i + 1}. ${item}`).join('\n')}
-
-Guidance: ${messagingOrder.emphasis}
-
-Value Propositions: ${data.value_propositions || 'Define value propositions'}
-
-Proof Points: ${data.proof_points || 'Add customer stories, data, case studies'}
-
-Tone: ${data.tone || 'Professional'}
-CTA Style: ${data.cta_style || 'Moderate'}</textarea>
+            <h3>Marketing Strategy Alignment <span style="font-size: 12px; color: #9ca3af; font-weight: normal;">(editable)</span></h3>
+            <textarea rows="3" id="outputAlignment">${data.strategy_alignment}</textarea>
         </div>
 
         <div class="output-box">
-            <h3>5. Execution</h3>
-            <textarea rows="6" id="execExecution">Recommended Channels:
-${recommendations.recommended_channel_mix}
+            <h3>Success Metrics <span style="font-size: 12px; color: #9ca3af; font-weight: normal;">(editable)</span></h3>
+            <textarea rows="5" id="outputMetrics">Primary KPI: ${data.primary_goal}
 
-${recommendations.missing_channels.length > 0 ? 'Consider Adding: ' + recommendations.missing_channels.join(', ') : ''}
+${data.success_metric_input || 'Secondary Metrics:\n- Email engagement (open, click, reply rates)\n- Website engagement and time on site\n- Content downloads and consumption\n- Campaign influence on pipeline'}
 
-Content Sequence: ${recommendations.recommended_content_sequence}
-
-${data.dependencies ? 'Dependencies: ' + data.dependencies : ''}
-${data.assumptions ? '\nAssumptions: ' + data.assumptions : ''}</textarea>
+System Recommended KPIs:
+Primary: ${recommendations.recommended_kpi_structure.primary}
+Secondary: ${recommendations.recommended_kpi_structure.secondary.join(', ')}</textarea>
         </div>
 
         <div class="output-box">
-            <h3>6. Measurement</h3>
-            <textarea rows="6" id="execMeasurement">Primary KPI: ${kpis.primary}
+            <h3>Key Callouts & Risks <span style="font-size: 12px; color: #9ca3af; font-weight: normal;">(editable)</span></h3>
+            <textarea rows="4" id="outputCallouts">${data.dependencies ? '⚠️ ' + data.dependencies + '\n\n' : ''}✅ Test messaging with target personas before launch
+✅ Set up tracking for all key metrics
+✅ ${data.audience_temperature === 'Cold' ? 'Cold audience requires more nurturing touches' : data.audience_temperature === 'Hot' ? 'Hot audience needs fast follow-up' : 'Warm audience is ready for balanced approach'}
 
-Secondary KPIs:
-${kpis.secondary.map(m => '- ' + m).join('\n')}
-
-Guardrail Metrics:
-${kpis.guardrails.map(m => '- ' + m).join('\n')}
-
-${data.success_metric_input ? '\nAdditional Metrics: ' + data.success_metric_input : ''}</textarea>
+${validationResults.issues.length > 0 ? '\n⚠️ Issues to address:\n' + validationResults.issues.slice(0, 3).map(i => '- ' + i).join('\n') : ''}</textarea>
         </div>
 
         <div class="output-box">
-            <h3>Key Risks / Dependencies</h3>
-            <textarea rows="3" id="execRisks">${data.dependencies || 'Define key dependencies and risks'}</textarea>
+            <h3>Links & Resources <span style="font-size: 12px; color: #9ca3af; font-weight: normal;">(editable)</span></h3>
+            <textarea rows="2" id="outputLinks">${data.source_documents ? 'MSD: ' + data.source_documents : 'Add links to related resources, docs, or assets'}</textarea>
         </div>
     `;
 }
 
 function generateSlides(data, recommendations) {
-    const motionStrategy = getMotionStrategy(data.campaign_motion, data);
-    const kpis = getKPIRecommendations(data.campaign_motion, data.lifecycle_stage, data.primary_goal);
+    const timeline = data.campaign_motion === 'product_launch' ? '6-12 weeks' :
+                     data.campaign_motion === 're_engagement' ? '2-4 weeks' :
+                     data.campaign_motion === 'lifecycle' ? '8-12 weeks' : '4-8 weeks';
 
     return `
         <div class="output-box">
-            <h3>Slide 1: Opportunity / Objective</h3>
+            <h3>Slide 1: The Opportunity <span style="font-size: 12px; color: #9ca3af; font-weight: normal;">(editable)</span></h3>
             <textarea rows="5" id="slide1">THE OPPORTUNITY
 
-Campaign: ${data.campaign_name || 'Campaign Name'}
-Goal: ${data.primary_goal || 'Define primary goal'}
-
-Why Now: ${data.lifecycle_stage || 'Target stage'} audience at ${data.audience_temperature || 'temperature'} readiness shows opportunity for ${data.campaign_motion ? data.campaign_motion.replace('_', ' ') : 'campaign'}
-
-Strategic Context: ${data.strategy_alignment || 'Define alignment'}</textarea>
+• Campaign: ${data.campaign_name}
+• Goal: ${data.primary_goal}
+• Why Now: ${data.audience_persona} at ${data.lifecycle_stage} stage showing ${data.audience_temperature.toLowerCase()} engagement
+• Market opportunity and timing${data.target_region ? '\n• Region: ' + data.target_region : ''}</textarea>
         </div>
 
         <div class="output-box">
-            <h3>Slide 2: Audience</h3>
+            <h3>Slide 2: Target Audience <span style="font-size: 12px; color: #9ca3af; font-weight: normal;">(editable)</span></h3>
             <textarea rows="5" id="slide2">TARGET AUDIENCE
 
-Who: ${data.audience_persona || 'Define persona'}
-${data.audience_size ? 'Size: ' + data.audience_size + ' contacts' : ''}
-Stage: ${data.lifecycle_stage || 'Not defined'}
-Temperature: ${data.audience_temperature || 'Not defined'}
-
-Segment: ${data.audience_segment || 'Define segment'}
-
-Why They Care: ${data.value_propositions || 'Define value'}</textarea>
+• Who: ${data.audience_persona}${data.audience_segment ? ' (' + data.audience_segment + ')' : ''}
+${data.audience_size ? '• Size: ' + data.audience_size + ' contacts' : ''}
+• Temperature: ${data.audience_temperature}
+• Stage: ${data.lifecycle_stage}
+• Why they're ready now: ${data.audience_temperature === 'Hot' ? 'High intent, ready to act' : data.audience_temperature === 'Warm' ? 'Aware and interested' : 'Building awareness'}</textarea>
         </div>
 
         <div class="output-box">
-            <h3>Slide 3: Strategy</h3>
-            <textarea rows="5" id="slide3">STRATEGIC APPROACH
+            <h3>Slide 3: Strategy <span style="font-size: 12px; color: #9ca3af; font-weight: normal;">(editable)</span></h3>
+            <textarea rows="5" id="slide3">STRATEGY
 
-Motion: ${data.campaign_motion ? data.campaign_motion.replace('_', ' ').toUpperCase() : 'Not defined'}
-Focus: ${motionStrategy.focus}
-
-Approach: ${motionStrategy.approach}
-
-Differentiation: ${data.proof_points ? 'Proven by ' + data.proof_points.substring(0, 100) : 'Add proof points'}</textarea>
+• Program: ${data.campaign_motion ? data.campaign_motion.replace('_', ' ').toUpperCase() : 'Campaign Motion'}
+• Messages: ${data.value_propositions}
+• Proof points: ${data.proof_points || 'Customer success, data, case studies'}
+• Strategic alignment: ${data.strategy_alignment}</textarea>
         </div>
 
         <div class="output-box">
-            <h3>Slide 4: Messaging + Channels</h3>
-            <textarea rows="6" id="slide4">MESSAGING & CHANNELS
+            <h3>Slide 4: Execution <span style="font-size: 12px; color: #9ca3af; font-weight: normal;">(editable)</span></h3>
+            <textarea rows="5" id="slide4">EXECUTION
 
-Key Messages: ${data.value_propositions || 'Define value propositions'}
-
-Proof: ${data.proof_points || 'Add proof points'}
-
-Channels: ${recommendations.recommended_channel_mix}
-
-CTA Approach: ${recommendations.recommended_cta_strength}</textarea>
+• Channels: ${data.channels_selected || recommendations.recommended_channel_mix}
+• Timeline: ${timeline}
+• Content approach: ${data.tone || 'Professional'} tone with ${data.cta_style || 'Moderate'} CTAs
+• Launch date: ${data.start_date || 'TBD'}</textarea>
         </div>
 
         <div class="output-box">
-            <h3>Slide 5: Execution Plan</h3>
-            <textarea rows="5" id="slide5">EXECUTION
+            <h3>Slide 5: Results <span style="font-size: 12px; color: #9ca3af; font-weight: normal;">(editable)</span></h3>
+            <textarea rows="5" id="slide5">EXPECTED RESULTS
 
-Timeline: ${data.start_date || 'TBD'} to ${data.end_date || 'TBD'}
-
-Execution Emphasis: ${motionStrategy.execution_emphasis}
-
-Content Sequence: ${recommendations.recommended_content_sequence}
-
-Key Milestones: [Define key dates and milestones]</textarea>
-        </div>
-
-        <div class="output-box">
-            <h3>Slide 6: Measurement + Expected Results</h3>
-            <textarea rows="5" id="slide6">MEASUREMENT & RESULTS
-
-Primary KPI: ${kpis.primary}
-
-Secondary KPIs: ${kpis.secondary.join(', ')}
-
-Guardrails: ${kpis.guardrails.join(', ')}
-
-Expected Results: ${data.primary_goal || 'Define expected outcomes'}</textarea>
-        </div>
-
-        <div class="output-box">
-            <h3>Slide 7: Risks / Decisions / Dependencies</h3>
-            <textarea rows="5" id="slide7">RISKS & DEPENDENCIES
-
-Dependencies: ${data.dependencies || 'Define key dependencies'}
-
-Risks: ${validationResults.issues.slice(0, 3).join(', ') || 'No major risks identified'}
-
-Launch Readiness: ${recommendations.launch_readiness}
-
-Decisions Needed: [List key decisions required before launch]</textarea>
+• Target: ${data.primary_goal}
+• Timeline: ${timeline}
+• Success metrics: ${data.success_metric_input || recommendations.recommended_kpi_structure.primary}
+• Next steps: Build, test, launch</textarea>
         </div>
     `;
 }
 
 function generateAIPrompts(data, recommendations) {
-    const motionStrategy = getMotionStrategy(data.campaign_motion, data);
-    const messagingOrder = getMessagingOrder(data.lifecycle_stage);
-    const msdContext = data.source_documents ? `\n\nMarketing Source Document Context:\n${data.source_documents}\n\nIMPORTANT: Use this MSD content to ground all messaging in approved positioning.` : '';
+    const emailCount = data.campaign_motion === 're_engagement' ? '2-3' :
+                       data.campaign_motion === 'lifecycle' ? '5-7' :
+                       data.campaign_motion === 'product_launch' ? '3-5' : '3-4';
 
-    const emailPrompt = `You are a strategic marketing expert. Write a ${data.campaign_motion ? data.campaign_motion.replace('_', ' ') : 'marketing'} email campaign.
+    const tone = data.campaign_motion === 'product_launch' ? 'exciting and direct' :
+                 data.campaign_motion === 're_engagement' ? 'empathetic and value-reminding' :
+                 data.campaign_motion === 'lifecycle' ? 'educational and helpful' : 'professional and strategic';
 
-CAMPAIGN CONTEXT:
-Campaign Motion: ${data.campaign_motion || 'Not defined'}
-Strategic Focus: ${motionStrategy.focus}
-Target Audience: ${data.audience_persona || 'Define persona'} at ${data.lifecycle_stage || 'stage'} stage
-Audience Temperature: ${data.audience_temperature || 'Warm'}
-Primary Goal: ${data.primary_goal || 'Define goal'}
+    const msdContext = data.source_documents ? `\n\nMarketing Source Document Context:\n${data.source_documents}\n\nIMPORTANT: Use this MSD content to inform messaging and ensure alignment with approved positioning.` : '';
 
-MESSAGING:
-Value Propositions: ${data.value_propositions || 'Define value'}
-Proof Points: ${data.proof_points || 'Add proof'}
-Recommended Sequence: ${messagingOrder.order.join(' → ')}
-Tone: ${data.tone || 'Professional'}
-CTA Recommendation: ${recommendations.recommended_cta_strength}${msdContext}
+    const emailPrompt = `You are a lifecycle marketing expert. Write ${emailCount} emails for a ${data.campaign_motion ? data.campaign_motion.replace('_', ' ') : 'marketing'} campaign.
 
-REQUIREMENTS:
-- Follow the ${data.campaign_motion} motion strategy: ${motionStrategy.execution_emphasis}
-- Use the recommended messaging sequence: ${messagingOrder.emphasis}
-- Write 3-5 emails depending on campaign motion and audience temperature
-- Include subject lines, body copy, and CTAs for each email
-- Align with ${data.lifecycle_stage} stage best practices
+Target Audience: ${data.audience_persona}
+Lifecycle Stage: ${data.lifecycle_stage}
+Audience Temperature: ${data.audience_temperature}
+Campaign Goal: ${data.primary_goal}
+Key Messages: ${data.value_propositions}
+Proof Points: ${data.proof_points || 'Customer success stories and ROI data'}${msdContext}
 
-Format each email clearly with subject, body, and CTA.`;
+Requirements:
+- Tone: ${tone}
+- Email length: 200-300 words each
+- ${data.audience_temperature === 'Hot' ? 'Use strong CTAs and reference high-intent behaviors' : data.audience_temperature === 'Warm' ? 'Use moderate CTAs and acknowledge their stage' : 'Use soft CTAs focused on education'}
+- Personalize with ${data.audience_temperature} audience in mind
+${data.source_documents ? '- Align messaging with the MSD context provided above' : ''}
 
-    const contentPrompt = `Create ${data.campaign_motion ? data.campaign_motion.replace('_', ' ') : 'campaign'} content for: ${data.campaign_name || 'Campaign'}
+For each email provide:
+1. Subject line
+2. Email body
+3. Primary CTA
 
-STRATEGIC CONTEXT:
-Campaign Motion: ${data.campaign_motion}
-Strategic Approach: ${motionStrategy.approach}
-Execution Focus: ${motionStrategy.execution_emphasis}
+Format the output clearly with email numbers.`;
 
-AUDIENCE:
-Persona: ${data.audience_persona || 'Define persona'}
-Stage: ${data.lifecycle_stage}
-Temperature: ${data.audience_temperature}
+    const subjectPrompt = `Generate 10 subject line options for a ${data.campaign_motion ? data.campaign_motion.replace('_', ' ') : 'marketing'} email campaign.
 
-MESSAGING:
-Value Props: ${data.value_propositions || 'Define value'}
-Proof: ${data.proof_points || 'Add proof'}
-Tone: ${data.tone}${msdContext}
+Context:
+- Target: ${data.audience_persona} (${data.audience_temperature} audience)
+- Goal: ${data.primary_goal}
+- Tone: ${tone}
+- Key value: ${data.value_propositions}${msdContext}
 
-Create the following content aligned to ${data.campaign_motion} best practices:
+Make them ${data.campaign_motion === 'product_launch' ? 'exciting and benefit-focused' : data.campaign_motion === 'lifecycle' ? 'curiosity-driven and educational' : data.campaign_motion === 're_engagement' ? 'value-reminding and supportive' : 'professional and direct'}.${data.source_documents ? '\nEnsure messaging aligns with the MSD context provided.' : ''}`;
+
+    const contentPrompt = `Create campaign content for: ${data.campaign_name}
+
+Campaign Details:
+- Type: ${data.campaign_motion ? data.campaign_motion.replace('_', ' ') : 'Campaign'}
+- Goal: ${data.primary_goal}
+- Audience: ${data.audience_persona} (${data.lifecycle_stage}, ${data.audience_temperature})
+- Key Messages: ${data.value_propositions}
+- Proof: ${data.proof_points || 'Customer stories and data'}
+- Tone: ${tone}${msdContext}
+
+Please create:
 1. Campaign landing page copy (hero, benefits, social proof, CTA)
-2. 3 supporting blog/content titles
-3. 5 social media posts (LinkedIn professional tone)
-4. In-product message (50 words max)
+2. 3 blog post titles related to ${data.value_propositions}
+3. 5 social media posts (LinkedIn tone)
+4. In-product message copy (50 words max)
 
-Ensure all content follows the ${data.lifecycle_stage} messaging hierarchy: ${messagingOrder.order.join(' → ')}`;
-
-    const channelPrompt = `Develop a ${data.campaign_motion ? data.campaign_motion.replace('_', ' ') : 'multi-channel'} campaign strategy.
-
-CAMPAIGN:
-Name: ${data.campaign_name || 'Campaign Name'}
-Motion: ${data.campaign_motion}
-Goal: ${data.primary_goal}
-
-STRATEGIC GUIDANCE:
-Recommended Channels: ${recommendations.recommended_channel_mix}
-${recommendations.missing_channels.length > 0 ? 'Consider Adding: ' + recommendations.missing_channels.join(', ') : ''}
-
-AUDIENCE:
-${data.audience_persona} (${data.lifecycle_stage}, ${data.audience_temperature})
-${data.audience_size ? 'Size: ' + data.audience_size : ''}
-
-Provide:
-1. Channel weighting and prioritization
-2. Messaging adaptation by channel
-3. Sequence and timing for each channel
-4. Integration points between channels
-5. Measurement approach for each channel
-
-Align recommendations with ${data.campaign_motion} motion best practices.`;
+Make all content ${tone} in tone and appropriate for ${data.audience_temperature.toLowerCase()} audience.${data.source_documents ? '\n\nIMPORTANT: Base all messaging on the MSD context provided above to ensure brand and product positioning alignment.' : ''}`;
 
     return `
         <div style="background: white; border: 2px solid #D1F470; border-radius: 8px; padding: 20px; margin-bottom: 20px; position: relative;">
             <button class="btn-primary" style="position: absolute; top: 12px; right: 12px; padding: 6px 12px; font-size: 12px;" onclick="copyPrompt('emailPrompt')">Copy</button>
-            <h4 style="color: #2D4C33; margin-bottom: 12px; font-size: 14px;">📧 Email Campaign Generator</h4>
+            <h4 style="color: #2D4C33; margin-bottom: 12px; font-size: 14px;">📧 Email Sequence Generator</h4>
             <pre style="font-family: 'Courier New', monospace; font-size: 12px; white-space: pre-wrap; padding-right: 80px; color: #11110D;" id="emailPrompt">${emailPrompt}</pre>
         </div>
 
         <div style="background: white; border: 2px solid #D1F470; border-radius: 8px; padding: 20px; margin-bottom: 20px; position: relative;">
-            <button class="btn-primary" style="position: absolute; top: 12px; right: 12px; padding: 6px 12px; font-size: 12px;" onclick="copyPrompt('contentPrompt')">Copy</button>
-            <h4 style="color: #2D4C33; margin-bottom: 12px; font-size: 14px;">📝 Content Generator</h4>
-            <pre style="font-family: 'Courier New', monospace; font-size: 12px; white-space: pre-wrap; padding-right: 80px; color: #11110D;" id="contentPrompt">${contentPrompt}</pre>
+            <button class="btn-primary" style="position: absolute; top: 12px; right: 12px; padding: 6px 12px; font-size: 12px;" onclick="copyPrompt('subjectPrompt')">Copy</button>
+            <h4 style="color: #2D4C33; margin-bottom: 12px; font-size: 14px;">✉️ Subject Line Generator</h4>
+            <pre style="font-family: 'Courier New', monospace; font-size: 12px; white-space: pre-wrap; padding-right: 80px; color: #11110D;" id="subjectPrompt">${subjectPrompt}</pre>
         </div>
 
         <div style="background: white; border: 2px solid #D1F470; border-radius: 8px; padding: 20px; margin-bottom: 20px; position: relative;">
-            <button class="btn-primary" style="position: absolute; top: 12px; right: 12px; padding: 6px 12px; font-size: 12px;" onclick="copyPrompt('channelPrompt')">Copy</button>
-            <h4 style="color: #2D4C33; margin-bottom: 12px; font-size: 14px;">🎯 Channel Strategy Generator</h4>
-            <pre style="font-family: 'Courier New', monospace; font-size: 12px; white-space: pre-wrap; padding-right: 80px; color: #11110D;" id="channelPrompt">${channelPrompt}</pre>
+            <button class="btn-primary" style="position: absolute; top: 12px; right: 12px; padding: 6px 12px; font-size: 12px;" onclick="copyPrompt('contentPrompt')">Copy</button>
+            <h4 style="color: #2D4C33; margin-bottom: 12px; font-size: 14px;">📝 Campaign Content Generator</h4>
+            <pre style="font-family: 'Courier New', monospace; font-size: 12px; white-space: pre-wrap; padding-right: 80px; color: #11110D;" id="contentPrompt">${contentPrompt}</pre>
         </div>
 
         <div class="callout-box">
-            <strong>💡 How to Use:</strong> Copy any prompt above and paste into ChatGPT, Claude, or your preferred AI tool. The prompts include all your campaign context and strategic guidance.
+            <strong>💡 How to Use These Prompts:</strong> Copy a prompt above and paste it into ChatGPT, Claude, or any AI tool. The AI will generate campaign-ready content you can refine and use.
         </div>
     `;
 }
