@@ -399,11 +399,10 @@
         <div class="tabs">
             <div class="tab input-tab active" onclick="showSection('inputs')">Campaign Inputs</div>
             <div class="tab" onclick="showSection('generate')" id="generateTab">Generate Plan</div>
+            <div class="tab output-tab" onclick="showSection('score')" id="scoreTab" disabled>Strategy Score</div>
             <div class="tab output-tab" onclick="showSection('execplan')" id="execplanTab" disabled>Exec Plan</div>
             <div class="tab output-tab" onclick="showSection('slides')" id="slidesTab" disabled>Slides</div>
             <div class="tab output-tab" onclick="showSection('prompts')" id="promptsTab" disabled>AI Prompts</div>
-            <div class="tab" onclick="showSection('timeline')">Timeline</div>
-            <div class="tab" onclick="showSection('email')">Email Brief</div>
         </div>
     </div>
 
@@ -591,6 +590,24 @@
             </div>
         </div>
 
+        <!-- STRATEGY SCORE -->
+        <div class="section-content" id="score">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Strategy Assessment & Recommendations</h2>
+                    <span class="badge output">Auto-Generated</span>
+                </div>
+                <p class="helper-text">AI-powered strategic analysis with actionable recommendations</p>
+
+                <div id="scoreOutput"></div>
+
+                <div class="action-bar">
+                    <button class="btn-secondary" onclick="showSection('inputs')">← Edit Inputs</button>
+                    <button class="btn-primary" onclick="showSection('execplan')">Continue to Exec Plan →</button>
+                </div>
+            </div>
+        </div>
+
         <!-- EXEC PLAN OUTPUT -->
         <div class="section-content" id="execplan">
             <div class="card">
@@ -711,62 +728,6 @@
 
                 <div class="action-bar">
                     <button class="btn-secondary" onclick="showSection('slides')">← Back to Slides</button>
-                    <button class="btn-primary" onclick="showSection('timeline')">Continue to Timeline →</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- TIMELINE BUILDER -->
-        <div class="section-content" id="timeline">
-            <div class="card">
-                <div class="card-header">
-                    <h2>Timeline & Workback Schedule</h2>
-                </div>
-                <p class="helper-text">Build your tactical workback schedule</p>
-
-                <div id="timelineContainer">
-                    <div class="timeline-item">
-                        <input type="date">
-                        <input type="text" placeholder="Milestone (e.g., Brief finalized)">
-                        <select>
-                            <option>Planning</option>
-                            <option>Creative</option>
-                            <option>Build</option>
-                            <option>Review</option>
-                            <option>Launch</option>
-                        </select>
-                        <button class="delete-btn" onclick="removeTimelineItem(this)">Delete</button>
-                    </div>
-                </div>
-
-                <button class="btn-primary" style="margin-top: 16px;" onclick="addTimelineItem()">+ Add Item</button>
-
-                <div class="action-bar">
-                    <button class="btn-secondary" onclick="showSection('prompts')">← Back</button>
-                    <button class="btn-primary" onclick="showSection('email')">Continue →</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- EMAIL BRIEF -->
-        <div class="section-content" id="email">
-            <div class="card">
-                <div class="card-header">
-                    <h2>Email Brief</h2>
-                </div>
-
-                <div style="background: #FEEB7E; border-radius: 8px; padding: 24px; text-align: center;">
-                    <h3 style="color: #92400e;">📧 Email Brief Builder</h3>
-                    <p style="color: #78350f; margin-top: 8px;">Coming soon: Detailed email brief template with AI-powered copy generation</p>
-                </div>
-
-                <div class="form-group full" style="margin-top: 24px;">
-                    <label for="emailNotes">Email Campaign Notes</label>
-                    <textarea id="emailNotes" placeholder="Any notes about email execution..."></textarea>
-                </div>
-
-                <div class="action-bar">
-                    <button class="btn-secondary" onclick="showSection('timeline')">← Back</button>
                     <button class="btn-primary" onclick="resetTool()">Start New Campaign</button>
                 </div>
             </div>
@@ -783,8 +744,8 @@
             document.getElementById(sectionId).classList.add('active');
 
             const tabMap = {
-                'inputs': 0, 'generate': 1, 'execplan': 2,
-                'slides': 3, 'prompts': 4, 'timeline': 5, 'email': 6
+                'inputs': 0, 'generate': 1, 'score': 2, 'execplan': 3,
+                'slides': 4, 'prompts': 5
             };
 
             const tabs = document.querySelectorAll('.tab');
@@ -816,6 +777,206 @@
                 cta: document.getElementById('ctaStyle').value || 'Moderate',
                 alignment: document.getElementById('strategyAlignment').value || 'Strategic alignment TBD'
             };
+
+            // Generate Strategy Score & Recommendations
+            let strategyScore = {
+                clarity: 100,
+                targeting: 100,
+                messaging: 100,
+                alignment: 100
+            };
+            let recommendations = [];
+
+            // Assess Clarity
+            if (!data.goal || data.goal.length < 20 || data.goal === 'Achieve campaign objectives') {
+                strategyScore.clarity -= 40;
+                recommendations.push({
+                    category: 'Strategic Clarity',
+                    severity: 'critical',
+                    issue: 'Campaign goal lacks specificity',
+                    recommendation: 'Define a measurable objective with specific targets (e.g., "Increase qualified pipeline by 25%" rather than "Drive more leads")'
+                });
+            }
+
+            if (data.goal && !data.goal.match(/\d+%|\d+/)) {
+                strategyScore.clarity -= 20;
+                recommendations.push({
+                    category: 'Strategic Clarity',
+                    severity: 'moderate',
+                    issue: 'No quantifiable target in goal',
+                    recommendation: 'Add specific metrics or percentages to enable clear success measurement'
+                });
+            }
+
+            // Assess Targeting
+            if (!data.persona || data.persona.toLowerCase().includes('target') || data.persona === 'Target persona') {
+                strategyScore.targeting -= 40;
+                recommendations.push({
+                    category: 'Audience Targeting',
+                    severity: 'critical',
+                    issue: 'Persona definition is too generic',
+                    recommendation: 'Define specific persona with role, challenges, and buying behavior (e.g., "VP of Customer Experience at mid-market B2B SaaS companies")'
+                });
+            }
+
+            if (!data.segmentation || data.segmentation === 'To be defined') {
+                strategyScore.targeting -= 25;
+                recommendations.push({
+                    category: 'Audience Targeting',
+                    severity: 'moderate',
+                    issue: 'Insufficient segmentation criteria',
+                    recommendation: 'Add firmographic (company size, industry) and behavioral (engagement level, product usage) criteria to improve targeting precision'
+                });
+            }
+
+            if (data.temp === 'Hot' && data.stage === 'Prospect') {
+                strategyScore.targeting -= 20;
+                recommendations.push({
+                    category: 'Audience Targeting',
+                    severity: 'moderate',
+                    issue: 'Misalignment between temperature and stage',
+                    recommendation: 'Hot prospects are typically past initial awareness. Consider "MQL" or "Trial" stage for high-intent audiences'
+                });
+            }
+
+            // Assess Messaging
+            if (!data.valueProps || data.valueProps.length < 20 || data.valueProps === 'Key benefits TBD') {
+                strategyScore.messaging -= 40;
+                recommendations.push({
+                    category: 'Value Messaging',
+                    severity: 'critical',
+                    issue: 'Value proposition lacks compelling detail',
+                    recommendation: 'Articulate specific business outcomes (e.g., "Reduce support ticket volume by 40% while improving CSAT by 15 points")'
+                });
+            }
+
+            if (data.cta === 'Strong' && data.temp === 'Cold') {
+                strategyScore.messaging -= 25;
+                recommendations.push({
+                    category: 'Value Messaging',
+                    severity: 'moderate',
+                    issue: 'CTA strategy misaligned with audience readiness',
+                    recommendation: 'Cold audiences need educational CTAs (e.g., "Learn more", "See how it works") before strong conversion CTAs'
+                });
+            }
+
+            // Assess Strategic Alignment
+            if (!data.alignment || data.alignment === 'Strategic alignment TBD') {
+                strategyScore.alignment -= 35;
+                recommendations.push({
+                    category: 'Strategic Alignment',
+                    severity: 'moderate',
+                    issue: 'Unclear connection to business priorities',
+                    recommendation: 'Explicitly link this campaign to 2026 strategic objectives (e.g., enterprise growth, product adoption, market expansion)'
+                });
+            }
+
+            if (!data.type || data.type === '') {
+                strategyScore.alignment -= 20;
+                recommendations.push({
+                    category: 'Strategic Alignment',
+                    severity: 'low',
+                    issue: 'Campaign type not specified',
+                    recommendation: 'Define campaign type (Product Launch, Nurture, etc.) to ensure proper resource allocation and stakeholder expectations'
+                });
+            }
+
+            const overallScore = Math.round((strategyScore.clarity + strategyScore.targeting + strategyScore.messaging + strategyScore.alignment) / 4);
+
+            // Strategic Insights
+            let strategicInsights = [];
+            if (data.temp === 'Hot' && data.stage === 'Trial') {
+                strategicInsights.push('High-value opportunity: Hot trial users represent immediate conversion potential. Recommend expedited sales coordination.');
+            }
+            if (data.temp === 'Cold' && data.stage === 'Prospect') {
+                strategicInsights.push('Long-term investment: Cold prospects require sustained nurture (6-12 months). Plan multi-touch educational content strategy.');
+            }
+            if (data.temp === 'Warm') {
+                strategicInsights.push('Optimal engagement window: Warm audience represents the sweet spot for conversion campaigns. Balance education with compelling offers.');
+            }
+
+            // Generate Score Output
+            let scoreHTML = `
+                <div style="background: white; border: 2px solid #D1F470; border-radius: 12px; padding: 32px; margin-bottom: 24px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;">
+                        <h3 style="font-size: 24px; color: #2D4C33; margin: 0;">Campaign Strategy Score</h3>
+                        <div style="font-size: 56px; font-weight: 700; color: ${overallScore >= 85 ? '#10b981' : overallScore >= 70 ? '#f59e0b' : '#ef4444'};">${overallScore}</div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px;">
+                        <div style="text-align: center; padding: 16px; background: #F5F5F2; border-radius: 8px;">
+                            <div style="font-size: 28px; font-weight: 700; color: #2D4C33;">${strategyScore.clarity}</div>
+                            <div style="font-size: 12px; color: #6b7280; margin-top: 4px; font-weight: 600;">Strategic Clarity</div>
+                        </div>
+                        <div style="text-align: center; padding: 16px; background: #F5F5F2; border-radius: 8px;">
+                            <div style="font-size: 28px; font-weight: 700; color: #2D4C33;">${strategyScore.targeting}</div>
+                            <div style="font-size: 12px; color: #6b7280; margin-top: 4px; font-weight: 600;">Audience Precision</div>
+                        </div>
+                        <div style="text-align: center; padding: 16px; background: #F5F5F2; border-radius: 8px;">
+                            <div style="font-size: 28px; font-weight: 700; color: #2D4C33;">${strategyScore.messaging}</div>
+                            <div style="font-size: 12px; color: #6b7280; margin-top: 4px; font-weight: 600;">Value Messaging</div>
+                        </div>
+                        <div style="text-align: center; padding: 16px; background: #F5F5F2; border-radius: 8px;">
+                            <div style="font-size: 28px; font-weight: 700; color: #2D4C33;">${strategyScore.alignment}</div>
+                            <div style="font-size: 12px; color: #6b7280; margin-top: 4px; font-weight: 600;">Strategic Alignment</div>
+                        </div>
+                    </div>
+
+                    <div style="background: ${overallScore >= 85 ? '#d1fae5' : overallScore >= 70 ? '#fef3c7' : '#fef2f2'}; border-left: 4px solid ${overallScore >= 85 ? '#10b981' : overallScore >= 70 ? '#f59e0b' : '#ef4444'}; padding: 16px; border-radius: 8px;">
+                        <strong style="color: ${overallScore >= 85 ? '#065f46' : overallScore >= 70 ? '#92400e' : '#991b1b'};">
+                            ${overallScore >= 85 ? '✓ EXECUTIVE READY: Strong strategic foundation' : overallScore >= 70 ? '△ GOOD START: Address key recommendations before executive review' : '✗ NEEDS REFINEMENT: Strengthen strategic clarity and targeting'}
+                        </strong>
+                    </div>
+                </div>
+            `;
+
+            if (recommendations.length > 0) {
+                scoreHTML += `
+                    <div style="background: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 32px; margin-bottom: 24px;">
+                        <h3 style="font-size: 20px; color: #2D4C33; margin-bottom: 20px;">Strategic Recommendations</h3>
+                `;
+
+                recommendations.forEach(rec => {
+                    const color = rec.severity === 'critical' ? {bg: '#fef2f2', border: '#ef4444', text: '#991b1b', icon: '🔴'} :
+                                 rec.severity === 'moderate' ? {bg: '#fef3c7', border: '#f59e0b', text: '#92400e', icon: '🟡'} :
+                                 {bg: '#f0f9ff', border: '#3b82f6', text: '#1e40af', icon: '🔵'};
+
+                    scoreHTML += `
+                        <div style="background: ${color.bg}; border-left: 4px solid ${color.border}; padding: 16px; border-radius: 8px; margin-bottom: 16px;">
+                            <div style="font-weight: 700; color: ${color.text}; font-size: 14px; margin-bottom: 8px;">
+                                ${color.icon} ${rec.category.toUpperCase()}
+                            </div>
+                            <div style="color: ${color.text}; font-size: 13px; margin-bottom: 8px; font-style: italic;">
+                                Issue: ${rec.issue}
+                            </div>
+                            <div style="color: ${color.text}; font-size: 13px; font-weight: 600;">
+                                → ${rec.recommendation}
+                            </div>
+                        </div>
+                    `;
+                });
+
+                scoreHTML += `</div>`;
+            }
+
+            if (strategicInsights.length > 0) {
+                scoreHTML += `
+                    <div style="background: #D1F470; border-radius: 12px; padding: 24px;">
+                        <h3 style="font-size: 18px; color: #2D4C33; margin-bottom: 16px;">💡 Strategic Insights</h3>
+                `;
+
+                strategicInsights.forEach(insight => {
+                    scoreHTML += `
+                        <div style="padding: 12px; background: white; border-radius: 8px; margin-bottom: 12px; color: #11110D; font-size: 14px;">
+                            ${insight}
+                        </div>
+                    `;
+                });
+
+                scoreHTML += `</div>`;
+            }
+
+            document.getElementById('scoreOutput').innerHTML = scoreHTML;
 
             // Generate Exec Plan - Executive Language
             document.getElementById('outputOverview').value = `STRATEGIC OVERVIEW\n\n${data.name} represents a strategic ${data.type.toLowerCase()} initiative to ${data.goal.toLowerCase()}.\n\nWHY THIS MATTERS\nThis campaign addresses a critical market opportunity with ${data.persona} who are ${data.temp.toLowerCase()} and actively ${data.stage === 'Prospect' ? 'evaluating solutions' : data.stage === 'Trial' ? 'in trial phase' : data.stage === 'Customer' ? 'seeking to maximize value' : 'engaged in the buying process'}.\n\nAPPROACH\nMulti-channel strategy leveraging ${data.channels.toLowerCase()} to deliver targeted value propositions at the right moment in the customer journey.\n\nTIMELINE\n${data.start} - ${data.end}`;
@@ -900,14 +1061,15 @@ Make all content ${data.tone.toLowerCase()} in tone and appropriate for ${data.t
             document.getElementById('contentPrompt').textContent = contentPrompt;
 
             // Enable output tabs
+            document.getElementById('scoreTab').disabled = false;
             document.getElementById('execplanTab').disabled = false;
             document.getElementById('slidesTab').disabled = false;
             document.getElementById('promptsTab').disabled = false;
 
             planGenerated = true;
 
-            // Navigate to exec plan
-            showSection('execplan');
+            // Navigate to strategy score
+            showSection('score');
         }
 
         function copyPrompt(type) {
@@ -921,29 +1083,6 @@ Make all content ${data.tone.toLowerCase()} in tone and appropriate for ${data.t
             });
         }
 
-        function addTimelineItem() {
-            const container = document.getElementById('timelineContainer');
-            const item = document.createElement('div');
-            item.className = 'timeline-item';
-            item.innerHTML = `
-                <input type="date">
-                <input type="text" placeholder="Milestone">
-                <select>
-                    <option>Planning</option>
-                    <option>Creative</option>
-                    <option>Build</option>
-                    <option>Review</option>
-                    <option>Launch</option>
-                </select>
-                <button class="delete-btn" onclick="removeTimelineItem(this)">Delete</button>
-            `;
-            container.appendChild(item);
-        }
-
-        function removeTimelineItem(btn) {
-            btn.parentElement.remove();
-        }
-
         function resetTool() {
             if (confirm('Start a new campaign? This will clear all data.')) {
                 document.querySelectorAll('input, textarea, select').forEach(el => {
@@ -953,6 +1092,7 @@ Make all content ${data.tone.toLowerCase()} in tone and appropriate for ${data.t
                 document.getElementById('tone').value = 'Educational';
                 document.getElementById('ctaStyle').value = 'Moderate';
 
+                document.getElementById('scoreTab').disabled = true;
                 document.getElementById('execplanTab').disabled = true;
                 document.getElementById('slidesTab').disabled = true;
                 document.getElementById('promptsTab').disabled = true;
