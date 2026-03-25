@@ -16,7 +16,7 @@ function collectCampaignData() {
         // Objective
         campaign_name: document.getElementById('campaignName').value || '',
         campaign_motion: document.getElementById('campaignMotion').value || '',
-        campaign_type: document.getElementById('campaignType').value || '',
+        source_of_truth: document.getElementById('sourceOfTruth').value || '',
         primary_goal: document.getElementById('primaryGoal').value || '',
         secondary_goal: document.getElementById('secondaryGoal').value || '',
         start_date: document.getElementById('startDate').value || '',
@@ -46,7 +46,85 @@ function collectCampaignData() {
         assumptions: document.getElementById('assumptions').value || '',
 
         // Measurement
-        success_metric_input: document.getElementById('successMetricInput').value || ''
+        success_metric_input: document.getElementById('successMetricInput').value || '',
+        baseline: document.getElementById('baseline').value || '',
+        dashboard_link: document.getElementById('dashboardLink').value || '',
+        tracking_notes: document.getElementById('trackingNotes').value || '',
+
+        // Routing and Rules
+        primary_cta: document.getElementById('primaryCTA').value || '',
+        destination_url: document.getElementById('destinationURL').value || '',
+        if_engaged: document.getElementById('ifEngaged').value || '',
+        if_not_engaged: document.getElementById('ifNotEngaged').value || '',
+
+        // Audience Exclusions
+        exclude_customers: document.getElementById('exclude_customers').checked,
+        exclude_partners: document.getElementById('exclude_partners').checked,
+        exclude_opportunities: document.getElementById('exclude_opportunities').checked,
+        exclude_trial: document.getElementById('exclude_trial').checked,
+        exclude_startup: document.getElementById('exclude_startup').checked,
+        exclude_mqls: document.getElementById('exclude_mqls').checked,
+        exclude_csuite: document.getElementById('exclude_csuite').checked,
+
+        // Claims and Compliance
+        proof_source: document.getElementById('proofSource').value || '',
+        allowed_claims: document.getElementById('allowedClaims').value || '',
+        disclaimer_text: document.getElementById('disclaimerText').value || '',
+        do_not_say: document.getElementById('doNotSay').value || '',
+
+        // Asset Readiness
+        lp_status: document.getElementById('lpStatus').value || '',
+        creative_status: document.getElementById('creativeStatus').value || '',
+        content_status: document.getElementById('contentStatus').value || '',
+        webinar_status: document.getElementById('webinarStatus').value || '',
+        working_docs_links: document.getElementById('workingDocsLinks').value || '',
+
+        // Channel Details
+        channel_role_notes: document.getElementById('channelRoleNotes').value || '',
+        email_cadence: document.getElementById('emailCadence').value || '',
+        blackout_dates: document.getElementById('blackoutDates').value || ''
+    };
+}
+
+// ============================================================================
+// SECTION 1.5: COMPLETENESS CHECK
+// ============================================================================
+
+function checkCompleteness(data) {
+    const required = {
+        'Moment Type': data.campaign_motion,
+        'Campaign Name': data.campaign_name,
+        'Source of Truth Link': data.source_of_truth,
+        'Primary Goal': data.primary_goal && data.primary_goal.length >= 20,
+        'Persona': data.audience_persona,
+        'Lifecycle Stage': data.lifecycle_stage,
+        'Target Region': data.target_region,
+        'Value Propositions': data.value_propositions && data.value_propositions.length >= 20,
+        'Strategy Alignment': data.strategy_alignment && data.strategy_alignment.length >= 20,
+        'Primary CTA': data.primary_cta,
+        'Destination URL': data.destination_url,
+        'If Engaged Routing': data.if_engaged,
+        'If Not Engaged Routing': data.if_not_engaged,
+        'Landing Page Status': data.lp_status,
+        'Creative Status': data.creative_status,
+        'Content Status': data.content_status,
+        'Start Date': data.start_date,
+        'Channels Selected': data.channels_selected
+    };
+
+    const missing = [];
+    for (const [field, value] of Object.entries(required)) {
+        if (!value) {
+            missing.push(field);
+        }
+    }
+
+    const completeness = Math.round(((Object.keys(required).length - missing.length) / Object.keys(required).length) * 100);
+
+    return {
+        complete: missing.length === 0,
+        completeness_score: completeness,
+        missing_fields: missing
     };
 }
 
@@ -670,6 +748,14 @@ function handleMotionChange() {
 function generatePlan() {
     // Collect data
     campaignData = collectCampaignData();
+
+    // Check completeness first
+    const completenessCheck = checkCompleteness(campaignData);
+
+    if (!completenessCheck.complete) {
+        alert(`⚠️ Campaign definition is ${completenessCheck.completeness_score}% complete.\n\nMissing required fields:\n• ${completenessCheck.missing_fields.join('\n• ')}\n\nPlease fill in all required fields before generating.`);
+        return;
+    }
 
     // Validate
     validationResults = validateCampaign(campaignData);

@@ -462,27 +462,24 @@
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="campaignMotion">
-                                Campaign Motion <span class="required">*</span>
-                                <span class="hint">Primary strategic motion for this campaign</span>
+                                Moment Type <span class="required">*</span>
+                                <span class="hint">Primary marketing moment for this campaign</span>
                             </label>
                             <select id="campaignMotion" class="required" required onchange="handleMotionChange()">
-                                <option value="">Select campaign motion...</option>
-                                <option value="lifecycle">Lifecycle - Journey progression</option>
-                                <option value="demand_gen">Demand Gen - Pipeline creation</option>
-                                <option value="regional">Regional - Local market focus</option>
-                                <option value="global">Global - Coordinated worldwide</option>
-                                <option value="event">Event/Webinar - Registration & follow-up</option>
-                                <option value="product_launch">Product Launch - Go-to-market</option>
-                                <option value="expansion">Expansion - Upsell/Cross-sell</option>
-                                <option value="re_engagement">Re-engagement - Win-back</option>
+                                <option value="">Select moment type...</option>
+                                <option value="t1_campaign">T1 campaign (theme or report)</option>
+                                <option value="webinar">Webinar (live or on-demand)</option>
+                                <option value="content_spotlight">Content spotlight</option>
+                                <option value="t1_event">T1 event</option>
                             </select>
                         </div>
 
                         <div class="form-group">
-                            <label for="campaignType">
-                                Campaign Type <span class="optional-badge">Optional</span>
+                            <label for="sourceOfTruth">
+                                Source of Truth Link <span class="required">*</span>
+                                <span class="hint">Asana task, PRD, or campaign doc</span>
                             </label>
-                            <input type="text" id="campaignType" placeholder="e.g., Multi-touch email campaign">
+                            <input type="text" id="sourceOfTruth" class="required" required placeholder="https://app.asana.com/...">
                         </div>
                     </div>
 
@@ -528,9 +525,17 @@
                         <div class="form-group">
                             <label for="audiencePersona">
                                 Persona <span class="required">*</span>
-                                <span class="hint">Who specifically are you targeting?</span>
+                                <span class="hint">Primary target persona</span>
                             </label>
-                            <input type="text" id="audiencePersona" class="required" required placeholder="e.g., VP of Engineering">
+                            <select id="audiencePersona" class="required" required>
+                                <option value="">Select persona...</option>
+                                <option value="CX">CX</option>
+                                <option value="SMB">SMB</option>
+                                <option value="CCaaS">CCaaS</option>
+                                <option value="HR">HR (ES)</option>
+                                <option value="IT">IT (ES)</option>
+                                <option value="Unknown">Unknown</option>
+                            </select>
                         </div>
 
                         <div class="form-group">
@@ -693,6 +698,257 @@
                         </label>
                         <textarea id="successMetricInput" placeholder="e.g., Primary: 15% increase in conversion rate&#10;Secondary: 500+ MQLs, 80% email engagement"></textarea>
                     </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="baseline">
+                                Baseline or Benchmark <span class="optional-badge">Optional</span>
+                            </label>
+                            <input type="text" id="baseline" placeholder="e.g., Current conversion rate: 12%">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="dashboardLink">
+                                Dashboard Link <span class="optional-badge">Optional</span>
+                            </label>
+                            <input type="text" id="dashboardLink" placeholder="Link to tracking dashboard">
+                        </div>
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="trackingNotes">
+                            Tracking Notes <span class="optional-badge">Optional</span>
+                            <span class="hint">UTMs, key events, special tracking requirements</span>
+                        </label>
+                        <textarea id="trackingNotes" class="small" placeholder="e.g., Use UTM: utm_campaign=q2-enterprise-expansion"></textarea>
+                    </div>
+                </div>
+
+                <!-- 6. ROUTING AND RULES -->
+                <div class="section-group">
+                    <h3>🔀 6. Routing and Rules <span class="required-badge">Required</span></h3>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="primaryCTA">
+                                Primary CTA <span class="required">*</span>
+                            </label>
+                            <select id="primaryCTA" class="required" required>
+                                <option value="">Select primary CTA...</option>
+                                <option value="demo">Request a demo</option>
+                                <option value="trial">Start a trial</option>
+                                <option value="webinar">Register for webinar</option>
+                                <option value="on_demand">Watch on-demand</option>
+                                <option value="download">Download report or guide</option>
+                                <option value="learn_more">Learn more</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="destinationURL">
+                                Post-click Destination URL <span class="required">*</span>
+                            </label>
+                            <input type="text" id="destinationURL" class="required" required placeholder="https://www.zendesk.com/...">
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="ifEngaged">
+                                If Engaged, Route To <span class="required">*</span>
+                            </label>
+                            <select id="ifEngaged" class="required" required>
+                                <option value="">Select routing...</option>
+                                <option value="sdr">SDR follow-up</option>
+                                <option value="mql">MQL process</option>
+                                <option value="product_led">Product-led nurture (trial/startup)</option>
+                                <option value="persona_nurture">Persona nurture (always-on)</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ifNotEngaged">
+                                If Not Engaged, Route To <span class="required">*</span>
+                            </label>
+                            <select id="ifNotEngaged" class="required" required>
+                                <option value="">Select routing...</option>
+                                <option value="persona_nurture">Stay in persona nurture</option>
+                                <option value="pause">Pause for 30 days</option>
+                                <option value="suppress">Suppress from this campaign stream</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 7. AUDIENCE EXCLUSIONS -->
+                <div class="section-group">
+                    <h3>🚫 7. Audience Exclusions <span class="required-badge">Required</span></h3>
+                    <p style="font-size: 13px; color: #6b7280; margin-bottom: 16px;">Select all that apply to prevent conflicts with other motions</p>
+
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
+                        <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 400;">
+                            <input type="checkbox" id="exclude_customers">
+                            Exclude customers
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 400;">
+                            <input type="checkbox" id="exclude_partners">
+                            Exclude partners
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 400;">
+                            <input type="checkbox" id="exclude_opportunities">
+                            Exclude active opportunities
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 400;">
+                            <input type="checkbox" id="exclude_trial">
+                            Exclude trial users
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 400;">
+                            <input type="checkbox" id="exclude_startup">
+                            Exclude Startup program
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 400;">
+                            <input type="checkbox" id="exclude_mqls">
+                            Exclude current MQLs
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 400;">
+                            <input type="checkbox" id="exclude_csuite">
+                            Exclude C-suite titles
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 8. CLAIMS AND COMPLIANCE -->
+                <div class="section-group">
+                    <h3>📜 8. Claims and Compliance <span class="optional-badge">Optional</span></h3>
+                    <p style="font-size: 13px; color: #6b7280; margin-bottom: 16px;">Required when using analyst content, stats, or benchmarks</p>
+
+                    <div class="form-group full">
+                        <label for="proofSource">
+                            Proof Source Link
+                            <span class="hint">Link to Forrester report, TEI study, benchmark data</span>
+                        </label>
+                        <input type="text" id="proofSource" placeholder="https://...">
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="allowedClaims">
+                            Allowed Claims
+                            <span class="hint">Exact wording approved by analysts/legal</span>
+                        </label>
+                        <textarea id="allowedClaims" class="small" placeholder="e.g., 'Forrester names Zendesk a Leader in CX'"></textarea>
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="disclaimerText">
+                            Required Disclaimer / Attribution
+                        </label>
+                        <textarea id="disclaimerText" class="small" placeholder="e.g., 'Source: Forrester Wave Report Q1 2025'"></textarea>
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="doNotSay">
+                            Do-Not-Say List
+                        </label>
+                        <textarea id="doNotSay" class="small" placeholder="Terms or claims to avoid"></textarea>
+                    </div>
+                </div>
+
+                <!-- 9. ASSET READINESS -->
+                <div class="section-group">
+                    <h3>🎨 9. Asset Readiness <span class="required-badge">Required</span></h3>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="lpStatus">
+                                Landing Page Status <span class="required">*</span>
+                            </label>
+                            <select id="lpStatus" class="required" required>
+                                <option value="">Select status...</option>
+                                <option value="ready">Ready</option>
+                                <option value="in_progress">In progress</option>
+                                <option value="needs_build">Needs build</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="creativeStatus">
+                                Creative Status <span class="required">*</span>
+                            </label>
+                            <select id="creativeStatus" class="required" required>
+                                <option value="">Select status...</option>
+                                <option value="ready">Ready</option>
+                                <option value="in_progress">In progress</option>
+                                <option value="needs_build">Needs build</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contentStatus">
+                                Content Asset Status <span class="required">*</span>
+                            </label>
+                            <select id="contentStatus" class="required" required>
+                                <option value="">Select status...</option>
+                                <option value="ready">Ready</option>
+                                <option value="in_progress">In progress</option>
+                                <option value="needs_build">Needs build</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" id="webinarStatusGroup" style="display: none;">
+                            <label for="webinarStatus">
+                                Webinar Page Status <span class="required">*</span>
+                            </label>
+                            <select id="webinarStatus">
+                                <option value="">Select status...</option>
+                                <option value="ready">Ready</option>
+                                <option value="in_progress">In progress</option>
+                                <option value="needs_build">Needs build</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="workingDocsLinks">
+                            Links to Working Docs
+                            <span class="hint">Figma, Google Docs, Asana, etc.</span>
+                        </label>
+                        <textarea id="workingDocsLinks" class="small" placeholder="Paste links to design files, content drafts, project docs..."></textarea>
+                    </div>
+                </div>
+
+                <!-- 10. CHANNEL DETAILS -->
+                <div class="section-group">
+                    <h3>📢 10. Channel Details <span class="optional-badge">Recommended</span></h3>
+
+                    <div class="form-group full">
+                        <label for="channelRoleNotes">
+                            Channel Role Notes
+                            <span class="hint">What each channel is meant to do in this campaign</span>
+                        </label>
+                        <textarea id="channelRoleNotes" class="small" placeholder="e.g., Email: Drive registrations. LinkedIn: Awareness & amplification."></textarea>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="emailCadence">
+                                Email Cadence Guardrail
+                            </label>
+                            <select id="emailCadence">
+                                <option value="1x_week">1x per week</option>
+                                <option value="2x_t1">Up to 2x per week during T1 moments</option>
+                                <option value="custom">Custom</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="blackoutDates">
+                                Blackout Dates <span class="optional-badge">Optional</span>
+                            </label>
+                            <input type="text" id="blackoutDates" placeholder="e.g., Dec 24-26, major holidays">
+                        </div>
+                    </div>
                 </div>
 
                 <div class="action-bar">
@@ -814,5 +1070,27 @@
     </div>
 
     <script src="campaign-engine.js"></script>
+    <script>
+        // Show/hide webinar status field based on moment type
+        function handleMotionChange() {
+            const momentType = document.getElementById('campaignMotion').value;
+            const webinarGroup = document.getElementById('webinarStatusGroup');
+
+            if (momentType === 'webinar') {
+                webinarGroup.style.display = 'block';
+                document.getElementById('webinarStatus').setAttribute('required', 'required');
+                document.getElementById('webinarStatus').classList.add('required');
+            } else {
+                webinarGroup.style.display = 'none';
+                document.getElementById('webinarStatus').removeAttribute('required');
+                document.getElementById('webinarStatus').classList.remove('required');
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            handleMotionChange();
+        });
+    </script>
 </body>
 </html>
