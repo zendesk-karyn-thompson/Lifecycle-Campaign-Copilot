@@ -428,26 +428,123 @@
         <div class="subtitle">Consistent campaign planning framework across all marketing motions</div>
     </div>
 
+    <!-- Progress Bar -->
+    <div style="background: white; border-bottom: 2px solid #e5e7eb;">
+        <div style="max-width: 1400px; margin: 0 auto; padding: 12px 32px;">
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <span style="font-size: 13px; font-weight: 600; color: #6b7280;">Campaign Completeness:</span>
+                <div style="flex: 1; background: #f3f4f6; border-radius: 8px; height: 8px; overflow: hidden;">
+                    <div id="progressFill" style="background: linear-gradient(90deg, #D1F470 0%, #A1D78F 100%); height: 100%; width: 0%; transition: width 0.3s;"></div>
+                </div>
+                <span id="progressPercent" style="font-size: 13px; font-weight: 700; color: #2D4C33;">0%</span>
+            </div>
+        </div>
+    </div>
+
     <div class="tabs-container">
         <div class="tabs">
-            <div class="tab active" onclick="showSection('inputs')">1. Campaign Definition</div>
-            <div class="tab" onclick="showSection('validation')">2. Validation & Scoring</div>
-            <div class="tab" onclick="showSection('recommendations')">3. System Recommendations</div>
-            <div class="tab" onclick="showSection('execplan')">4. Executive Plan</div>
-            <div class="tab" onclick="showSection('slides')">5. Slides</div>
-            <div class="tab" onclick="showSection('prompts')">6. AI Prompts</div>
+            <div class="tab active" onclick="showSection('intro')">Getting Started</div>
+            <div class="tab" onclick="showSection('basics')">Campaign Basics</div>
+            <div class="tab" onclick="showSection('audience')">Audience & Targeting</div>
+            <div class="tab" onclick="showSection('strategy')">Strategy & Messaging</div>
+            <div class="tab" onclick="showSection('execution')">Execution Details</div>
+            <div class="tab" onclick="showSection('review')">Review & Generate</div>
+            <div class="tab" onclick="showSection('validation')">Validation</div>
+            <div class="tab" onclick="showSection('recommendations')">Recommendations</div>
+            <div class="tab" onclick="showSection('execplan')">Exec Plan</div>
+            <div class="tab" onclick="showSection('slides')">Slides & Prompts</div>
         </div>
     </div>
 
     <div class="container">
-        <!-- SECTION 1: CAMPAIGN DEFINITION (INPUTS) -->
-        <div class="section-content active" id="inputs">
+        <!-- GETTING STARTED TAB -->
+        <div class="section-content active" id="intro">
             <div class="card">
                 <div class="card-header">
-                    <h2>📋 Campaign Definition</h2>
+                    <h2>👋 Welcome to Campaign Planning</h2>
                 </div>
 
-                <!-- 1. OBJECTIVE -->
+                <div style="max-width: 900px; margin: 0 auto;">
+                    <div class="callout-box">
+                        <h3 style="font-size: 20px; color: #2D4C33; margin-bottom: 12px;">How this tool works</h3>
+                        <p style="margin-bottom: 12px;"><strong>Step 1:</strong> Fill out campaign details across the next 5 tabs (Basics → Audience → Strategy → Execution → Review)</p>
+                        <p style="margin-bottom: 12px;"><strong>Step 2:</strong> Review your completeness score and generate your campaign plan</p>
+                        <p style="margin-bottom: 12px;"><strong>Step 3:</strong> Get validation, recommendations, executive plan, slides, and AI prompts</p>
+                        <p style="margin-bottom: 0;"><strong>Step 4:</strong> Export and share with your team</p>
+                    </div>
+
+                    <div style="background: #f0f9ff; border-left: 4px solid #3b82f6; padding: 24px; border-radius: 8px; margin: 24px 0;">
+                        <h3 style="color: #1e40af; font-size: 16px; margin-bottom: 12px;">⏱️ Timing Expectations</h3>
+                        <ul style="margin: 0; padding-left: 20px; color: #1e40af;">
+                            <li style="margin-bottom: 8px;">Plan generation takes ~2 minutes</li>
+                            <li style="margin-bottom: 8px;">Fill out all required fields for best results</li>
+                            <li style="margin-bottom: 0;">Use the progress bar above to track completeness</li>
+                        </ul>
+                    </div>
+
+                    <div style="background: white; border: 2px solid #e5e7eb; padding: 24px; border-radius: 12px; margin: 24px 0;">
+                        <h3 style="color: #2D4C33; font-size: 16px; margin-bottom: 12px;">💬 Questions or Need Help?</h3>
+                        <p style="color: #6b7280; margin-bottom: 12px;">Reach out to us:</p>
+                        <ul style="margin: 0; padding-left: 20px; color: #6b7280;">
+                            <li style="margin-bottom: 8px;"><strong>#ask-email-ipm</strong> on Slack</li>
+                            <li style="margin-bottom: 8px;"><strong>#ask-transcreation-global-ops</strong> on Slack</li>
+                            <li style="margin-bottom: 0;">Weekly office hours</li>
+                        </ul>
+                    </div>
+
+                    <div class="section-group">
+                        <h3 style="font-size: 18px; color: #2D4C33; margin-bottom: 12px;">📋 What You'll Need</h3>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
+                            <div>
+                                <p style="font-weight: 600; margin-bottom: 8px;">✅ Campaign Details</p>
+                                <ul style="font-size: 14px; color: #6b7280; margin: 0; padding-left: 20px;">
+                                    <li>Name, goals, dates</li>
+                                    <li>Target audience & persona</li>
+                                    <li>Success metrics</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p style="font-weight: 600; margin-bottom: 8px;">✅ Strategic Context</p>
+                                <ul style="font-size: 14px; color: #6b7280; margin: 0; padding-left: 20px;">
+                                    <li>Value propositions</li>
+                                    <li>Messaging hierarchy</li>
+                                    <li>Source of truth link</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p style="font-weight: 600; margin-bottom: 8px;">✅ Execution Info</p>
+                                <ul style="font-size: 14px; color: #6b7280; margin: 0; padding-left: 20px;">
+                                    <li>Channels & assets</li>
+                                    <li>Dependencies</li>
+                                    <li>Localization needs</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p style="font-weight: 600; margin-bottom: 8px;">✅ Business Impact</p>
+                                <ul style="font-size: 14px; color: #6b7280; margin: 0; padding-left: 20px;">
+                                    <li>Revenue impact</li>
+                                    <li>Priority alignment</li>
+                                    <li>Team information</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="action-bar" style="justify-content: center;">
+                        <button class="btn-primary" style="padding: 16px 48px; font-size: 16px;" onclick="showSection('basics')">Get Started →</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: CAMPAIGN BASICS -->
+        <div class="section-content" id="basics">
+            <div class="card">
+                <div class="card-header">
+                    <h2>📋 Campaign Basics</h2>
+                </div>
+
+                <!-- 1. CAMPAIGN OBJECTIVE -->
                 <div class="section-group">
                     <h3>🎯 1. Objective <span class="required-badge">Required</span></h3>
 
@@ -500,8 +597,10 @@
 
                     <div class="form-grid">
                         <div class="form-group">
-                            <label for="startDate">Start Date</label>
-                            <input type="date" id="startDate">
+                            <label for="startDate">
+                                Desired Launch Date <span class="required">*</span>
+                            </label>
+                            <input type="date" id="startDate" class="required" required>
                         </div>
                         <div class="form-group">
                             <label for="endDate">End Date</label>
@@ -509,17 +608,123 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="targetRegion">
-                            Target Region <span class="optional-badge">Optional</span>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="hardDeadline">
+                                Is this a hard deadline? <span class="required">*</span>
+                            </label>
+                            <select id="hardDeadline" class="required" required>
+                                <option value="no">No</option>
+                                <option value="yes">Yes</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="targetRegion">
+                                Target Region <span class="optional-badge">Optional</span>
+                            </label>
+                            <input type="text" id="targetRegion" placeholder="e.g., AMER, EMEA, APAC">
+                        </div>
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="timingConsiderations">
+                            Other Timing Considerations <span class="optional-badge">Optional</span>
+                            <span class="hint">Product releases, event dependencies, broken links, etc.</span>
                         </label>
-                        <input type="text" id="targetRegion" placeholder="e.g., North America, EMEA, APAC">
+                        <textarea id="timingConsiderations" class="small" placeholder="e.g., Product release dependent on this, event registration tied to deployment..."></textarea>
                     </div>
                 </div>
 
-                <!-- 2. AUDIENCE -->
+                <!-- 2. TEAM & REVENUE IMPACT -->
                 <div class="section-group">
-                    <h3>👥 2. Audience <span class="required-badge">Required</span></h3>
+                    <h3>💼 2. Team & Business Impact <span class="required-badge">Required</span></h3>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="teamName">
+                                What team are you on? <span class="required">*</span>
+                            </label>
+                            <select id="teamName" class="required" required>
+                                <option value="">Select your team...</option>
+                                <option value="demand_gen">Demand Gen</option>
+                                <option value="lifecycle">Lifecycle Marketing</option>
+                                <option value="product_marketing">Product Marketing</option>
+                                <option value="regional">Regional Marketing</option>
+                                <option value="brand">Brand</option>
+                                <option value="events">Events</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="revenueImpact">
+                                Estimated Revenue Impact <span class="required">*</span>
+                            </label>
+                            <select id="revenueImpact" class="required" required>
+                                <option value="">Select impact level...</option>
+                                <option value="high">High ($1M+)</option>
+                                <option value="medium">Medium ($500K-$1M)</option>
+                                <option value="low">Low (Under $500K)</option>
+                                <option value="unknown">Unknown</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="marketingPriority">
+                            2026 Marketing Priority Alignment <span class="required">*</span>
+                            <span class="hint">Which key marketing priority does this support?</span>
+                        </label>
+                        <textarea id="marketingPriority" class="required small" required placeholder="e.g., Enterprise growth, Product adoption, Regional expansion..."></textarea>
+                    </div>
+                </div>
+
+                <!-- 3. PRIMARY CTA & DESTINATION -->
+                <div class="section-group">
+                    <h3>🔗 3. Primary CTA & Destination <span class="required-badge">Required</span></h3>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="primaryCTA">
+                                Primary CTA <span class="required">*</span>
+                            </label>
+                            <select id="primaryCTA" class="required" required>
+                                <option value="">Select primary CTA...</option>
+                                <option value="demo">Request a demo</option>
+                                <option value="trial">Start a trial</option>
+                                <option value="webinar">Register for webinar</option>
+                                <option value="on_demand">Watch on-demand</option>
+                                <option value="download">Download report or guide</option>
+                                <option value="learn_more">Learn more</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="destinationURL">
+                                Post-click Destination URL <span class="required">*</span>
+                            </label>
+                            <input type="text" id="destinationURL" class="required" required placeholder="https://www.zendesk.com/...">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-bar">
+                    <button class="btn-secondary" onclick="showSection('intro')">← Back</button>
+                    <button class="btn-primary" onclick="showSection('audience')">Next: Audience & Targeting →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: AUDIENCE & TARGETING -->
+        <div class="section-content" id="audience">
+            <div class="card">
+                <div class="card-header">
+                    <h2>👥 Audience & Targeting</h2>
+                </div>
+
+                <!-- 1. AUDIENCE -->
+                <div class="section-group">
+                    <h3>👥 1. Audience <span class="required-badge">Required</span></h3>
 
                     <div class="form-grid">
                         <div class="form-group">
@@ -753,9 +958,9 @@
                     </div>
                 </div>
 
-                <!-- 7. AUDIENCE EXCLUSIONS -->
+                <!-- 2. AUDIENCE EXCLUSIONS -->
                 <div class="section-group">
-                    <h3>🚫 7. Audience Exclusions <span class="required-badge">Required</span></h3>
+                    <h3>🚫 2. Audience Exclusions <span class="required-badge">Required</span></h3>
                     <p style="font-size: 13px; color: #6b7280; margin-bottom: 16px;">Select all that apply to prevent conflicts with other motions</p>
 
                     <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
@@ -790,7 +995,96 @@
                     </div>
                 </div>
 
-                <!-- 8. ASSET READINESS -->
+                <!-- 3. LANGUAGES & LOCALIZATION -->
+                <div class="section-group">
+                    <h3>🌍 3. Languages & Localization <span class="required-badge">Required</span></h3>
+
+                    <div class="form-group full">
+                        <label>
+                            Select Languages <span class="required">*</span>
+                            <span class="hint">Select all that apply</span>
+                        </label>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px;">
+                            <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 400;">
+                                <input type="checkbox" id="lang_amer_en" checked>
+                                AMER U.S. English
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 400;">
+                                <input type="checkbox" id="lang_apac_en">
+                                APAC UKI English
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 400;">
+                                <input type="checkbox" id="lang_emea_en">
+                                EMEA UKI English
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 400;">
+                                <input type="checkbox" id="lang_latam_en">
+                                LATAM U.S. English
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 400;">
+                                <input type="checkbox" id="lang_japanese">
+                                APAC Japanese
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 400;">
+                                <input type="checkbox" id="lang_german">
+                                EMEA German
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 400;">
+                                <input type="checkbox" id="lang_french">
+                                EMEA French
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 400;">
+                                <input type="checkbox" id="lang_italian">
+                                EMEA Italian
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 400;">
+                                <input type="checkbox" id="lang_dutch">
+                                EMEA Dutch
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 400;">
+                                <input type="checkbox" id="lang_spanish">
+                                EMEA Spanish
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 400;">
+                                <input type="checkbox" id="lang_latam_spanish">
+                                LATAM Spanish
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 400;">
+                                <input type="checkbox" id="lang_portuguese">
+                                LATAM Portuguese
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="localizationSupport">
+                            Do you need localization/transcreation support? <span class="required">*</span>
+                            <span class="hint">Tiers and prioritization details available</span>
+                        </label>
+                        <select id="localizationSupport" class="required" required>
+                            <option value="">Select option...</option>
+                            <option value="yes">Yes - Need localization support</option>
+                            <option value="no">No - English only or already localized</option>
+                            <option value="unsure">Unsure - Need guidance</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="action-bar">
+                    <button class="btn-secondary" onclick="showSection('basics')">← Back</button>
+                    <button class="btn-primary" onclick="showSection('strategy')">Next: Strategy & Messaging →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: STRATEGY & MESSAGING -->
+        <div class="section-content" id="strategy">
+            <div class="card">
+                <div class="card-header">
+                    <h2>💡 Strategy & Messaging</h2>
+                </div>
+
+                <!-- Move Strategy section here -->
                 <div class="section-group">
                     <h3>🎨 8. Asset Readiness <span class="required-badge">Required</span></h3>
 
