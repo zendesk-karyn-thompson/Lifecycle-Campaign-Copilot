@@ -751,18 +751,35 @@
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="audiencePersona">
-                                Persona <span class="required">*</span>
-                                <span class="hint">Primary target persona</span>
+                                Persona(s) <span class="required">*</span>
+                                <span class="hint">Select all that apply</span>
                             </label>
-                            <select id="audiencePersona" class="required" required>
-                                <option value="">Select persona...</option>
-                                <option value="CX">CX</option>
-                                <option value="SMB">SMB</option>
-                                <option value="CCaaS">CCaaS</option>
-                                <option value="HR">HR (ES)</option>
-                                <option value="IT">IT (ES)</option>
-                                <option value="Unknown">Unknown</option>
-                            </select>
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 8px;">
+                                <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 400;">
+                                    <input type="checkbox" class="persona-checkbox" value="CX">
+                                    CX
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 400;">
+                                    <input type="checkbox" class="persona-checkbox" value="SMB">
+                                    SMB
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 400;">
+                                    <input type="checkbox" class="persona-checkbox" value="CCaaS">
+                                    CCaaS
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 400;">
+                                    <input type="checkbox" class="persona-checkbox" value="HR">
+                                    HR (ES)
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 400;">
+                                    <input type="checkbox" class="persona-checkbox" value="IT">
+                                    IT (ES)
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 400;">
+                                    <input type="checkbox" class="persona-checkbox" value="Unknown">
+                                    Unknown
+                                </label>
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -1322,19 +1339,26 @@
 
     <script src="campaign-engine.js"></script>
     <script>
-        // Show/hide webinar status field based on moment type
+        // Show/hide webinar question based on moment type
         function handleMotionChange() {
             const momentType = document.getElementById('campaignMotion').value;
-            const webinarGroup = document.getElementById('webinarStatusGroup');
+            const webinarQuestion = document.getElementById('webinarQuestion');
 
             if (momentType === 'webinar') {
-                webinarGroup.style.display = 'block';
-                document.getElementById('webinarStatus').setAttribute('required', 'required');
-                document.getElementById('webinarStatus').classList.add('required');
+                webinarQuestion.style.display = 'block';
             } else {
-                webinarGroup.style.display = 'none';
-                document.getElementById('webinarStatus').removeAttribute('required');
-                document.getElementById('webinarStatus').classList.remove('required');
+                webinarQuestion.style.display = 'none';
+                document.getElementById('webinarStatusGroup').style.display = 'none';
+            }
+        }
+
+        // Toggle asset status fields
+        function toggleAssetField(fieldId, show) {
+            const field = document.getElementById(fieldId);
+            if (show) {
+                field.style.display = 'block';
+            } else {
+                field.style.display = 'none';
             }
         }
 
