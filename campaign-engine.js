@@ -51,11 +51,9 @@ function collectCampaignData() {
         dashboard_link: document.getElementById('dashboardLink').value || '',
         tracking_notes: document.getElementById('trackingNotes').value || '',
 
-        // Routing and Rules
+        // CTA and Destination
         primary_cta: document.getElementById('primaryCTA').value || '',
         destination_url: document.getElementById('destinationURL').value || '',
-        if_engaged: document.getElementById('ifEngaged').value || '',
-        if_not_engaged: document.getElementById('ifNotEngaged').value || '',
 
         // Audience Exclusions
         exclude_customers: document.getElementById('exclude_customers').checked,
@@ -65,12 +63,6 @@ function collectCampaignData() {
         exclude_startup: document.getElementById('exclude_startup').checked,
         exclude_mqls: document.getElementById('exclude_mqls').checked,
         exclude_csuite: document.getElementById('exclude_csuite').checked,
-
-        // Claims and Compliance
-        proof_source: document.getElementById('proofSource').value || '',
-        allowed_claims: document.getElementById('allowedClaims').value || '',
-        disclaimer_text: document.getElementById('disclaimerText').value || '',
-        do_not_say: document.getElementById('doNotSay').value || '',
 
         // Asset Readiness
         lp_status: document.getElementById('lpStatus').value || '',
@@ -103,8 +95,6 @@ function checkCompleteness(data) {
         'Strategy Alignment': data.strategy_alignment && data.strategy_alignment.length >= 20,
         'Primary CTA': data.primary_cta,
         'Destination URL': data.destination_url,
-        'If Engaged Routing': data.if_engaged,
-        'If Not Engaged Routing': data.if_not_engaged,
         'Landing Page Status': data.lp_status,
         'Creative Status': data.creative_status,
         'Content Status': data.content_status,
