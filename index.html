@@ -379,6 +379,71 @@
             margin: 16px 0;
         }
 
+        .export-bar {
+            background: #2D4C33;
+            color: white;
+            padding: 16px 24px;
+            border-radius: 8px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .export-btn {
+            background: #D1F470;
+            color: #11110D;
+            padding: 10px 20px;
+            font-size: 13px;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .export-btn:hover {
+            background: #A1D78F;
+            transform: translateY(-1px);
+        }
+
+        .question-box {
+            background: #f0f9ff;
+            border-left: 4px solid #3b82f6;
+            padding: 16px;
+            margin: 12px 0;
+            border-radius: 6px;
+        }
+
+        .question-box strong {
+            color: #1e40af;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .question-box ul {
+            margin: 0;
+            padding-left: 20px;
+            color: #1e40af;
+            font-size: 13px;
+        }
+
+        .question-box li {
+            margin-bottom: 6px;
+        }
+
+        @media print {
+            .banner, .tabs-container, .action-bar, .export-bar {
+                display: none;
+            }
+            .card {
+                box-shadow: none;
+                page-break-inside: avoid;
+            }
+        }
+
         @media (max-width: 968px) {
             .form-grid {
                 grid-template-columns: 1fr;
@@ -617,6 +682,15 @@
                 </div>
                 <p class="helper-text">Review and edit as needed</p>
 
+                <div class="export-bar">
+                    <div style="font-size: 14px; font-weight: 600;">📤 Export Options</div>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="export-btn" onclick="copyAllSections()">📋 Copy All</button>
+                        <button class="export-btn" onclick="window.print()">🖨️ Print/PDF</button>
+                        <button class="export-btn" onclick="exportAsText()">📄 Export as Text</button>
+                    </div>
+                </div>
+
                 <div class="output-box">
                     <h3>Strategy / Program Overview <span class="edit-indicator">(editable)</span></h3>
                     <textarea id="outputOverview" rows="4"></textarea>
@@ -662,6 +736,14 @@
                     <span class="badge output">Auto-Generated</span>
                 </div>
                 <p class="helper-text">Review and edit slide content as needed</p>
+
+                <div class="export-bar">
+                    <div style="font-size: 14px; font-weight: 600;">📤 Export Slides</div>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="export-btn" onclick="copyAllSlides()">📋 Copy All Slides</button>
+                        <button class="export-btn" onclick="exportSlidesAsText()">📄 Export as Text</button>
+                    </div>
+                </div>
 
                 <div class="output-box">
                     <h3>Slide 1: The Opportunity <span class="edit-indicator">(editable)</span></h3>
@@ -976,6 +1058,104 @@
                 scoreHTML += `</div>`;
             }
 
+            // Add Strategic Questions - Things they might not have thought of
+            let strategicQuestions = [];
+
+            // Questions based on campaign type and audience
+            if (data.type === 'Product Launch' || data.type === 'Feature Announcement') {
+                strategicQuestions.push({
+                    category: 'Product Positioning',
+                    questions: [
+                        'How does this differentiate from competitive alternatives?',
+                        'What pain point does this solve that existing solutions don\'t?',
+                        'Have you validated messaging with target customers?',
+                        'Is there a "wow" moment we can showcase early?'
+                    ]
+                });
+            }
+
+            if (data.stage === 'Trial' || data.stage === 'Customer') {
+                strategicQuestions.push({
+                    category: 'Customer Journey',
+                    questions: [
+                        'What blockers typically prevent conversion at this stage?',
+                        'Do we have data on what successful users did differently?',
+                        'Are we addressing common objections proactively?',
+                        'Is there a champion within the account we should engage?'
+                    ]
+                });
+            }
+
+            if (data.temp === 'Cold') {
+                strategicQuestions.push({
+                    category: 'Awareness Building',
+                    questions: [
+                        'What educational content already exists that we can leverage?',
+                        'Are we measuring awareness lift, not just conversion?',
+                        'Do we have proof points relevant to this audience\'s challenges?',
+                        'What nurture sequence comes after this campaign?'
+                    ]
+                });
+            }
+
+            // Universal strategic questions
+            strategicQuestions.push({
+                category: 'Business Impact',
+                questions: [
+                    'How does this campaign contribute to quarterly revenue targets?',
+                    'What happens if we don\'t run this campaign?',
+                    'Are there dependencies on other teams or initiatives?',
+                    'What could cause this campaign to fail, and how do we mitigate?'
+                ]
+            });
+
+            strategicQuestions.push({
+                category: 'Competitive Context',
+                questions: [
+                    'What are competitors doing in this space right now?',
+                    'Do we have a unique angle or timing advantage?',
+                    'Are there market trends we should reference?',
+                    'How will this position us differently in the market?'
+                ]
+            });
+
+            if (data.channels && data.channels.toLowerCase().includes('email')) {
+                strategicQuestions.push({
+                    category: 'Execution Readiness',
+                    questions: [
+                        'Do we have the send volume capacity for this audience?',
+                        'Are suppression lists and compliance checks in place?',
+                        'Is the landing page experience optimized for conversion?',
+                        'What\'s the follow-up plan for engaged vs. non-engaged?'
+                    ]
+                });
+            }
+
+            if (strategicQuestions.length > 0) {
+                scoreHTML += `
+                    <div style="background: white; border: 2px solid #3b82f6; border-radius: 12px; padding: 32px; margin-bottom: 24px;">
+                        <h3 style="font-size: 20px; color: #1e40af; margin-bottom: 16px;">🤔 Strategic Questions to Consider</h3>
+                        <p style="color: #6b7280; font-size: 14px; margin-bottom: 20px;">Critical questions that could strengthen your strategy</p>
+                `;
+
+                strategicQuestions.forEach(section => {
+                    scoreHTML += `
+                        <div class="question-box">
+                            <strong>${section.category.toUpperCase()}</strong>
+                            <ul>
+                    `;
+                    section.questions.forEach(q => {
+                        scoreHTML += `<li>${q}</li>`;
+                    });
+                    scoreHTML += `
+                            </ul>
+                        </div>
+                    `;
+                });
+
+                scoreHTML += `</div>`;
+            }
+
             document.getElementById('scoreOutput').innerHTML = scoreHTML;
 
             // Generate Exec Plan - Executive Language
@@ -1081,6 +1261,136 @@ Make all content ${data.tone.toLowerCase()} in tone and appropriate for ${data.t
                 btn.textContent = 'Copied!';
                 setTimeout(() => btn.textContent = originalText, 2000);
             });
+        }
+
+        function copyAllSections() {
+            const sections = {
+                'Strategic Overview': document.getElementById('outputOverview').value,
+                'Target Audience': document.getElementById('outputAudience').value,
+                '2026 Focus Areas / Messaging': document.getElementById('outputFocus').value,
+                'Marketing Strategy Alignment': document.getElementById('outputAlignment').value,
+                'Success Metrics': document.getElementById('outputMetrics').value,
+                'Key Callouts & Risks': document.getElementById('outputCallouts').value
+            };
+
+            let fullText = '═══════════════════════════════════════════\n';
+            fullText += '   EXECUTIVE CAMPAIGN PLAN\n';
+            fullText += '═══════════════════════════════════════════\n\n';
+
+            Object.entries(sections).forEach(([title, content]) => {
+                fullText += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+                fullText += `${title.toUpperCase()}\n`;
+                fullText += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+                fullText += content + '\n\n';
+            });
+
+            fullText += '═══════════════════════════════════════════\n';
+            fullText += `Generated: ${new Date().toLocaleDateString()}\n`;
+            fullText += '═══════════════════════════════════════════';
+
+            navigator.clipboard.writeText(fullText).then(() => {
+                alert('✅ All sections copied to clipboard!\n\nReady to paste into your document.');
+            });
+        }
+
+        function copyAllSlides() {
+            const slides = {
+                'Slide 1: The Opportunity': document.getElementById('slide1').value,
+                'Slide 2: Target Audience': document.getElementById('slide2').value,
+                'Slide 3: Strategy & Approach': document.getElementById('slide3').value,
+                'Slide 4: Execution Plan': document.getElementById('slide4').value,
+                'Slide 5: Expected Results': document.getElementById('slide5').value
+            };
+
+            let fullText = '═══════════════════════════════════════════\n';
+            fullText += '   EXECUTIVE PRESENTATION SLIDES\n';
+            fullText += '═══════════════════════════════════════════\n\n';
+
+            Object.entries(slides).forEach(([title, content]) => {
+                fullText += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+                fullText += `${title.toUpperCase()}\n`;
+                fullText += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+                fullText += content + '\n\n';
+            });
+
+            fullText += '═══════════════════════════════════════════\n';
+            fullText += `Generated: ${new Date().toLocaleDateString()}\n`;
+            fullText += '═══════════════════════════════════════════';
+
+            navigator.clipboard.writeText(fullText).then(() => {
+                alert('✅ All slides copied to clipboard!\n\nReady to paste into your presentation.');
+            });
+        }
+
+        function exportSlidesAsText() {
+            const slides = {
+                'Slide 1: The Opportunity': document.getElementById('slide1').value,
+                'Slide 2: Target Audience': document.getElementById('slide2').value,
+                'Slide 3: Strategy & Approach': document.getElementById('slide3').value,
+                'Slide 4: Execution Plan': document.getElementById('slide4').value,
+                'Slide 5: Expected Results': document.getElementById('slide5').value
+            };
+
+            let fullText = '═══════════════════════════════════════════\n';
+            fullText += '   EXECUTIVE PRESENTATION SLIDES\n';
+            fullText += '═══════════════════════════════════════════\n\n';
+
+            Object.entries(slides).forEach(([title, content]) => {
+                fullText += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+                fullText += `${title.toUpperCase()}\n`;
+                fullText += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+                fullText += content + '\n\n';
+            });
+
+            fullText += '═══════════════════════════════════════════\n';
+            fullText += `Generated: ${new Date().toLocaleDateString()}\n`;
+            fullText += '═══════════════════════════════════════════';
+
+            const blob = new Blob([fullText], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Campaign_Slides_${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function exportAsText() {
+            const sections = {
+                'Strategic Overview': document.getElementById('outputOverview').value,
+                'Target Audience': document.getElementById('outputAudience').value,
+                '2026 Focus Areas / Messaging': document.getElementById('outputFocus').value,
+                'Marketing Strategy Alignment': document.getElementById('outputAlignment').value,
+                'Success Metrics': document.getElementById('outputMetrics').value,
+                'Key Callouts & Risks': document.getElementById('outputCallouts').value
+            };
+
+            let fullText = '═══════════════════════════════════════════\n';
+            fullText += '   EXECUTIVE CAMPAIGN PLAN\n';
+            fullText += '═══════════════════════════════════════════\n\n';
+
+            Object.entries(sections).forEach(([title, content]) => {
+                fullText += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+                fullText += `${title.toUpperCase()}\n`;
+                fullText += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+                fullText += content + '\n\n';
+            });
+
+            fullText += '═══════════════════════════════════════════\n';
+            fullText += `Generated: ${new Date().toLocaleDateString()}\n`;
+            fullText += '═══════════════════════════════════════════';
+
+            const blob = new Blob([fullText], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Campaign_Plan_${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
         }
 
         function resetTool() {
