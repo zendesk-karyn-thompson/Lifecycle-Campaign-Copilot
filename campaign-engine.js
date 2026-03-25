@@ -21,7 +21,15 @@ function collectCampaignData() {
         secondary_goal: document.getElementById('secondaryGoal').value || '',
         start_date: document.getElementById('startDate').value || '',
         end_date: document.getElementById('endDate').value || '',
+        hard_deadline: document.getElementById('hardDeadline').value || '',
+        timing_considerations: document.getElementById('timingConsiderations').value || '',
         target_region: document.getElementById('targetRegion').value || '',
+
+        // Team & Business Impact
+        team_name: document.getElementById('teamName').value || '',
+        revenue_impact: document.getElementById('revenueImpact').value || '',
+        marketing_priority: document.getElementById('marketingPriority').value || '',
+        size_of_request: document.getElementById('sizeOfRequest').value || '',
 
         // Audience
         audience_persona: document.getElementById('audiencePersona').value || '',

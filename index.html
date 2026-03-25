@@ -672,12 +672,32 @@
                         </div>
                     </div>
 
-                    <div class="form-group full">
-                        <label for="marketingPriority">
-                            2026 Marketing Priority Alignment <span class="required">*</span>
-                            <span class="hint">Which key marketing priority does this support?</span>
-                        </label>
-                        <textarea id="marketingPriority" class="required small" required placeholder="e.g., Enterprise growth, Product adoption, Regional expansion..."></textarea>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="marketingPriority">
+                                2026 Marketing Priority Alignment <span class="required">*</span>
+                            </label>
+                            <select id="marketingPriority" class="required" required>
+                                <option value="">Select priority...</option>
+                                <option value="ai_leader">Strengthen our reputation as the leader in AI for service</option>
+                                <option value="customer_growth">Drive new customer growth at every stage of the funnel</option>
+                                <option value="es_ccaas">Build durable ES growth & establish CCaaS foundation</option>
+                                <option value="unknown">I don't know</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sizeOfRequest">
+                                Size of Request <span class="required">*</span>
+                            </label>
+                            <select id="sizeOfRequest" class="required" required>
+                                <option value="">Select size...</option>
+                                <option value="small">Small - 1-2 touchpoints</option>
+                                <option value="medium">Medium - 3-5 touchpoints</option>
+                                <option value="large">Large - 6-10 touchpoints</option>
+                                <option value="extra_large">Extra Large - More than 10 touchpoints</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 
