@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campaign Planning Hub - Google Slides Preview</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+            padding: 40px 20px;
+        }
+        .slide-container {
+            max-width: 1200px;
+            margin: 0 auto 40px;
+            background: white;
+            padding: 60px 80px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            aspect-ratio: 16/9;
+            position: relative;
+        }
+        .slide-number {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: #333;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .slide-title {
+            font-size: 48px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 16px;
+            color: #000;
+        }
+        .slide-subtitle {
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 48px;
+            color: #333;
+        }
+        .slide-footer {
+            position: absolute;
+            bottom: 30px;
+            left: 80px;
+            right: 80px;
+            font-size: 10px;
+            color: #666;
+            border-top: 1px solid #ddd;
+            padding-top: 12px;
+        }
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 40px;
+        }
+        .box {
+            border: 2px solid #000;
+            padding: 24px;
+            background: #fff;
+        }
+        .box-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+        }
+        .box-heading {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .box ul {
+            margin-left: 20px;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+        .box li {
+            margin-bottom: 8px;
+        }
+        .stat {
+            font-size: 36px;
+            font-weight: bold;
+            margin: 20px 0 8px;
+        }
+        .stat-label {
+            font-size: 14px;
+            color: #333;
+        }
+        .three-column {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin: 32px 0;
+        }
+        .stat-box {
+            border: 2px solid #000;
+            padding: 20px;
+            text-align: center;
+        }
+        .stat-box .number {
+            font-size: 42px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .stat-box .desc {
+            font-size: 12px;
+            line-height: 1.4;
+        }
+        .quote-box {
+            border: 2px solid #000;
+            padding: 24px;
+            margin: 32px 0;
+            text-align: center;
+        }
+        .quote-text {
+            font-size: 28px;
+            font-weight: 600;
+            font-style: italic;
+            margin-bottom: 12px;
+        }
+        .quote-author {
+            font-size: 14px;
+            color: #666;
+        }
+        .bottom-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        @media print {
+            .slide-container { page-break-after: always; margin-bottom: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- SLIDE 1 -->
+<div class="slide-container">
+    <div class="slide-number">Slide 1</div>
+
+    <div class="slide-title">Campaign Planning Hub</div>
+    <div class="slide-subtitle">From Hours of Planning to Minutes of Impact</div>
+
+    <div class="two-column">
+        <div class="box">
+            <div class="box-title">THE PROBLEM</div>
+            <div class="box-heading">Campaign planning is slow, inconsistent, and scattered</div>
+            <ul>
+                <li>2-3 hours to create each campaign brief</li>
+                <li>No standardized format across teams</li>
+                <li>Personas, OKRs, and assets scattered across docs</li>
+                <li>Regional teams reinvent the wheel each time</li>
+            </ul>
+            <div class="stat">2-3 hours</div>
+            <div class="stat-label">per campaign wasted on manual planning</div>
+        </div>
+
+        <div class="box">
+            <div class="box-title">THE SOLUTION</div>
+            <div class="box-heading">Centralized, AI-powered campaign workspace</div>
+            <ul>
+                <li>Generate complete briefs in 5 minutes</li>
+                <li>AI brainstorm engine for ideas & copy</li>
+                <li>Auto-link to OKRs & personas</li>
+                <li>Export ready for Asana/Monday</li>
+                <li>Works offline, zero setup required</li>
+            </ul>
+            <div class="stat">96%</div>
+            <div class="stat-label">faster campaign planning</div>
+        </div>
+    </div>
+
+    <div class="slide-footer">
+        <strong>Live Demo:</strong> zendesk-karyn-thompson.github.io/Campaign-Brainstorm
+    </div>
+</div>
+
+<!-- SLIDE 2 -->
+<div class="slide-container">
+    <div class="slide-number">Slide 2</div>
+
+    <div class="slide-title">Impact & Learning</div>
+
+    <div style="margin-top: 32px;">
+        <div class="three-column">
+            <div class="stat-box">
+                <div class="number">5 min</div>
+                <div class="desc">vs 2-3 hours<br>per campaign brief</div>
+            </div>
+            <div class="stat-box">
+                <div class="number">2 hours</div>
+                <div class="desc">saved per campaign</div>
+            </div>
+            <div class="stat-box">
+                <div class="number">100%</div>
+                <div class="desc">standardized briefs<br>across regions</div>
+            </div>
+        </div>
+
+        <div class="quote-box">
+            <div class="quote-text">"Building for adoption, not just functionality"</div>
+            <div class="quote-author">My biggest learning from this project</div>
+        </div>
+
+        <div class="bottom-section">
+            <div class="box">
+                <div class="box-title">WHAT I LEARNED</div>
+                <ul>
+                    <li><strong>Start with workflow, not features</strong> — Studied how marketers actually plan campaigns</li>
+                    <li><strong>Simplicity wins</strong> — Focused on 80/20: what saves the most time?</li>
+                    <li><strong>AI as collaborator</strong> — Suggests ideas, humans decide</li>
+                    <li><strong>Instant value = instant adoption</strong> — Works in 30 seconds, saves time on first use</li>
+                </ul>
+            </div>
+
+            <div class="box">
+                <div class="box-title">BUSINESS VALUE</div>
+                <div style="font-size: 14px; line-height: 1.8;">
+                    <div style="margin-bottom: 12px;"><strong>Ready to Deploy:</strong></div>
+                    ✓ 2 hours saved per campaign<br>
+                    ✓ 8+ hours back per month<br>
+                    ✓ Better quality & consistency<br>
+                    ✓ Scales across all regions<br>
+                    ✓ Zero infrastructure cost<br>
+                    ✓ BAU integration ready
+                    <div style="margin-top: 16px; font-weight: bold;">No infrastructure needed - Deploy Day 1</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-footer">
+        <strong>Demo:</strong> zendesk-karyn-thompson.github.io/Campaign-Brainstorm | <strong>Submitted:</strong> March 27, 2026
+    </div>
+</div>
+
+<div style="max-width: 1200px; margin: 40px auto; padding: 20px; background: white; border-radius: 8px;">
+    <h3 style="margin-bottom: 16px;">Instructions for Google Slides:</h3>
+    <ol style="line-height: 2;">
+        <li>Open Google Slides → Blank presentation</li>
+        <li>For each slide above, recreate the layout using text boxes and rectangles</li>
+        <li>Use <strong>Arial or Roboto</strong> font throughout</li>
+        <li>Keep everything <strong>black text on white background</strong> with thin black borders</li>
+        <li>Title: 48pt bold, centered</li>
+        <li>Subtitle: 24pt, centered</li>
+        <li>Section titles (THE PROBLEM, etc): 18pt bold, uppercase</li>
+        <li>Body text: 14pt</li>
+        <li>Stats: 36-42pt bold</li>
+        <li>Footer: 10pt at bottom</li>
+    </ol>
+</div>
+
+</body>
+</html>

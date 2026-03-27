@@ -468,6 +468,7 @@
             <div class="tab output-tab" onclick="showSection('execplan')" id="execplanTab" disabled>Exec Plan</div>
             <div class="tab output-tab" onclick="showSection('slides')" id="slidesTab" disabled>Slides</div>
             <div class="tab output-tab" onclick="showSection('prompts')" id="promptsTab" disabled>AI Prompts</div>
+            <div class="tab" onclick="showSection('innovation')" style="margin-left: auto; border-left: 2px solid #e5e7eb;">🏆 Innovation Day</div>
         </div>
     </div>
 
@@ -811,6 +812,102 @@
                 <div class="action-bar">
                     <button class="btn-secondary" onclick="showSection('slides')">← Back to Slides</button>
                     <button class="btn-primary" onclick="resetTool()">Start New Campaign</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- INNOVATION DAY SUBMISSION -->
+        <div class="section-content" id="innovation">
+            <div class="card">
+                <div class="card-header">
+                    <h2>🏆 Innovation Day 2026 Submission</h2>
+                    <span class="badge" style="background: #D1F470; color: #2D4C33;">Ready to Submit</span>
+                </div>
+                <p class="helper-text">All your submission materials in one place</p>
+
+                <div style="background: linear-gradient(135deg, #2D4C33 0%, #1f3625 100%); color: white; border-radius: 12px; padding: 32px; margin-bottom: 32px;">
+                    <h3 style="font-size: 24px; margin-bottom: 16px; color: #D1F470;">Campaign Planning Hub</h3>
+                    <p style="font-size: 18px; margin-bottom: 24px; opacity: 0.95;">From Hours of Planning to Minutes of Impact</p>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
+                        <div style="text-align: center; padding: 20px; background: rgba(255,255,255,0.1); border-radius: 8px; backdrop-filter: blur(10px);">
+                            <div style="font-size: 36px; font-weight: bold; color: #D1F470;">96%</div>
+                            <div style="font-size: 14px; opacity: 0.9;">faster planning</div>
+                        </div>
+                        <div style="text-align: center; padding: 20px; background: rgba(255,255,255,0.1); border-radius: 8px; backdrop-filter: blur(10px);">
+                            <div style="font-size: 36px; font-weight: bold; color: #D1F470;">2 hours</div>
+                            <div style="font-size: 14px; opacity: 0.9;">saved per campaign</div>
+                        </div>
+                        <div style="text-align: center; padding: 20px; background: rgba(255,255,255,0.1); border-radius: 8px; backdrop-filter: blur(10px);">
+                            <div style="font-size: 36px; font-weight: bold; color: #D1F470;">8+ hours</div>
+                            <div style="font-size: 14px; opacity: 0.9;">back per month</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="background: white; border: 2px solid #D1F470; border-radius: 12px; padding: 28px; margin-bottom: 24px;">
+                    <h3 style="font-size: 18px; color: #2D4C33; margin-bottom: 16px;">📊 Submission Requirements</h3>
+                    <div style="display: grid; gap: 12px;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <span style="color: #10b981; font-size: 20px;">✓</span>
+                            <span><strong>Problem Statement:</strong> Campaign planning is slow, inconsistent, scattered</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <span style="color: #10b981; font-size: 20px;">✓</span>
+                            <span><strong>Efficiency Gain:</strong> 2 hours saved per campaign (2-3 hours → 5 minutes)</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <span style="color: #10b981; font-size: 20px;">✓</span>
+                            <span><strong>Biggest Learning:</strong> Building for adoption, not just functionality</span>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 style="font-size: 18px; color: #2D4C33; margin: 32px 0 16px;">📄 Submission Materials</h3>
+
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 32px;">
+                    <div style="background: #f9fafb; border: 2px solid #e5e7eb; border-radius: 8px; padding: 20px;">
+                        <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">📝 Written Submission</div>
+                        <p style="font-size: 13px; color: #6b7280; margin-bottom: 16px;">Complete project documentation</p>
+                        <a href="Campaign-Brainstorm-Submission.md" download style="display: inline-block; background: #2D4C33; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600;">Download Markdown</a>
+                    </div>
+
+                    <div style="background: #f9fafb; border: 2px solid #e5e7eb; border-radius: 8px; padding: 20px;">
+                        <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">🎬 Video Script</div>
+                        <p style="font-size: 13px; color: #6b7280; margin-bottom: 16px;">2-minute presentation script</p>
+                        <a href="Video-Script-2-Minutes.md" download style="display: inline-block; background: #2D4C33; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600;">Download Script</a>
+                    </div>
+
+                    <div style="background: #f9fafb; border: 2px solid #e5e7eb; border-radius: 8px; padding: 20px;">
+                        <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">🖼️ Google Slides Content</div>
+                        <p style="font-size: 13px; color: #6b7280; margin-bottom: 16px;">Copy-paste slides (no colors)</p>
+                        <a href="Google-Slides-Script.md" download style="display: inline-block; background: #2D4C33; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600;">Download Guide</a>
+                    </div>
+
+                    <div style="background: #f9fafb; border: 2px solid #e5e7eb; border-radius: 8px; padding: 20px;">
+                        <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">🎨 2-Slide Visual</div>
+                        <p style="font-size: 13px; color: #6b7280; margin-bottom: 16px;">Interactive HTML presentation</p>
+                        <a href="Campaign-Brainstorm-2-Slide-Summary.html" target="_blank" style="display: inline-block; background: #2D4C33; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600;">Open Presentation</a>
+                    </div>
+                </div>
+
+                <h3 style="font-size: 18px; color: #2D4C33; margin: 32px 0 16px;">👁️ Preview: Google Slides Layout</h3>
+                <p style="font-size: 13px; color: #6b7280; margin-bottom: 16px;">Visual reference for creating slides in Google Slides (black & white format)</p>
+
+                <div style="border: 2px solid #e5e7eb; border-radius: 8px; overflow: hidden;">
+                    <iframe src="Google-Slides-Preview.html" style="width: 100%; height: 800px; border: none;"></iframe>
+                </div>
+
+                <div style="background: #D1F470; border-radius: 12px; padding: 24px; margin-top: 32px; text-align: center;">
+                    <h3 style="font-size: 20px; color: #2D4C33; margin-bottom: 12px;">🚀 Ready to Submit?</h3>
+                    <p style="font-size: 15px; color: #11110D; margin-bottom: 16px;">All materials are ready. Deadline: End of day March 27, 2026</p>
+                    <div style="display: flex; gap: 12px; justify-content: center;">
+                        <a href="https://zendesk-karyn-thompson.github.io/Campaign-Brainstorm/" target="_blank" style="display: inline-block; background: #2D4C33; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-size: 15px; font-weight: 600;">🌐 View Live Demo</a>
+                        <button class="btn-secondary" onclick="window.print()" style="padding: 12px 24px;">🖨️ Print All</button>
+                    </div>
+                </div>
+
+                <div class="action-bar">
+                    <button class="btn-secondary" onclick="showSection('inputs')">← Back to Planning Hub</button>
                 </div>
             </div>
         </div>

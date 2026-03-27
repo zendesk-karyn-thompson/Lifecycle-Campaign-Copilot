@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campaign Planning Hub - Innovation Day Submission</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #1a1a1a;
+            color: #fff;
+            overflow-x: hidden;
+        }
+        .slide {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 80px;
+            page-break-after: always;
+        }
+        .slide:nth-child(1) { background: linear-gradient(135deg, #2D4C33 0%, #1f3625 100%); }
+        .slide:nth-child(2) { background: linear-gradient(135deg, #1f3625 0%, #0f1f14 100%); }
+
+        .slide-header {
+            font-size: 18px;
+            font-weight: 600;
+            opacity: 0.7;
+            margin-bottom: 24px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .slide-title {
+            font-size: 64px;
+            font-weight: 800;
+            margin-bottom: 32px;
+            line-height: 1.1;
+            color: #D1F470;
+        }
+        .slide-subtitle {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 48px;
+            opacity: 0.95;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-top: 40px;
+        }
+
+        .content-box {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 16px;
+            border: 2px solid rgba(209,244,112,0.3);
+        }
+
+        .box-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: #D1F470;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .box-content {
+            font-size: 18px;
+            line-height: 1.8;
+        }
+
+        .box-content ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .box-content li {
+            padding: 12px 0;
+            padding-left: 32px;
+            position: relative;
+        }
+
+        .box-content li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #D1F470;
+            font-weight: bold;
+        }
+
+        .highlight-stat {
+            font-size: 72px;
+            font-weight: 900;
+            color: #D1F470;
+            margin: 24px 0 16px 0;
+            line-height: 1;
+        }
+
+        .highlight-label {
+            font-size: 24px;
+            opacity: 0.9;
+            font-weight: 600;
+        }
+
+        .stat-row {
+            display: flex;
+            gap: 40px;
+            margin: 32px 0;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .stat-number {
+            font-size: 56px;
+            font-weight: 900;
+            color: #D1F470;
+            line-height: 1;
+        }
+
+        .stat-desc {
+            font-size: 18px;
+            opacity: 0.85;
+            margin-top: 8px;
+        }
+
+        .footer {
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 2px solid rgba(209,244,112,0.3);
+            font-size: 16px;
+            opacity: 0.7;
+        }
+
+        .quote-box {
+            background: rgba(209,244,112,0.15);
+            border-left: 6px solid #D1F470;
+            padding: 32px;
+            margin: 32px 0;
+            border-radius: 8px;
+        }
+
+        .quote-text {
+            font-size: 28px;
+            font-weight: 600;
+            font-style: italic;
+            color: #D1F470;
+            margin-bottom: 16px;
+        }
+
+        .quote-author {
+            font-size: 18px;
+            opacity: 0.8;
+        }
+
+        @media print {
+            .slide { page-break-after: always; }
+            body { background: white; color: black; }
+        }
+
+        @media (max-width: 1024px) {
+            .slide { padding: 40px; }
+            .slide-title { font-size: 48px; }
+            .content-grid { grid-template-columns: 1fr; gap: 32px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- SLIDE 1: PROBLEM & SOLUTION -->
+<div class="slide">
+    <div class="slide-header">Innovation Day 2026 • Karyn Thompson</div>
+    <div class="slide-title">Campaign Planning Hub</div>
+    <div class="slide-subtitle">From Hours of Planning to Minutes of Impact</div>
+
+    <div class="content-grid">
+        <div class="content-box">
+            <div class="box-title">🎯 The Problem</div>
+            <div class="box-content">
+                <p style="margin-bottom: 24px; font-size: 20px; font-weight: 600;">Campaign planning is slow, inconsistent, and scattered</p>
+                <ul>
+                    <li><strong>2-3 hours</strong> to create each campaign brief</li>
+                    <li>No standardized format across teams</li>
+                    <li>Personas, OKRs, and assets scattered across docs</li>
+                    <li>Regional teams reinvent the wheel each time</li>
+                </ul>
+                <div class="highlight-stat">2-3 hrs</div>
+                <div class="highlight-label">per campaign wasted on manual planning</div>
+            </div>
+        </div>
+
+        <div class="content-box">
+            <div class="box-title">✨ The Solution</div>
+            <div class="box-content">
+                <p style="margin-bottom: 24px; font-size: 20px; font-weight: 600;">Centralized, AI-powered campaign workspace</p>
+                <ul>
+                    <li>Generate complete briefs in <strong>5 minutes</strong></li>
+                    <li>AI brainstorm engine for ideas & copy</li>
+                    <li>Auto-link to OKRs & personas</li>
+                    <li>Export ready for Asana/Monday</li>
+                    <li>Works offline, zero setup required</li>
+                </ul>
+                <div class="highlight-stat">96%</div>
+                <div class="highlight-label">faster campaign planning</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <strong>Live Demo:</strong> zendesk-karyn-thompson.github.io/Campaign-Brainstorm
+    </div>
+</div>
+
+<!-- SLIDE 2: IMPACT & LEARNING -->
+<div class="slide">
+    <div class="slide-header">Innovation Day 2026 • Karyn Thompson</div>
+    <div class="slide-title">Impact & Learning</div>
+
+    <div style="margin-top: 40px;">
+        <div class="box-title" style="margin-bottom: 32px;">📊 Efficiency Gains</div>
+
+        <div class="stat-row">
+            <div class="stat-item">
+                <div class="stat-number">5 min</div>
+                <div class="stat-desc">vs 2-3 hours<br>per campaign brief</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">8 hrs</div>
+                <div class="stat-desc">saved per month<br>(4 campaigns)</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">100%</div>
+                <div class="stat-desc">standardized briefs<br>across regions</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="quote-box">
+        <div class="quote-text">"Building for adoption, not just functionality"</div>
+        <div class="quote-author">My biggest learning from this project</div>
+    </div>
+
+    <div class="content-box" style="margin-top: 32px;">
+        <div class="box-title">🚀 What I Learned</div>
+        <div class="box-content">
+            <ul>
+                <li><strong>Start with workflow, not features</strong> — Studied how marketers actually plan campaigns</li>
+                <li><strong>Simplicity wins</strong> — Focused on 80/20: what saves the most time?</li>
+                <li><strong>AI as collaborator, not replacement</strong> — Suggests ideas, humans decide</li>
+                <li><strong>Instant value = instant adoption</strong> — Works in 30 seconds, saves time on first use</li>
+            </ul>
+        </div>
+    </div>
+
+    <div style="margin-top: 48px; display: flex; gap: 40px; align-items: center;">
+        <div style="flex: 1;">
+            <div class="box-title" style="margin-bottom: 16px;">🎁 Business Value</div>
+            <div style="font-size: 18px; line-height: 1.8;">
+                ✓ 2 hours saved per campaign<br>
+                ✓ 8+ hours back per month<br>
+                ✓ Better quality & consistency<br>
+                ✓ Scales across all regions<br>
+                ✓ Zero infrastructure cost<br>
+                ✓ BAU integration ready
+            </div>
+        </div>
+        <div style="flex: 1; text-align: right;">
+            <div style="font-size: 16px; opacity: 0.7; margin-bottom: 12px;">READY TO DEPLOY</div>
+            <div style="font-size: 48px; font-weight: 900; color: #D1F470;">Day 1</div>
+            <div style="font-size: 20px; opacity: 0.9;">No infrastructure needed</div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <strong>Demo:</strong> zendesk-karyn-thompson.github.io/Campaign-Brainstorm • <strong>Submitted by:</strong> Karyn Thompson • <strong>Date:</strong> March 27, 2026
+    </div>
+</div>
+
+<script>
+    // Add keyboard navigation for presentation mode
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === ' ') {
+            window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
+        } else if (e.key === 'ArrowLeft') {
+            window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' });
+        }
+    });
+
+    // Print to PDF functionality
+    if (window.location.search.includes('print')) {
+        setTimeout(() => window.print(), 500);
+    }
+</script>
+
+</body>
+</html>
