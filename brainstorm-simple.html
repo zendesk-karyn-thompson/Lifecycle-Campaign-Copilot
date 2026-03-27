@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campaign Brainstorm Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            background-color: #F5F5F2; /* Sesame */
+            color: #11110D; /* Licorice */
+            line-height: 1.6;
+        }
+
+        .banner {
+            background: linear-gradient(135deg, #2D4C33 0%, #203524 100%); /* Shamrock to Fern */
+            color: #FFFFFF; /* Coconut */
+            padding: 40px 48px;
+            text-align: center;
+            border-bottom: 4px solid #D1F470; /* Matcha */
+        }
+
+        .banner h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .banner .subtitle {
+            font-size: 16px;
+            opacity: 0.95;
+        }
+
+        .tabs-container {
+            background: #FFFFFF; /* Coconut */
+            border-bottom: 2px solid #e5e7eb;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .tabs {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            overflow-x: auto;
+        }
+
+        .tab {
+            padding: 16px 24px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #6b7280;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+
+        .tab:hover {
+            color: #2D4C33; /* Shamrock */
+            background: #F5F5F2; /* Sesame */
+        }
+
+        .tab.active {
+            color: #2D4C33; /* Shamrock */
+            border-bottom-color: #D1F470; /* Matcha */
+            background: #F5F5F2; /* Sesame */
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 32px;
+        }
+
+        .section-content {
+            display: none;
+        }
+
+        .section-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: #FFFFFF; /* Coconut */
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            margin-bottom: 24px;
+        }
+
+        .card-header h2 {
+            font-size: 24px;
+            color: #2D4C33; /* Shamrock */
+            margin-bottom: 8px;
+        }
+
+        .card-header p {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 32px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #11110D; /* Licorice */
+        }
+
+        label .hint {
+            font-weight: 400;
+            color: #9ca3af;
+            font-size: 12px;
+            display: block;
+            margin-top: 2px;
+        }
+
+        input[type="text"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 14px;
+            font-size: 14px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            background-color: #FFFFFF; /* Coconut */
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #A1D78F; /* Cactus */
+            box-shadow: 0 0 0 3px rgba(161, 215, 143, 0.1);
+        }
+
+        input:hover, select:hover, textarea:hover {
+            border-color: #D1F470; /* Matcha */
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn-primary {
+            background: #D1F470; /* Matcha */
+            color: #11110D; /* Licorice */
+            padding: 16px 48px;
+            font-size: 16px;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 16px;
+        }
+
+        .btn-primary:hover {
+            background: #A1D78F; /* Cactus */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(161, 215, 143, 0.3);
+        }
+
+        .btn-secondary {
+            background: #FFFFFF; /* Coconut */
+            color: #6b7280;
+            border: 2px solid #e5e7eb;
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            border-color: #A1D78F; /* Cactus */
+            color: #11110D; /* Licorice */
+        }
+
+        .action-bar {
+            display: flex;
+            gap: 12px;
+            justify-content: space-between;
+            margin-top: 32px;
+        }
+
+        .callout-box {
+            background: #D1F470; /* Matcha */
+            border-radius: 8px;
+            padding: 20px;
+            margin: 24px 0;
+            border: 2px solid #A1D78F; /* Cactus */
+            color: #11110D; /* Licorice */
+        }
+
+        .plan-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .plan-box {
+            background: #FFFFFF; /* Coconut */
+            border: 2px solid #D1F470; /* Matcha */
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .plan-box:hover {
+            border-color: #A1D78F; /* Cactus */
+            box-shadow: 0 4px 16px rgba(45, 76, 51, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .plan-box h3 {
+            font-size: 15px;
+            color: #2D4C33; /* Shamrock */
+            margin-bottom: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .plan-box textarea {
+            background: #FFFFFF; /* Coconut */
+            border: 1px solid #e5e7eb;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .plan-box-full {
+            grid-column: 1 / -1;
+        }
+
+        .output-box {
+            background: #F5F5F2; /* Sesame */
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+            transition: all 0.2s ease;
+        }
+
+        .output-box:hover {
+            border-color: #A1D78F; /* Cactus */
+            box-shadow: 0 2px 8px rgba(45, 76, 51, 0.08);
+        }
+
+        .output-box h3 {
+            font-size: 16px;
+            color: #2D4C33; /* Shamrock */
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        .output-box textarea {
+            background: #FFFFFF; /* Coconut */
+        }
+
+        @media (max-width: 968px) {
+            .plan-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="banner">
+        <h1>Campaign Brainstorm Tool</h1>
+        <div class="subtitle">Quick campaign ideation → Instant strategy, subject lines, and AI-ready prompts</div>
+    </div>
+
+    <div class="tabs-container">
+        <div class="tabs">
+            <div class="tab active" onclick="showSection('inputs')">Brainstorm Inputs</div>
+            <div class="tab" onclick="showSection('score')">Strategy Score</div>
+            <div class="tab" onclick="showSection('planonpage')">Plan on a Page</div>
+            <div class="tab" onclick="showSection('subjectlines')">Subject Lines</div>
+            <div class="tab" onclick="showSection('slides')">Slides</div>
+            <div class="tab" onclick="showSection('prompts')">AI Prompts</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- BRAINSTORM INPUTS -->
+        <div class="section-content active" id="inputs">
+            <div class="card">
+                <div class="card-header">
+                    <h2>🚀 Campaign Brainstorm</h2>
+                    <p>Fill in the essentials and let AI generate your campaign strategy, subject lines, and content prompts</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="campaignName">
+                        Campaign Name
+                        <span class="hint">Internal working name for your campaign</span>
+                    </label>
+                    <input type="text" id="campaignName" placeholder="e.g., Q2 Enterprise Growth Campaign">
+                </div>
+
+                <div class="form-group">
+                    <label for="primaryGoal">
+                        What are you trying to achieve?
+                        <span class="hint">Your main campaign goal</span>
+                    </label>
+                    <textarea id="primaryGoal" rows="3" placeholder="e.g., Increase trial sign-ups by 25% among enterprise accounts"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="audiencePersona">
+                        Who is your target audience?
+                        <span class="hint">Primary persona or audience type</span>
+                    </label>
+                    <input type="text" id="audiencePersona" placeholder="e.g., CX Leaders, IT Managers, Enterprise Decision Makers">
+                </div>
+
+                <div class="form-group">
+                    <label for="lifecycleStage">
+                        Lifecycle Stage
+                    </label>
+                    <select id="lifecycleStage">
+                        <option value="Awareness">Awareness - Building interest</option>
+                        <option value="Consideration" selected>Consideration - Evaluating options</option>
+                        <option value="Conversion">Conversion - Ready to buy</option>
+                        <option value="Adoption">Adoption - Onboarding & activation</option>
+                        <option value="Retention">Retention - Keep engaged</option>
+                        <option value="Re-engagement">Re-engagement - Win them back</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="audienceTemp">
+                        Audience Temperature
+                    </label>
+                    <select id="audienceTemp">
+                        <option value="Cold">Cold - Low awareness or interest</option>
+                        <option value="Warm" selected>Warm - Aware and interested</option>
+                        <option value="Hot">Hot - High intent, ready to act</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="valuePropositions">
+                        Key Message or Value Proposition
+                        <span class="hint">What's the main benefit or message you want to communicate?</span>
+                    </label>
+                    <textarea id="valuePropositions" rows="3" placeholder="e.g., Save 10 hours per week with AI-powered automation, reduce costs by 40%"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="campaignMotion">
+                        Campaign Type (Optional)
+                    </label>
+                    <select id="campaignMotion">
+                        <option value="">Select campaign type...</option>
+                        <option value="lifecycle">Lifecycle - Nurture over time</option>
+                        <option value="demand_gen">Demand Gen - Pipeline creation</option>
+                        <option value="product_launch">Product Launch - New release</option>
+                        <option value="event">Event - Webinar or conference</option>
+                        <option value="re_engagement">Re-engagement - Win back</option>
+                        <option value="expansion">Expansion - Upsell/cross-sell</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="additionalNotes">
+                        Additional Context (Optional)
+                        <span class="hint">Any other details that might help shape the campaign</span>
+                    </label>
+                    <textarea id="additionalNotes" rows="3" placeholder="e.g., Launching alongside product update, focused on EMEA region, need multi-touch approach"></textarea>
+                </div>
+
+                <button class="btn-primary" onclick="generateCampaign()">✨ Generate Campaign Strategy</button>
+            </div>
+        </div>
+
+        <!-- STRATEGY SCORE -->
+        <div class="section-content" id="score">
+            <div class="card">
+                <div class="card-header">
+                    <h2>📊 Strategy Score & Recommendations</h2>
+                    <p>AI analysis of your campaign strategy with actionable suggestions</p>
+                </div>
+
+                <div id="scoreOutput">
+                    <p style="color: #6b7280; text-align: center; padding: 40px;">Generate your campaign first to see strategy score</p>
+                </div>
+
+                <div class="action-bar">
+                    <button class="btn-secondary" onclick="showSection('inputs')">← Back to Inputs</button>
+                    <button class="btn-primary" onclick="showSection('planonpage')">View Plan on a Page →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PLAN ON A PAGE -->
+        <div class="section-content" id="planonpage">
+            <div class="card">
+                <div class="card-header">
+                    <h2>📊 Plan on a Page</h2>
+                    <p>Comprehensive one-page executive overview - all sections visible and editable</p>
+                </div>
+
+                <div class="plan-grid">
+                    <div class="plan-box">
+                        <h3>📋 Strategy or Program Overview</h3>
+                        <textarea rows="6" id="popOverview" placeholder="Campaign strategy and program overview..."></textarea>
+                    </div>
+
+                    <div class="plan-box">
+                        <h3>👥 Audience</h3>
+                        <textarea rows="6" id="popAudience" placeholder="Target audience details..."></textarea>
+                    </div>
+
+                    <div class="plan-box">
+                        <h3>📝 Content Strategy</h3>
+                        <textarea rows="6" id="popContentStrategy" placeholder="Content approach and messaging..."></textarea>
+                    </div>
+
+                    <div class="plan-box">
+                        <h3>🎯 2026 Focus Areas</h3>
+                        <textarea rows="6" id="popFocusAreas" placeholder="Key focus areas for 2026..."></textarea>
+                    </div>
+
+                    <div class="plan-box">
+                        <h3>💡 2026 Marketing Strategy</h3>
+                        <textarea rows="6" id="popMarketingStrategy" placeholder="Marketing strategy alignment..."></textarea>
+                    </div>
+
+                    <div class="plan-box">
+                        <h3>📊 Success Metrics</h3>
+                        <textarea rows="6" id="popSuccessMetrics" placeholder="KPIs and success criteria..."></textarea>
+                    </div>
+
+                    <div class="plan-box plan-box-full">
+                        <h3>⚠️ Callouts</h3>
+                        <textarea rows="5" id="popCallouts" placeholder="Key callouts, risks, and considerations..."></textarea>
+                    </div>
+                </div>
+
+                <div class="action-bar">
+                    <button class="btn-secondary" onclick="showSection('inputs')">← Back to Inputs</button>
+                    <button class="btn-primary" onclick="showSection('subjectlines')">View Subject Lines →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SUBJECT LINES -->
+        <div class="section-content" id="subjectlines">
+            <div class="card">
+                <div class="card-header">
+                    <h2>✉️ Subject Line Generator</h2>
+                    <p>AI-generated subject line options for your campaign</p>
+                </div>
+
+                <div id="subjectLinesOutput">
+                    <p style="color: #6b7280; text-align: center; padding: 40px;">Generate your campaign first to see subject lines</p>
+                </div>
+
+                <div class="action-bar">
+                    <button class="btn-secondary" onclick="showSection('planonpage')">← Plan on a Page</button>
+                    <button class="btn-primary" onclick="showSection('slides')">View Slides →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDES -->
+        <div class="section-content" id="slides">
+            <div class="card">
+                <div class="card-header">
+                    <h2>🖼️ Executive Slides (5 slides)</h2>
+                    <p>Ready-to-present slide outlines for stakeholders</p>
+                </div>
+
+                <div id="slidesOutput">
+                    <p style="color: #6b7280; text-align: center; padding: 40px;">Generate your campaign first to see slide outlines</p>
+                </div>
+
+                <div class="action-bar">
+                    <button class="btn-secondary" onclick="showSection('subjectlines')">← Subject Lines</button>
+                    <button class="btn-primary" onclick="showSection('prompts')">View AI Prompts →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI PROMPTS -->
+        <div class="section-content" id="prompts">
+            <div class="card">
+                <div class="card-header">
+                    <h2>🤖 AI Prompts</h2>
+                    <p>Copy these prompts into ChatGPT or Claude to generate campaign content</p>
+                </div>
+
+                <div id="promptsOutput">
+                    <p style="color: #6b7280; text-align: center; padding: 40px;">Generate your campaign first to see AI prompts</p>
+                </div>
+
+                <div class="action-bar">
+                    <button class="btn-secondary" onclick="showSection('slides')">← Slides</button>
+                    <button class="btn-primary" onclick="resetTool()">Start New Campaign</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple data storage
+        let campaignData = {};
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.section-content').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+
+            document.getElementById(sectionId).classList.add('active');
+
+            const tabs = document.querySelectorAll('.tab');
+            const tabMap = { 'inputs': 0, 'score': 1, 'planonpage': 2, 'subjectlines': 3, 'slides': 4, 'prompts': 5 };
+            if (tabMap[sectionId] !== undefined) {
+                tabs[tabMap[sectionId]].classList.add('active');
+            }
+
+            window.scrollTo(0, 0);
+        }
+
+        function collectData() {
+            return {
+                campaign_name: document.getElementById('campaignName').value || 'Untitled Campaign',
+                primary_goal: document.getElementById('primaryGoal').value || 'Drive engagement',
+                audience_persona: document.getElementById('audiencePersona').value || 'Target audience',
+                lifecycle_stage: document.getElementById('lifecycleStage').value,
+                audience_temperature: document.getElementById('audienceTemp').value,
+                value_propositions: document.getElementById('valuePropositions').value || 'Key value proposition',
+                campaign_motion: document.getElementById('campaignMotion').value || 'lifecycle',
+                additional_notes: document.getElementById('additionalNotes').value || ''
+            };
+        }
+
+        function generateCampaign() {
+            campaignData = collectData();
+
+            // Generate all outputs
+            generateScore();
+            generatePlanOnPage();
+            generateSubjectLines();
+            generateSlides();
+            generatePrompts();
+
+            // Navigate to score first
+            showSection('score');
+        }
+
+        function generateScore() {
+            let scores = {
+                clarity: 100,
+                targeting: 100,
+                messaging: 100,
+                strategy: 100
+            };
+            let suggestions = [];
+
+            // Validate clarity
+            if (!campaignData.primary_goal || campaignData.primary_goal.length < 20) {
+                scores.clarity -= 30;
+                suggestions.push({
+                    type: 'critical',
+                    category: 'Clarity',
+                    message: 'Your goal is too vague. Be more specific about what you want to achieve and by how much.'
+                });
+            }
+
+            if (campaignData.primary_goal && !campaignData.primary_goal.match(/\d+%|\d+/)) {
+                scores.clarity -= 20;
+                suggestions.push({
+                    type: 'warning',
+                    category: 'Clarity',
+                    message: 'Add a specific target number or percentage to your goal (e.g., "increase by 25%").'
+                });
+            }
+
+            // Validate targeting
+            if (!campaignData.audience_persona || campaignData.audience_persona.toLowerCase().includes('all') ||
+                campaignData.audience_persona.toLowerCase().includes('everyone')) {
+                scores.targeting -= 40;
+                suggestions.push({
+                    type: 'critical',
+                    category: 'Targeting',
+                    message: 'Your audience is too broad. Narrow to a specific persona or role for better results.'
+                });
+            }
+
+            if (campaignData.audience_persona && campaignData.audience_persona.length < 10) {
+                scores.targeting -= 20;
+                suggestions.push({
+                    type: 'warning',
+                    category: 'Targeting',
+                    message: 'Provide more detail about your target audience (e.g., job title, company size, industry).'
+                });
+            }
+
+            // Validate messaging
+            if (!campaignData.value_propositions || campaignData.value_propositions.length < 20) {
+                scores.messaging -= 40;
+                suggestions.push({
+                    type: 'critical',
+                    category: 'Messaging',
+                    message: 'Your value proposition needs more detail. What specific benefit or outcome will they get?'
+                });
+            }
+
+            if (campaignData.value_propositions && !campaignData.value_propositions.match(/\d+/)) {
+                scores.messaging -= 15;
+                suggestions.push({
+                    type: 'tip',
+                    category: 'Messaging',
+                    message: 'Consider adding specific numbers or metrics to your value proposition for more impact.'
+                });
+            }
+
+            // Validate strategy alignment
+            if (campaignData.audience_temperature === 'Hot' && campaignData.lifecycle_stage === 'Awareness') {
+                scores.strategy -= 30;
+                suggestions.push({
+                    type: 'warning',
+                    category: 'Strategy',
+                    message: 'Misalignment: Hot audiences are usually past the Awareness stage. Consider Consideration or Conversion.'
+                });
+            }
+
+            if (campaignData.audience_temperature === 'Cold' && campaignData.lifecycle_stage === 'Conversion') {
+                scores.strategy -= 30;
+                suggestions.push({
+                    type: 'warning',
+                    category: 'Strategy',
+                    message: 'Misalignment: Cold audiences need nurturing before conversion. Consider starting with Awareness or Consideration.'
+                });
+            }
+
+            if (!campaignData.campaign_motion) {
+                scores.strategy -= 10;
+                suggestions.push({
+                    type: 'tip',
+                    category: 'Strategy',
+                    message: 'Selecting a campaign type will help tailor recommendations and content suggestions.'
+                });
+            }
+
+            // Calculate overall
+            const overall = Math.round((scores.clarity + scores.targeting + scores.messaging + scores.strategy) / 4);
+
+            // Best practices
+            const bestPractices = [
+                { icon: '✅', text: 'A/B test subject lines and CTAs' },
+                { icon: '✅', text: 'Set up proper tracking and attribution' },
+                { icon: '✅', text: `${campaignData.audience_temperature === 'Cold' ? 'Focus on educational content for cold audiences' : campaignData.audience_temperature === 'Hot' ? 'Use strong CTAs and minimize friction for hot audiences' : 'Balance education and conversion for warm audiences'}` },
+                { icon: '✅', text: 'Test messaging with a small segment before full launch' },
+                { icon: '✅', text: 'Monitor engagement patterns and adjust cadence' }
+            ];
+
+            let html = `
+                <div style="background: #FFFFFF; border: 2px solid #D1F470; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+                        <h3 style="font-size: 20px; color: #2D4C33;">Overall Campaign Score</h3>
+                        <div style="font-size: 48px; font-weight: 700; background: linear-gradient(135deg, #D1F470 0%, #A1D78F 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">${overall}</div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px;">
+                        <div style="text-align: center; padding: 12px; background: #F5F5F2; border-radius: 8px; border: 1px solid #e5e7eb;">
+                            <div style="font-size: 24px; font-weight: 700; color: #2D4C33;">${scores.clarity}</div>
+                            <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">Clarity</div>
+                        </div>
+                        <div style="text-align: center; padding: 12px; background: #F5F5F2; border-radius: 8px; border: 1px solid #e5e7eb;">
+                            <div style="font-size: 24px; font-weight: 700; color: #2D4C33;">${scores.targeting}</div>
+                            <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">Targeting</div>
+                        </div>
+                        <div style="text-align: center; padding: 12px; background: #F5F5F2; border-radius: 8px; border: 1px solid #e5e7eb;">
+                            <div style="font-size: 24px; font-weight: 700; color: #2D4C33;">${scores.messaging}</div>
+                            <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">Messaging</div>
+                        </div>
+                        <div style="text-align: center; padding: 12px; background: #F5F5F2; border-radius: 8px; border: 1px solid #e5e7eb;">
+                            <div style="font-size: 24px; font-weight: 700; color: #2D4C33;">${scores.strategy}</div>
+                            <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">Strategy</div>
+                        </div>
+                    </div>
+
+                    <div style="background: ${overall >= 85 ? '#d1fae5' : overall >= 70 ? '#fef3c7' : '#fef2f2'}; padding: 12px 16px; border-radius: 8px; border-left: 4px solid ${overall >= 85 ? '#10b981' : overall >= 70 ? '#f59e0b' : '#ef4444'};">
+                        <strong style="color: ${overall >= 85 ? '#065f46' : overall >= 70 ? '#92400e' : '#991b1b'};">
+                            ${overall >= 85 ? '🎯 Strong Strategy - Ready to Launch' : overall >= 70 ? '⚠️ Good Start - Address Suggestions' : '❌ Needs Work - Review Critical Issues'}
+                        </strong>
+                    </div>
+                </div>
+            `;
+
+            if (suggestions.length > 0) {
+                html += `
+                    <div style="background: #FFFFFF; border: 2px solid #e5e7eb; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
+                        <h3 style="font-size: 18px; color: #2D4C33; margin-bottom: 16px;">💡 Suggestions for Improvement</h3>
+                        <div style="display: grid; gap: 12px;">
+                `;
+
+                suggestions.forEach(suggestion => {
+                    const bgColor = suggestion.type === 'critical' ? '#fef2f2' : suggestion.type === 'warning' ? '#fef3c7' : '#f0f9ff';
+                    const borderColor = suggestion.type === 'critical' ? '#ef4444' : suggestion.type === 'warning' ? '#f59e0b' : '#3b82f6';
+                    const textColor = suggestion.type === 'critical' ? '#991b1b' : suggestion.type === 'warning' ? '#92400e' : '#1e40af';
+                    const icon = suggestion.type === 'critical' ? '❌' : suggestion.type === 'warning' ? '⚠️' : '💡';
+
+                    html += `
+                        <div style="background: ${bgColor}; padding: 12px 16px; border-radius: 8px; border-left: 4px solid ${borderColor};">
+                            <div style="font-weight: 600; color: ${textColor}; font-size: 13px; margin-bottom: 4px;">
+                                ${icon} ${suggestion.category}
+                            </div>
+                            <div style="color: ${textColor}; font-size: 13px;">
+                                ${suggestion.message}
+                            </div>
+                        </div>
+                    `;
+                });
+
+                html += `
+                        </div>
+                    </div>
+                `;
+            }
+
+            html += `
+                <div style="background: #F5F5F2; border: 2px solid #D1F470; border-radius: 12px; padding: 24px;">
+                    <h3 style="font-size: 18px; color: #2D4C33; margin-bottom: 16px;">📋 Best Practices Checklist</h3>
+                    <div style="display: grid; gap: 10px;">
+            `;
+
+            bestPractices.forEach(practice => {
+                html += `
+                    <div style="padding: 10px; background: #FFFFFF; border-radius: 6px; font-size: 14px; color: #11110D;">
+                        ${practice.icon} ${practice.text}
+                    </div>
+                `;
+            });
+
+            html += `
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('scoreOutput').innerHTML = html;
+        }
+
+        function generatePlanOnPage() {
+            const tone = campaignData.campaign_motion === 'product_launch' ? 'exciting' :
+                        campaignData.campaign_motion === 're_engagement' ? 'empathetic' : 'professional';
+
+            document.getElementById('popOverview').value = `${campaignData.campaign_name}
+
+Goal: ${campaignData.primary_goal}
+
+This ${campaignData.campaign_motion || 'lifecycle'} campaign targets ${campaignData.audience_persona} at the ${campaignData.lifecycle_stage} stage.
+
+Strategic Approach: Progressive engagement with ${tone} messaging tailored to ${campaignData.audience_temperature.toLowerCase()} audience.
+
+Timeline: Multi-touch approach with optimized cadence based on audience engagement.`;
+
+            document.getElementById('popAudience').value = `Primary Persona: ${campaignData.audience_persona}
+Lifecycle Stage: ${campaignData.lifecycle_stage}
+Temperature: ${campaignData.audience_temperature}
+
+${campaignData.additional_notes ? 'Additional Context:\n' + campaignData.additional_notes : ''}`;
+
+            document.getElementById('popContentStrategy').value = `Key Value Proposition:
+${campaignData.value_propositions}
+
+Content Approach:
+- ${campaignData.audience_temperature === 'Hot' ? 'Direct, action-oriented messaging' : campaignData.audience_temperature === 'Warm' ? 'Balanced education and conversion focus' : 'Educational, awareness-building content'}
+- Progressive information delivery
+- Clear, compelling CTAs
+
+Tone: ${tone.charAt(0).toUpperCase() + tone.slice(1)} and ${campaignData.audience_temperature === 'Cold' ? 'informative' : 'persuasive'}`;
+
+            document.getElementById('popFocusAreas').value = `Primary Focus: ${campaignData.primary_goal}
+
+Key Messages:
+${campaignData.value_propositions}
+
+Success Drivers:
+- Audience alignment (${campaignData.audience_persona})
+- Stage-appropriate messaging (${campaignData.lifecycle_stage})
+- Temperature-optimized approach (${campaignData.audience_temperature})`;
+
+            document.getElementById('popMarketingStrategy').value = `Campaign Motion: ${(campaignData.campaign_motion || 'lifecycle').replace('_', ' ').toUpperCase()}
+
+Strategic Alignment:
+- Lifecycle Stage: ${campaignData.lifecycle_stage}
+- Audience Temperature: ${campaignData.audience_temperature}
+- Campaign Type: ${campaignData.campaign_motion || 'Lifecycle nurture'}
+
+Channels: Email, Web, Retargeting (adjust based on campaign needs)`;
+
+            document.getElementById('popSuccessMetrics').value = `Primary KPI: ${campaignData.primary_goal}
+
+Secondary Metrics:
+- Email engagement (open, click, reply rates)
+- Website engagement and time on site
+- Content downloads and consumption
+- Campaign influence on pipeline
+
+Guardrails:
+- Unsubscribe rate < 0.5%
+- Bounce rate < 2%
+- Engagement quality score`;
+
+            document.getElementById('popCallouts').value = `✅ Test messaging with target personas before launch
+✅ Set up tracking for all key metrics
+✅ ${campaignData.audience_temperature === 'Cold' ? 'Cold audience requires more nurturing touches and educational content' : campaignData.audience_temperature === 'Hot' ? 'Hot audience needs fast follow-up and direct CTAs' : 'Warm audience is ready for balanced approach'}
+✅ A/B test subject lines and CTAs
+✅ Monitor engagement patterns and adjust cadence as needed`;
+        }
+
+        function generateSubjectLines() {
+            const subjects = [
+                `${campaignData.audience_persona}: ${campaignData.value_propositions.substring(0, 30)}...`,
+                `How ${campaignData.audience_persona} ${campaignData.primary_goal.substring(0, 25).toLowerCase()}`,
+                `${campaignData.audience_temperature === 'Hot' ? 'Ready to' : campaignData.audience_temperature === 'Warm' ? 'Time to' : 'Learn how to'} ${campaignData.primary_goal.substring(0, 25).toLowerCase()}`,
+                `Quick win: ${campaignData.value_propositions.substring(0, 35)}`,
+                `${campaignData.lifecycle_stage === 'Awareness' ? 'Introducing:' : 'New:'} ${campaignData.value_propositions.substring(0, 30)}`,
+                `${campaignData.audience_persona} guide for ${new Date().getFullYear()}`,
+                `${campaignData.primary_goal.substring(0, 40)}... [See how]`,
+                `The ${campaignData.audience_persona} strategy you need`,
+                `${campaignData.value_propositions.substring(0, 30)}... in minutes`,
+                `${campaignData.audience_temperature === 'Hot' ? 'Last chance:' : 'Exclusive:'} ${campaignData.primary_goal.substring(0, 25).toLowerCase()}`
+            ];
+
+            let html = `
+                <div style="background: #F5F5F2; border: 2px solid #A1D78F; border-radius: 8px; padding: 24px; margin-bottom: 20px;">
+                    <h4 style="color: #2D4C33; margin-bottom: 16px; font-size: 16px;">✨ AI-Generated Subject Lines</h4>
+                    <p style="font-size: 13px; color: #6b7280; margin-bottom: 16px;">Based on your campaign inputs. Copy and refine as needed.</p>
+                    <div style="display: grid; gap: 12px;">
+            `;
+
+            subjects.forEach((subject, i) => {
+                html += `
+                    <div style="background: #FFFFFF; padding: 12px 16px; border-radius: 6px; border-left: 3px solid #D1F470; display: flex; align-items: center; justify-content: space-between;">
+                        <div>
+                            <span style="font-weight: 600; color: #2D4C33; font-size: 12px; margin-right: 8px;">${i + 1}.</span>
+                            <span style="color: #11110D; font-size: 14px;">${subject}</span>
+                        </div>
+                        <span style="font-size: 11px; color: #9ca3af; white-space: nowrap; margin-left: 12px;">${subject.length} chars</span>
+                    </div>
+                `;
+            });
+
+            html += `
+                    </div>
+                </div>
+                <div class="callout-box">
+                    <strong>💡 Subject Line Best Practices:</strong>
+                    <ul style="margin-top: 12px; padding-left: 20px; font-size: 14px;">
+                        <li>Keep under 50 characters for mobile</li>
+                        <li>Front-load important words</li>
+                        <li>A/B test at least 2 variants</li>
+                        <li>Personalize when possible</li>
+                    </ul>
+                </div>
+            `;
+
+            document.getElementById('subjectLinesOutput').innerHTML = html;
+        }
+
+        function generateSlides() {
+            const timeline = campaignData.campaign_motion === 'product_launch' ? '4-6 weeks' : '6-8 weeks';
+
+            const slides = [
+                {
+                    title: 'Slide 1: The Opportunity',
+                    content: `THE OPPORTUNITY
+
+• Campaign: ${campaignData.campaign_name}
+• Goal: ${campaignData.primary_goal}
+• Why Now: ${campaignData.audience_persona} at ${campaignData.lifecycle_stage} stage showing ${campaignData.audience_temperature.toLowerCase()} engagement
+• Market opportunity and timing`
+                },
+                {
+                    title: 'Slide 2: Target Audience',
+                    content: `TARGET AUDIENCE
+
+• Who: ${campaignData.audience_persona}
+• Temperature: ${campaignData.audience_temperature}
+• Stage: ${campaignData.lifecycle_stage}
+• Why they're ready: ${campaignData.audience_temperature === 'Hot' ? 'High intent, ready to act' : campaignData.audience_temperature === 'Warm' ? 'Aware and interested' : 'Building awareness'}`
+                },
+                {
+                    title: 'Slide 3: Strategy',
+                    content: `STRATEGY
+
+• Program: ${(campaignData.campaign_motion || 'lifecycle').replace('_', ' ').toUpperCase()}
+• Messages: ${campaignData.value_propositions}
+• Approach: Progressive engagement with optimized cadence`
+                },
+                {
+                    title: 'Slide 4: Execution',
+                    content: `EXECUTION
+
+• Channels: Email, Web, Retargeting
+• Timeline: ${timeline}
+• Content approach: ${campaignData.audience_temperature === 'Hot' ? 'Direct, action-focused' : campaignData.audience_temperature === 'Warm' ? 'Balanced education and conversion' : 'Educational and awareness-building'}`
+                },
+                {
+                    title: 'Slide 5: Expected Results',
+                    content: `EXPECTED RESULTS
+
+• Target: ${campaignData.primary_goal}
+• Timeline: ${timeline}
+• Success metrics: Email engagement, conversions, pipeline influence
+• Next steps: Build, test, launch`
+                }
+            ];
+
+            let html = '';
+            slides.forEach(slide => {
+                html += `
+                    <div class="output-box">
+                        <h3>${slide.title}</h3>
+                        <textarea rows="5">${slide.content}</textarea>
+                    </div>
+                `;
+            });
+
+            document.getElementById('slidesOutput').innerHTML = html;
+        }
+
+        function generatePrompts() {
+            const tone = campaignData.campaign_motion === 'product_launch' ? 'exciting and direct' :
+                        campaignData.campaign_motion === 're_engagement' ? 'empathetic and value-reminding' :
+                        'professional and educational';
+
+            const emailPrompt = `You are a lifecycle marketing expert. Write 3-5 emails for a ${campaignData.campaign_motion || 'lifecycle'} campaign.
+
+Target Audience: ${campaignData.audience_persona}
+Lifecycle Stage: ${campaignData.lifecycle_stage}
+Audience Temperature: ${campaignData.audience_temperature}
+Campaign Goal: ${campaignData.primary_goal}
+Key Messages: ${campaignData.value_propositions}
+
+Requirements:
+- Tone: ${tone}
+- Email length: 200-300 words each
+- ${campaignData.audience_temperature === 'Hot' ? 'Use strong CTAs and reference high-intent behaviors' : campaignData.audience_temperature === 'Warm' ? 'Use moderate CTAs and acknowledge their stage' : 'Use soft CTAs focused on education'}
+- Personalize with ${campaignData.audience_temperature} audience in mind
+
+For each email provide:
+1. Subject line
+2. Email body
+3. Primary CTA
+
+Format the output clearly with email numbers.`;
+
+            const contentPrompt = `Create campaign content for: ${campaignData.campaign_name}
+
+Campaign Details:
+- Goal: ${campaignData.primary_goal}
+- Audience: ${campaignData.audience_persona} (${campaignData.lifecycle_stage}, ${campaignData.audience_temperature})
+- Key Messages: ${campaignData.value_propositions}
+- Tone: ${tone}
+
+Please create:
+1. Campaign landing page copy (hero, benefits, social proof, CTA)
+2. 3 blog post titles related to the campaign
+3. 5 social media posts (LinkedIn tone)
+4. In-product message copy (50 words max)
+
+Make all content ${tone} in tone and appropriate for ${campaignData.audience_temperature.toLowerCase()} audience.`;
+
+            const html = `
+                <div style="background: #FFFFFF; border: 2px solid #D1F470; border-radius: 8px; padding: 20px; margin-bottom: 20px; position: relative;">
+                    <button class="btn-primary" style="position: absolute; top: 12px; right: 12px; padding: 6px 12px; font-size: 12px; width: auto;" onclick="copyPrompt('emailPrompt')">Copy</button>
+                    <h4 style="color: #2D4C33; margin-bottom: 12px; font-size: 14px;">📧 Email Sequence Generator</h4>
+                    <pre style="font-family: 'Courier New', monospace; font-size: 12px; white-space: pre-wrap; padding-right: 80px; color: #11110D;" id="emailPrompt">${emailPrompt}</pre>
+                </div>
+
+                <div style="background: #FFFFFF; border: 2px solid #D1F470; border-radius: 8px; padding: 20px; margin-bottom: 20px; position: relative;">
+                    <button class="btn-primary" style="position: absolute; top: 12px; right: 12px; padding: 6px 12px; font-size: 12px; width: auto;" onclick="copyPrompt('contentPrompt')">Copy</button>
+                    <h4 style="color: #2D4C33; margin-bottom: 12px; font-size: 14px;">📝 Campaign Content Generator</h4>
+                    <pre style="font-family: 'Courier New', monospace; font-size: 12px; white-space: pre-wrap; padding-right: 80px; color: #11110D;" id="contentPrompt">${contentPrompt}</pre>
+                </div>
+
+                <div class="callout-box">
+                    <strong>💡 How to Use These Prompts:</strong> Copy a prompt above and paste it into ChatGPT, Claude, or any AI tool. The AI will generate campaign-ready content you can refine and use.
+                </div>
+            `;
+
+            document.getElementById('promptsOutput').innerHTML = html;
+        }
+
+        function copyPrompt(id) {
+            const text = document.getElementById(id).textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Prompt copied to clipboard!');
+            });
+        }
+
+        function resetTool() {
+            if (confirm('Start a new campaign? This will clear all data.')) {
+                document.querySelectorAll('input, textarea, select').forEach(el => {
+                    if (el.type === 'checkbox') {
+                        el.checked = false;
+                    } else if (el.type !== 'button') {
+                        el.value = '';
+                    }
+                });
+                campaignData = {};
+                showSection('inputs');
+            }
+        }
+    </script>
+</body>
+</html>
