@@ -823,6 +823,72 @@
                 <iframe src="Campaign-Brainstorm-2-Slide-Summary.html" style="width: 100%; height: 100vh; border: none; display: block;"></iframe>
             </div>
 
+            <!-- Submission Form -->
+            <div class="card" style="background: linear-gradient(135deg, #f9fafb 0%, #ffffff 100%); border: 2px solid #D1F470;">
+                <div class="card-header">
+                    <h2>📝 Innovation Day Submission Form</h2>
+                </div>
+                <p class="helper-text">Fill out the answers below, then copy to your submission</p>
+
+                <div style="margin-bottom: 32px;">
+                    <label style="display: block; font-weight: 700; color: #2D4C33; font-size: 16px; margin-bottom: 12px;">
+                        1. Project Overview
+                    </label>
+                    <textarea id="cp-overview" rows="4" style="width: 100%; padding: 16px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 15px; font-family: inherit; resize: vertical;" placeholder="Brief description of your project...">Campaign Planning Hub is an AI-powered tool that reduces campaign brief creation from 2-3 hours to 5 minutes. It generates comprehensive campaign plans including strategy assessment, executive briefs, presentation slides, and AI prompts—all from a simple input form. The tool standardizes campaign planning across teams while saving 2 hours per campaign.</textarea>
+                </div>
+
+                <div style="margin-bottom: 32px;">
+                    <label style="display: block; font-weight: 700; color: #2D4C33; font-size: 16px; margin-bottom: 12px;">
+                        2. Process/Task You Became More Proficient At
+                    </label>
+                    <textarea id="cp-proficiency" rows="4" style="width: 100%; padding: 16px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 15px; font-family: inherit; resize: vertical;" placeholder="What skill or process did you improve?">Building for adoption, not just functionality. I learned to study how marketers actually plan campaigns and design around their existing workflows rather than forcing them to adapt to a new tool. This meant prioritizing simplicity, creating progressive disclosure of complex features, and ensuring instant value from the first use. I also became more skilled at using AI to enhance (not replace) human decision-making.</textarea>
+                </div>
+
+                <div style="margin-bottom: 32px;">
+                    <label style="display: block; font-weight: 700; color: #2D4C33; font-size: 16px; margin-bottom: 12px;">
+                        3. Describe the Final Solution and Its Potential
+                    </label>
+                    <textarea id="cp-solution" rows="6" style="width: 100%; padding: 16px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 15px; font-family: inherit; resize: vertical;" placeholder="What did you build and what could it become?">The Campaign Planning Hub includes:
+• Smart input forms that capture campaign objectives, audience, and strategy
+• AI-powered strategy scoring that identifies gaps and provides recommendations
+• Auto-generated executive plans, presentation slides, and AI prompts
+• Export/copy functionality for seamless integration with existing tools
+• Works offline, no external dependencies, zero infrastructure cost
+
+Potential: This can scale to all regional marketing teams immediately. The strategy scoring framework can be refined with real campaign performance data over time. The tool could integrate with Marketo/SFDC for auto-population, expand to other marketing functions (events, content, ABM), and serve as a template for other planning workflows across the company.</textarea>
+                </div>
+
+                <div style="margin-bottom: 32px;">
+                    <label style="display: block; font-weight: 700; color: #2D4C33; font-size: 16px; margin-bottom: 12px;">
+                        4. Estimated Time Saved / Efficiency Gain
+                    </label>
+                    <textarea id="cp-efficiency" rows="4" style="width: 100%; padding: 16px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 15px; font-family: inherit; resize: vertical;" placeholder="Quantify the impact...">2 hours saved per campaign brief (from 2-3 hours down to 5 minutes). For a team running 4 campaigns per month, that's 8 hours back—a full work day. Additionally:
+• Standardized format ensures consistent quality across all briefs
+• Reduced back-and-forth on missing information
+• Faster time-to-market for regional campaigns
+• AI strategy scoring catches potential issues before execution
+• Better OKR alignment through structured planning</textarea>
+                </div>
+
+                <div style="margin-bottom: 32px;">
+                    <label style="display: block; font-weight: 700; color: #2D4C33; font-size: 16px; margin-bottom: 12px;">
+                        5. Slides
+                    </label>
+                    <div style="background: #f0f9ff; border: 2px solid #3b82f6; border-radius: 8px; padding: 20px; text-align: center;">
+                        <p style="font-size: 15px; color: #1e40af; margin-bottom: 16px;">Your 2-slide presentation is embedded at the top of this page ⬆️</p>
+                        <p style="font-size: 14px; color: #6b7280; margin-bottom: 16px;">Or link directly to slides:</p>
+                        <a href="Campaign-Brainstorm-2-Slide-Summary.html" target="_blank" style="display: inline-block; background: #3b82f6; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 14px;">Open Slides in New Tab</a>
+                    </div>
+                </div>
+
+                <div style="background: #D1F470; border-radius: 8px; padding: 20px; text-align: center;">
+                    <button onclick="copyCampaignAnswers()" style="background: #2D4C33; color: white; border: none; padding: 14px 32px; border-radius: 8px; font-size: 16px; font-weight: 700; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
+                        📋 Copy All Answers
+                    </button>
+                    <p style="font-size: 13px; color: #11110D; margin-top: 12px;">Copies all your answers to clipboard for pasting into submission form</p>
+                </div>
+            </div>
+
             <!-- Strategic Prep Questions (Collapsible) -->
             <div class="card">
                 <div class="card-header" style="cursor: pointer;" onclick="document.getElementById('prepQuestions').style.display = document.getElementById('prepQuestions').style.display === 'none' ? 'block' : 'none';">
@@ -1497,7 +1563,77 @@ Make all content ${data.tone.toLowerCase()} in tone and appropriate for ${data.t
                     if (el) el.value = data[key];
                 });
             }
+
+            // Load Innovation Day submission answers
+            const submissionFields = ['cp-overview', 'cp-proficiency', 'cp-solution', 'cp-efficiency'];
+            submissionFields.forEach(field => {
+                const el = document.getElementById(field);
+                if (el) {
+                    const saved = localStorage.getItem(`campaign-submission-${field}`);
+                    if (saved) el.value = saved;
+
+                    el.addEventListener('input', () => {
+                        localStorage.setItem(`campaign-submission-${field}`, el.value);
+                    });
+                }
+            });
         });
+
+        function copyCampaignAnswers() {
+            const overview = document.getElementById('cp-overview').value;
+            const proficiency = document.getElementById('cp-proficiency').value;
+            const solution = document.getElementById('cp-solution').value;
+            const efficiency = document.getElementById('cp-efficiency').value;
+
+            const fullText = `INNOVATION DAY SUBMISSION - CAMPAIGN PLANNING HUB
+
+═══════════════════════════════════════════
+
+1. PROJECT OVERVIEW
+
+${overview}
+
+═══════════════════════════════════════════
+
+2. PROCESS/TASK YOU BECAME MORE PROFICIENT AT
+
+${proficiency}
+
+═══════════════════════════════════════════
+
+3. DESCRIBE THE FINAL SOLUTION AND ITS POTENTIAL
+
+${solution}
+
+═══════════════════════════════════════════
+
+4. ESTIMATED TIME SAVED / EFFICIENCY GAIN
+
+${efficiency}
+
+═══════════════════════════════════════════
+
+5. SLIDES
+
+View slides at: https://zendesk-karyn-thompson.github.io/Campaign-Brainstorm/ (Innovation Day tab)
+
+═══════════════════════════════════════════
+
+Submitted by: Karyn Thompson
+Date: March 27, 2026
+`;
+
+            navigator.clipboard.writeText(fullText).then(() => {
+                const btn = event.target;
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '✅ Copied to Clipboard!';
+                btn.style.background = '#10b981';
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.style.background = '#2D4C33';
+                }, 2000);
+            });
+        }
     </script>
 </body>
 </html>
