@@ -444,6 +444,33 @@
             }
         }
 
+        /* Innovation Day Floating Button */
+        .innovation-btn {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            background: linear-gradient(135deg, #D1F470 0%, #A1D78F 100%);
+            color: #2D4C33;
+            padding: 16px 28px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 700;
+            box-shadow: 0 4px 20px rgba(209, 244, 112, 0.4);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .innovation-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 28px rgba(209, 244, 112, 0.6);
+        }
+
         @media (max-width: 968px) {
             .form-grid {
                 grid-template-columns: 1fr;
@@ -451,10 +478,20 @@
             .timeline-item {
                 grid-template-columns: 1fr;
             }
+
+            .innovation-btn {
+                bottom: 16px;
+                right: 16px;
+                padding: 12px 20px;
+                font-size: 14px;
+            }
         }
     </style>
 </head>
 <body>
+    <button class="innovation-btn" onclick="showSection('innovation')">
+        🏆 Innovation Day
+    </button>
     <div class="banner">
         <h1>Campaign Planning Hub</h1>
         <div class="subtitle">Fill in your campaign details → Generate your plan → Edit and export</div>
@@ -834,7 +871,7 @@
                     <label style="display: block; font-weight: 700; color: #2D4C33; font-size: 16px; margin-bottom: 12px;">
                         1. Project Overview
                     </label>
-                    <textarea id="cp-overview" rows="4" style="width: 100%; padding: 16px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 15px; font-family: inherit; resize: vertical;" placeholder="Brief description of your project...">Campaign Planning Hub is an AI-powered tool that reduces campaign brief creation from 2-3 hours to 5 minutes. It generates comprehensive campaign plans including strategy assessment, executive briefs, presentation slides, and AI prompts—all from a simple input form. The tool standardizes campaign planning across teams while saving 2 hours per campaign.</textarea>
+                    <textarea id="cp-overview" rows="4" style="width: 100%; padding: 16px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 15px; font-family: inherit; resize: vertical;" placeholder="Brief description of your project...">Campaign Planning Hub is an AI-powered tool that makes campaign planning systematic and scalable. Fill out one input form, and it generates comprehensive campaign packages: strategy assessment with AI scoring, executive briefs, presentation slides, and AI prompts—all formatted for different teams (Asana, email briefs, presentations). It helps me organize my thoughts into structured plans and ensures consistent, ready-to-share outputs across all campaigns.</textarea>
                 </div>
 
                 <div style="margin-bottom: 32px;">
@@ -862,12 +899,13 @@ Potential: This can scale to all regional marketing teams immediately. The strat
                     <label style="display: block; font-weight: 700; color: #2D4C33; font-size: 16px; margin-bottom: 12px;">
                         4. Estimated Time Saved / Efficiency Gain
                     </label>
-                    <textarea id="cp-efficiency" rows="4" style="width: 100%; padding: 16px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 15px; font-family: inherit; resize: vertical;" placeholder="Quantify the impact...">2 hours saved per campaign brief (from 2-3 hours down to 5 minutes). For a team running 4 campaigns per month, that's 8 hours back—a full work day. Additionally:
-• Standardized format ensures consistent quality across all briefs
+                    <textarea id="cp-efficiency" rows="4" style="width: 100%; padding: 16px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 15px; font-family: inherit; resize: vertical;" placeholder="Quantify the impact...">3-5 hours saved per campaign (planning + asset creation + education materials). For a team running 4 campaigns per month, that's 12-20 hours back—2-3 full work days. Additionally:
+• Consistent, formatted outputs for all teams (Asana, email, presentations)
 • Reduced back-and-forth on missing information
 • Faster time-to-market for regional campaigns
 • AI strategy scoring catches potential issues before execution
-• Better OKR alignment through structured planning</textarea>
+• Better OKR alignment through structured planning
+• Everything ready to share at my fingertips</textarea>
                 </div>
 
                 <div style="margin-bottom: 32px;">
@@ -942,7 +980,7 @@ Potential: This can scale to all regional marketing teams immediately. The strat
 
                 <div class="action-bar" style="margin-top: 32px;">
                     <button class="btn-secondary" onclick="showSection('inputs')">← Back to Planning Hub</button>
-                    <a href="https://zendesk-karyn-thompson.github.io/Campaign-Brainstorm/" target="_blank" class="btn-primary" style="text-decoration: none; display: inline-block;">🌐 Live Demo</a>
+                    <a href="https://zendesk-karyn-thompson.github.io/Campaign-Brainstorm/" target="_blank" class="btn-primary" style="text-decoration: none; display: inline-block;">🌐 Live Tool</a>
                 </div>
             </div>
         </div>
